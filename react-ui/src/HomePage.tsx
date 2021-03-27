@@ -1,8 +1,14 @@
+import "./homePage.css";
+import logo from "./logo.svg";
+
 function HomePage() {
   return (
     <div className="flex">
-      <div className="max-auto">
-        <h1 className="ml-3">Seja bem vindo ao penshare</h1>
+      <div className="mx-auto pt-9">
+        <div className="mx-3 text-6xl inline app-name relative">
+          <span className="absolute bottom-0 right-0">Penshare</span>
+        </div>
+        <img className="inline h-16" src={logo} alt="Logo Penshare" />
       </div>
     </div>
   );
