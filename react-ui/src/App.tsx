@@ -1,8 +1,7 @@
 import "tailwindcss/tailwind.css";
-import logo from "./logo.svg";
-import TextEditor from "./TextEditor";
 import HomePage from "./HomePage";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import LoginPage from "./Login";
 
 function App() {
   return (
@@ -15,7 +14,7 @@ function App() {
                 <Link to="/">Início</Link>
               </li>
               <li className="inline mr-4 p-3">
-                <Link to="/editor">Entrar</Link>
+                <Link to="/entrar">Entrar</Link>
               </li>
               <li className="inline p-3">
                 <Link to="/sobre">Sobre</Link>
@@ -29,8 +28,8 @@ function App() {
             de Sistemas e estamos criando esse sistema para o nosso trabalho de
             conclusão.
           </Route>
-          <Route path="/editor">
-            <TextEditor />
+          <Route path="/entrar">
+            <LoginPage />
           </Route>
           <Route path="/">
             <HomePage />
