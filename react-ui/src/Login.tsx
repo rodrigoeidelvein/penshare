@@ -27,7 +27,9 @@ const LoginPage: React.FC = () => {
             setFirstName(profile.getGivenName());
             setFullname(profile.getName());
             setId(profile.getId());
-            const res = await fetch("http://localhost:5000/api/v1/auth/google", {
+
+            console.log(profile)
+            const res = await fetch("http://localhost:5000/api/user/", {
                 method: "POST",
                 body: JSON.stringify({token: response.tokenId}),
                 headers: {
