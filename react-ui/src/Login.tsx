@@ -6,7 +6,7 @@ import {
   GoogleLoginResponseOffline,
   GoogleLogout,
 } from "react-google-login";
-import { useState } from "react";
+import {useState} from "react";
 
 const LoginPage: React.FC = () => {
   const clientId = process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID as string;
@@ -49,6 +49,7 @@ const LoginPage: React.FC = () => {
             onSuccess={successGoogleLoginResponse}
             onFailure={failureGoogleLoginResponse}
             cookiePolicy={"single_host_origin"}
+            isSignedIn={true}
           />
 
           <GoogleLogout
