@@ -29,8 +29,9 @@ const LoginPage: React.FC = () => {
             setId(profile.getId());
 
             console.log(profile)
-            const res = await fetch("http://localhost:5000/api/user/", {
+            const res = await fetch("http://localhost:5000/api/auth/", {
                 method: "POST",
+                credentials: "include",
                 body: JSON.stringify({token: response.tokenId}),
                 headers: {
                     "Content-Type": "application/json"
