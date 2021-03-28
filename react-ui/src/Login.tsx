@@ -27,14 +27,13 @@ const LoginPage: React.FC = () => {
             setFirstName(profile.getGivenName());
             setFullname(profile.getName());
             setId(profile.getId());
-            console.log()
             const res = await fetch("http://localhost:5000/api/v1/auth/google", {
                 method: "POST",
                 body: JSON.stringify({token: response.tokenId}),
                 headers: {
                     "Content-Type": "application/json"
                 }
-            })
+            });
 
             const data = await res.json();
             console.log(data);

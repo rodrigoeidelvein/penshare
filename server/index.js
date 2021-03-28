@@ -8,8 +8,8 @@ const bodyParser = require('body-parser')
 require('dotenv').config();
 
 const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client(process.env.GOOGLE_LOGIN_CLIENT_ID)
-console.log(process.env.GOOGLE_LOGIN_CLIENT_ID)
+const client = new OAuth2Client(process.env.GOOGLE_LOGIN_CLIENT_ID);
+console.log(process.env.GOOGLE_LOGIN_CLIENT_ID);
 
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
