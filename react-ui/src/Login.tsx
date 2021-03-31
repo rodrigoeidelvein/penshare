@@ -16,39 +16,39 @@ const LoginPage: React.FC = () => {
     const [firstName, setFirstName] = useState("");
     const [fullName, setFullname] = useState("");
     const [id, setId] = useState("");
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const successGoogleLoginResponse = async (
         response: GoogleLoginResponse | GoogleLoginResponseOffline
     ) => {
-        if ("googleId" in response) {
-            const profile = response.getBasicProfile();
 
-            setEmail(profile.getEmail());
-            setFirstName(profile.getGivenName());
-            setFullname(profile.getName());
-            setId(profile.getId());
-
-            console.log(profile)
-            const res = await fetch("http://localhost:5000/api/auth/", {
-                method: "POST",
-                credentials: "include",
-                body: JSON.stringify({token: response.tokenId}),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
-
-            const data = await res.json();
-            console.log(data);
+        if (!("googleId" in response)) {
+            return;
         }
+        const profile = response.getBasicProfile();
+        setEmail(profile.getEmail());
+        setFirstName(profile.getGivenName());
+        setFullname(profile.getName());
+        setId(profile.getId());
+        console.log(profile)
+        const res = await fetch("http://localhost:5000/api/auth/", {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify({token: response.tokenId}),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const data = await res.json();
+        setIsLoggedIn(true);
     };
 
     const failureGoogleLoginResponse = (response: GoogleLoginProps) => {
-        console.log(response);
+        setIsLoggedIn(false);
     };
 
     const successGoogleLogoutResponse = () => {
-        console.log("logout feito");
+        setIsLoggedIn(false);
     };
 
     return (
@@ -56,19 +56,22 @@ const LoginPage: React.FC = () => {
             <div className="text-4xl">
                 Faça login no <span className="app-name">Penshare</span>
                 <div>
-                    <GoogleLogin
-                        clientId={clientId}
-                        buttonText="Login"
-                        onSuccess={successGoogleLoginResponse}
-                        onFailure={failureGoogleLoginResponse}
-                        cookiePolicy={"single_host_origin"}
-                    />
-
-                    <GoogleLogout
-                        clientId={clientId}
-                        buttonText="Logout"
-                        onLogoutSuccess={successGoogleLogoutResponse}
-                    />
+                    {isLoggedIn ?
+                        <GoogleLogout
+                            clientId={clientId}
+                            buttonText="Logout"
+                            onLogoutSuccess={successGoogleLogoutResponse}
+                        />
+    :
+                        <GoogleLogin
+                            clientId={clientId}
+                            buttonText="Login"
+                            onSuccess={successGoogleLoginResponse}
+                            onFailure={failureGoogleLoginResponse}
+                            cookiePolicy={"single_host_origin"}
+                            isSignedIn={true}
+                        />
+                    }
                 </div>
             </div>
         </HomeContainer>
