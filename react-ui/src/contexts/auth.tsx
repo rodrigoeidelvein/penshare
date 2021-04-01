@@ -1,7 +1,8 @@
 import {createContext, useState} from "react";
-import { setCookie, deleteCookie } from "../utils";
+import {cookieExists, deleteCookie, setCookie} from "../utils";
 import {GoogleLoginResponse, GoogleLoginResponseOffline} from "react-google-login";
-import { useHistory } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
+import useSWR, {mutate} from "swr";
 
 interface User {
     firstName: string;
@@ -14,16 +15,35 @@ interface User {
 interface AuthContextData {
     isSigned: boolean;
     user: User;
+    error: any;
+
     logIn(googleData: GoogleLoginResponse | GoogleLoginResponseOffline): Promise<void>;
+
     logOut(): void;
 }
 
 const AuthContext = createContext<AuthContextData>(({} as AuthContextData));
 
+const fetcher = async (url: string) => {
+    const res: Response = await fetch(url, {
+        credentials: "include"
+    })
+    console.log('chamou aqui', res.ok)
+    if (!res.ok) {
+        const error: any = new Error(res.statusText);
+        error.info = await res.json();
+        error.status = res.status;
+        throw error;
+    }
+
+    return await res.json();
+}
+
 export const AuthProvider: React.FC = ({children}) => {
-    const [user, setUser] = useState({} as User);
-    const [isSigned, setIsSigned] = useState(false);
     let history = useHistory();
+    const [user, setUser] = useState({} as User);
+
+    const {data, error} = useSWR(cookieExists('token') ? 'http://localhost:5000/api/auth/me' : null, fetcher)
 
     async function logIn(googleData: GoogleLoginResponse | GoogleLoginResponseOffline) {
         if (!("googleId" in googleData)) {
@@ -41,25 +61,27 @@ export const AuthProvider: React.FC = ({children}) => {
             }
         });
 
-        const userInstance = await res.json() as User;
-
-        setUser(userInstance);
-        setIsSigned(true);
-        history.push('/');
+        if (res.ok) {
+            await mutate('http://localhost:5000/api/auth/me', (data: any) => {
+                setUser(data)
+            })
+            history.push('/');
+        }
     }
 
     const logOut = async () => {
         await fetch("http://localhost:5000/api/auth/", {
             method: "DELETE"
         });
-        setUser({} as User);
+
         deleteCookie('token');
-        setIsSigned(false);
+        await mutate('http://localhost:5000/api/auth/me', (data: any) => {
+            setUser({} as User);
+        })
     }
 
-
     return (
-        <AuthContext.Provider value={{isSigned, user, logIn, logOut}}>
+        <AuthContext.Provider value={{isSigned: !!data, error, user: data, logIn, logOut}}>
             {children}
         </AuthContext.Provider>
     )

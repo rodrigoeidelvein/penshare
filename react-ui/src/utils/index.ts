@@ -5,3 +5,7 @@ export const setCookie = (name: string, value: string): void => {
 export const deleteCookie = (name: string): void => {
     document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
+
+export const cookieExists = (name: string): boolean => {
+    return document.cookie.indexOf('token') >= 0;
+}

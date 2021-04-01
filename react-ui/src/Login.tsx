@@ -4,7 +4,6 @@ import {
     GoogleLoginResponse,
     GoogleLoginProps,
     GoogleLoginResponseOffline,
-    GoogleLogout,
 } from "react-google-login";
 import {useContext} from "react";
 import AuthContext from "./contexts/auth";
@@ -12,7 +11,7 @@ import AuthContext from "./contexts/auth";
 const LoginPage: React.FC = () => {
     const clientId = process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID as string;
 
-    const {isSigned, user, logIn} = useContext(AuthContext);
+    const {logIn} = useContext(AuthContext);
 
     const successGoogleLoginResponse = async (
         response: GoogleLoginResponse | GoogleLoginResponseOffline
@@ -29,18 +28,6 @@ const LoginPage: React.FC = () => {
         console.log('fail login')
     };
 
-
-
-    const handleClick = async (e: any) => {
-        e.preventDefault();
-        const data = await fetch('http://localhost:5000/api/auth/me', {
-            method: "GET",
-            credentials: "include"
-        });
-
-        console.log(data)
-    }
-
     return (
         <HomeContainer>
             <div className="text-4xl">
@@ -54,7 +41,6 @@ const LoginPage: React.FC = () => {
                             cookiePolicy={"single_host_origin"}
                             isSignedIn={true}
                         />
-                    <button onClick={handleClick}>Botao Teste</button>
                 </div>
             </div>
         </HomeContainer>
