@@ -30,29 +30,17 @@ exports.login = async (req, res) => {
         photo: picture
     }
 
-    User.upsert(user).then(data => {
-        req.session.userId = user.id;
-        req.session.save(() => {
-            res.status(201);
-            return res.send(data);
-        });
+    const [userInstance] = await User.upsert(user);
 
-    }).catch(err => {
-        return res.status(500).send({
-            message: err.message || "Algum erro aconteceu ao criar o usuário"
-        });
-    });
+    return res.status(201).send(userInstance);
 }
 
 exports.logout = async (req, res) => {
-    await req.session.destroy();
-    res.status(200);
-    res.json({
+    res.status(200).json({
         message: "Logged out successfully"
     });
 }
 
 exports.me = async (req, res) => {
-    res.status(200);
-    return res.json(req.user);
+    return res.status(200).send(req.user);
 }

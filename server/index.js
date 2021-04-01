@@ -4,7 +4,7 @@ const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const session = require(`express-session`);
+const cookieParser = require('cookie-parser');
 
 require('dotenv').config();
 
@@ -34,20 +34,7 @@ if (!isDev && cluster.isMaster) {
 
     app.use(cors(corstOptions));
     app.use(bodyParser.json());
-
-    const sess = {
-        secret: 'muito secreto',
-        cookie: {},
-        resave: true,
-        saveUninitialized: true,
-    }
-
-    if (!isDev) {
-        app.set('trust proxy', 1);
-        sess.cookie.secure = true;
-    }
-
-    app.use(session(sess));
+    app.use(cookieParser());
 
     const db = require('./models');
     // db.sequelize.sync({force: true}).then(() => {
@@ -55,12 +42,6 @@ if (!isDev && cluster.isMaster) {
     // });
 
     db.sequelize.sync();
-
-    app.use(async (req, res, next) => {
-        const user = await db.users.findByPk(req.session.userId);
-        req.user = user;
-        next();
-    });
 
     require('./routes/auth.routes')(app);
 

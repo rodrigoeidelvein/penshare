@@ -6,69 +6,55 @@ import {
     GoogleLoginResponseOffline,
     GoogleLogout,
 } from "react-google-login";
-import {useState} from "react";
+import {useContext} from "react";
+import AuthContext from "./contexts/auth";
 
 const LoginPage: React.FC = () => {
     const clientId = process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID as string;
-    const secretKey = process.env._REACT_APP_GOOGLE_CLIENT_SECRET as string;
 
-    const [email, setEmail] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [fullName, setFullname] = useState("");
-    const [id, setId] = useState("");
+    const {isSigned, user, logIn} = useContext(AuthContext);
 
     const successGoogleLoginResponse = async (
         response: GoogleLoginResponse | GoogleLoginResponseOffline
     ) => {
-        if ("googleId" in response) {
-            const profile = response.getBasicProfile();
-
-            setEmail(profile.getEmail());
-            setFirstName(profile.getGivenName());
-            setFullname(profile.getName());
-            setId(profile.getId());
-
-            console.log(profile)
-            const res = await fetch("http://localhost:5000/api/auth/", {
-                method: "POST",
-                credentials: "include",
-                body: JSON.stringify({token: response.tokenId}),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
-
-            const data = await res.json();
-            console.log(data);
+        try {
+            await logIn(response);
+        } catch (error) {
+            throw new Error("Erro ao fazer login");
         }
+
     };
 
     const failureGoogleLoginResponse = (response: GoogleLoginProps) => {
-        console.log(response);
+        console.log('fail login')
     };
 
-    const successGoogleLogoutResponse = () => {
-        console.log("logout feito");
-    };
+
+
+    const handleClick = async (e: any) => {
+        e.preventDefault();
+        const data = await fetch('http://localhost:5000/api/auth/me', {
+            method: "GET",
+            credentials: "include"
+        });
+
+        console.log(data)
+    }
 
     return (
         <HomeContainer>
             <div className="text-4xl">
                 Faça login no <span className="app-name">Penshare</span>
-                <div>
-                    <GoogleLogin
-                        clientId={clientId}
-                        buttonText="Login"
-                        onSuccess={successGoogleLoginResponse}
-                        onFailure={failureGoogleLoginResponse}
-                        cookiePolicy={"single_host_origin"}
-                    />
-
-                    <GoogleLogout
-                        clientId={clientId}
-                        buttonText="Logout"
-                        onLogoutSuccess={successGoogleLogoutResponse}
-                    />
+                <div className="mt-3">
+                     <GoogleLogin
+                            clientId={clientId}
+                            buttonText="Login"
+                            onSuccess={successGoogleLoginResponse}
+                            onFailure={failureGoogleLoginResponse}
+                            cookiePolicy={"single_host_origin"}
+                            isSignedIn={true}
+                        />
+                    <button onClick={handleClick}>Botao Teste</button>
                 </div>
             </div>
         </HomeContainer>
