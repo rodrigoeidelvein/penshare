@@ -8,7 +8,6 @@ const LoggedHomePage: React.FC = () => {
     const clientId = process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID as string;
 
     const {user, logOut} = useContext(AuthContext);
-    console.log(user)
 
     const successGoogleLogoutResponse = () => {
         logOut();
