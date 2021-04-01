@@ -1,3 +1,5 @@
+const googleAuth = require('../middleware/googleAuth');
+
 module.exports = app => {
     const auth = require('../controllers/auth.controller');
 
@@ -6,7 +8,7 @@ module.exports = app => {
     // Login
     router.post('/', auth.login);
     router.delete('/', auth.logout);
-    router.get('/me', auth.me);
+    router.get('/me', googleAuth, auth.me);
 
     app.use('/api/auth/', router);
 }
