@@ -2,7 +2,9 @@ const Sequelize = require('sequelize');
 
 const isDev = process.env.NODE_ENV !== 'production';
 
-const dialectOptions = {}
+const dialectOptions = {
+    ssl: {}
+}
 
 if (!isDev) {
     dialectOptions.ssl.require = true;
