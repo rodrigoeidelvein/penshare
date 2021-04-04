@@ -8,7 +8,7 @@ const dialectOptions = {
 
 if (!isDev) {
     dialectOptions.ssl.require = true;
-    dialectOptions.ssl.rejectUnauthorized = true;
+    dialectOptions.ssl.rejectUnauthorized = false;
 }
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
