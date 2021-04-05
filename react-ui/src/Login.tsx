@@ -19,6 +19,7 @@ const LoginPage: React.FC = () => {
         try {
             await logIn(response);
         } catch (error) {
+            console.error(error);
             throw new Error("Erro ao fazer login");
         }
 
