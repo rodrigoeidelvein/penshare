@@ -7,13 +7,18 @@ const dialectOptions = {
 }
 
 if (!isDev) {
-    dialectOptions.ssl.require = true;
-    dialectOptions.ssl.rejectUnauthorized = false;
+    dialectOptions.ssl = false;
+    dialectOptions.ssl.rejectUnauthorized = true;
 }
+
+console.log(process.env.DATABASE_URL)
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: "postgres",
-    dialectOptions
+    protocol: "postgres",
+    dialectOptions: process.env.DB_ENABLE_SSL && {
+        require: true
+    }
 });
 
 const db = {};
