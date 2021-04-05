@@ -33,10 +33,10 @@ const LoginPage: React.FC = () => {
         <HomeContainer>
             <div className="text-4xl">
                 Faça login no <span className="app-name">Penshare</span>
-                <div className="mt-3">
+                <div className="mt-3 text-center">
                      <GoogleLogin
                             clientId={clientId}
-                            buttonText="Login"
+                            buttonText="Faça login com Google"
                             onSuccess={successGoogleLoginResponse}
                             onFailure={failureGoogleLoginResponse}
                             cookiePolicy={"single_host_origin"}

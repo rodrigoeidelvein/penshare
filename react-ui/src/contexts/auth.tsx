@@ -4,7 +4,7 @@ import {GoogleLoginResponse, GoogleLoginResponseOffline} from "react-google-logi
 import {useHistory} from 'react-router-dom';
 import useSWR, {mutate} from "swr";
 
-interface User {
+export interface User {
     firstName: string;
     fullName: string
     email: string;
