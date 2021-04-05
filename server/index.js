@@ -27,12 +27,14 @@ if (!isDev && cluster.isMaster) {
 } else {
     const app = express();
 
-    const corstOptions= {
-        origin: 'http://localhost:3000',
+    const originURL = isDev ? 'http://localhost:3000' : 'https://penshare-stage.herokuapp.com'
+
+    const corsOptions= {
+        origin: originURL,
         credentials: true
     }
 
-    app.use(cors(corstOptions));
+    app.use(cors(corsOptions));
     app.use(bodyParser.json());
     app.use(cookieParser());
 
