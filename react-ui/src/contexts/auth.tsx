@@ -43,7 +43,7 @@ export const AuthProvider: React.FC = ({children}) => {
     let history = useHistory();
     const [user, setUser] = useState({} as User);
 
-    const {data, error} = useSWR(cookieExists('token') ? 'http://localhost:5000/api/auth/me' : null, fetcher)
+    const {data, error} = useSWR(cookieExists('token') ? `${process.env.REACT_APP_API_ENDPOINT}api/auth/me` : null, fetcher)
 
     async function logIn(googleData: GoogleLoginResponse | GoogleLoginResponseOffline) {
         if (!("googleId" in googleData)) {
@@ -52,7 +52,7 @@ export const AuthProvider: React.FC = ({children}) => {
 
         setCookie('token', googleData.tokenId);
 
-        const res = await fetch("http://localhost:5000/api/auth/", {
+        const res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}api/auth/`, {
             method: "POST",
             credentials: "include",
             body: JSON.stringify({token: googleData.tokenId}),
@@ -62,7 +62,7 @@ export const AuthProvider: React.FC = ({children}) => {
         });
 
         if (res.ok) {
-            await mutate('http://localhost:5000/api/auth/me', (data: any) => {
+            await mutate(`${process.env.REACT_APP_API_ENDPOINT}api/auth/me`, (data: any) => {
                 setUser(data)
             })
             history.push('/');
@@ -70,12 +70,12 @@ export const AuthProvider: React.FC = ({children}) => {
     }
 
     const logOut = async () => {
-        await fetch("http://localhost:5000/api/auth/", {
+        await fetch(`${process.env.REACT_APP_API_ENDPOINT}api/auth/`, {
             method: "DELETE"
         });
 
         deleteCookie('token');
-        await mutate('http://localhost:5000/api/auth/me', (data: any) => {
+        await mutate(`${process.env.REACT_APP_API_ENDPOINT}api/auth/me`, (data: any) => {
             setUser({} as User);
         })
     }
