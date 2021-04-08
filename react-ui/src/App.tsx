@@ -21,13 +21,11 @@ function App() {
                         <Route path="/entrar">
                             <LoginPage/>
                         </Route>
-                        <Route path="/">
-                            <AuthContext.Consumer>
-                                {({isSigned}) => {
-                                    return isSigned ? <LoggedHomePage /> : <HomePage/>
-                                }}
-                            </AuthContext.Consumer>
-                        </Route>
+                        <AuthContext.Consumer>
+                            {({isSigned}) => {
+                                return isSigned ? (<Route path=""><LoggedHomePage /></Route>) : (<Route path=""><HomePage/></Route>)
+                            }}
+                        </AuthContext.Consumer>
                     </Switch>
                 </div>
             </AuthProvider>
