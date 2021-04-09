@@ -1,10 +1,9 @@
 import "tailwindcss/tailwind.css";
-import HomePage from "./HomePage";
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
-import LoginPage from "./Login";
+import Home from "./pages/Home";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import LoginPage from "./pages/Login";
 import AuthContext, {AuthProvider} from './contexts/auth';
-import LoggedHomePage from "./LoggedHomePage";
-import Navigation from "./Navigation";
+import LoggedHomePage from "./pages/LoggedHomePage";
 
 function App() {
 
@@ -23,7 +22,8 @@ function App() {
                         </Route>
                         <AuthContext.Consumer>
                             {({isSigned}) => {
-                                return isSigned ? (<Route path=""><LoggedHomePage /></Route>) : (<Route path=""><HomePage/></Route>)
+                                return isSigned ? (<Route path=""><LoggedHomePage/></Route>) : (
+                                    <Route path=""><Home/></Route>)
                             }}
                         </AuthContext.Consumer>
                     </Switch>

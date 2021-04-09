@@ -1,8 +1,8 @@
-import HomeContainer from "./HomeContainer";
-import logo from "./logo.svg";
-import Navigation from "./Navigation";
+import HomeContainer from "../components/HomeContainer";
+import logo from "../logo.svg";
+import Navigation from "../components/Navigation";
 
-function HomePage() {
+function Home() {
     return (
         <div className="container mx-auto">
             <Navigation/>
@@ -16,4 +16,4 @@ function HomePage() {
     );
 }
 
-export default HomePage;
+export default Home;

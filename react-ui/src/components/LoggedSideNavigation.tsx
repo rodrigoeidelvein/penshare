@@ -1,12 +1,12 @@
 import React, {useContext} from "react";
-import AuthContext from "./contexts/auth";
+import AuthContext from "../contexts/auth";
 import {GoogleLogout} from "react-google-login";
 import {faFolderOpen, faFolderPlus, faHome, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {NavLink, useRouteMatch} from 'react-router-dom';
 
 const LoggedSideNavigation: React.FC = () => {
-    const {path, url} = useRouteMatch();
+    const {url} = useRouteMatch();
 
     const clientId = process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID as string;
 
@@ -21,7 +21,7 @@ const LoggedSideNavigation: React.FC = () => {
     return (
         <div className="relative h-screen flex flex-col w-64 bg-gray-900 h-full shadow-lg">
             <div className="flex items-center pl-6 h-20 border-b border-gray-800">
-                <img src={user.photo} alt="User Photo"
+                <img src={user.photo} alt={`Avatar of ${user.fullName}`}
                      className="rounded-full h-10 w-10 flex items-center justify-center mr-3 border-2 border-blue-500"/>
                 <div className="ml-1">
                     <p className="ml-1 text-md font-medium tracking-wide truncate text-gray-100 font-sans">{user.fullName}</p>
@@ -41,7 +41,7 @@ const LoggedSideNavigation: React.FC = () => {
                     <li>
                         <NavLink to={`/`} exact
                                  activeClassName="text-gray-200 bg-gray-700 border-blue-500"
-                              className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-blue-500 pr-6">
+                                 className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-blue-500 pr-6">
                                 <span className="inline-flex justify-center items-center ml-4">
                                     <FontAwesomeIcon icon={faHome}/>
                                 </span>
@@ -51,7 +51,7 @@ const LoggedSideNavigation: React.FC = () => {
                     <li>
                         <NavLink to="/criados"
                                  activeClassName="text-gray-200 bg-gray-700 border-blue-500"
-                              className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-blue-500 pr-6">
+                                 className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-blue-500 pr-6">
                                <span className="inline-flex justify-center items-center ml-4">
                                    <FontAwesomeIcon icon={faFolderOpen}/>
                                </span>
@@ -61,7 +61,7 @@ const LoggedSideNavigation: React.FC = () => {
                     <li>
                         <NavLink to="/compartilhados"
                                  activeClassName="text-gray-200 bg-gray-700 border-blue-500"
-                              className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-blue-500 pr-6">
+                                 className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-blue-500 pr-6">
                                <span className="inline-flex justify-center items-center ml-4">
                                    <FontAwesomeIcon icon={faFolderPlus}/>
                                 </span>
