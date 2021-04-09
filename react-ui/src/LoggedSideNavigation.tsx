@@ -3,7 +3,7 @@ import AuthContext from "./contexts/auth";
 import {GoogleLogout} from "react-google-login";
 import {faFolderOpen, faFolderPlus, faHome, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {Link, useRouteMatch} from 'react-router-dom';
+import {NavLink, useRouteMatch} from 'react-router-dom';
 
 const LoggedSideNavigation: React.FC = () => {
     const {path, url} = useRouteMatch();
@@ -19,7 +19,7 @@ const LoggedSideNavigation: React.FC = () => {
     console.log(url)
 
     return (
-        <div className="relative h-screen flex flex-col w-64 bg-gray-900 h-full shadow-lg">
+        <div className="relative h-screen flex flex-col w-64 bg-gray-900 h-full shadow-lg" id="loggedNav">
             <div className="flex items-center pl-6 h-20 border-b border-gray-800">
                 <img src={user.photo} alt="User Photo"
                      className="rounded-full h-10 w-10 flex items-center justify-center mr-3 border-2 border-blue-500"/>
@@ -39,31 +39,34 @@ const LoggedSideNavigation: React.FC = () => {
                         </div>
                     </li>
                     <li>
-                        <Link to={`/`}
+                        <NavLink to={`/`} exact
+                                 activeClassName="text-gray-200 bg-gray-700 border-blue-500"
                               className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-blue-500 pr-6">
                                 <span className="inline-flex justify-center items-center ml-4">
                                     <FontAwesomeIcon icon={faHome}/>
                                 </span>
                             <span className="ml-2 font-semibold text-sm tracking-wide truncate font-sans">Início</span>
-                        </Link>
+                        </NavLink>
                     </li>
                     <li>
-                        <Link to="/criados"
+                        <NavLink to="/criados"
+                                 activeClassName="text-gray-200 bg-gray-700 border-blue-500"
                               className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-blue-500 pr-6">
                                <span className="inline-flex justify-center items-center ml-4">
                                    <FontAwesomeIcon icon={faFolderOpen}/>
                                </span>
                             <span className="ml-2 font-semibold text-sm tracking-wide truncate font-sans">Criados por você</span>
-                        </Link>
+                        </NavLink>
                     </li>
                     <li>
-                        <Link to="/compartilhados"
+                        <NavLink to="/compartilhados"
+                                 activeClassName="text-gray-200 bg-gray-700 border-blue-500"
                               className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-blue-500 pr-6">
                                <span className="inline-flex justify-center items-center ml-4">
                                    <FontAwesomeIcon icon={faFolderPlus}/>
                                 </span>
                             <span className="ml-2 font-semibold text-sm tracking-wide truncate font-sans">Compartilhados com você</span>
-                        </Link>
+                        </NavLink>
                     </li>
                     <li className="px-5">
                         <div className="flex flex-row items-center h-8">
