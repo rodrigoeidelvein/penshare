@@ -1,4 +1,4 @@
-import HomeContainer from "./HomeContainer";
+import HomeContainer from "../components/HomeContainer";
 import {
     GoogleLogin,
     GoogleLoginResponse,
@@ -6,7 +6,7 @@ import {
     GoogleLoginResponseOffline,
 } from "react-google-login";
 import {useContext} from "react";
-import AuthContext from "./contexts/auth";
+import AuthContext from "../contexts/auth";
 
 const LoginPage: React.FC = () => {
     const clientId = process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID as string;

@@ -1,10 +1,9 @@
-import LoggedSideNavigation from "./LoggedSideNavigation";
-import TextEditor from "./TextEditor";
-import Dashboard from './Dashboard';
+import LoggedSideNavigation from "../components/LoggedSideNavigation";
+import Dashboard from '../components/Dashboard';
 import {Route, Switch, useRouteMatch} from "react-router-dom";
 
 const LoggedHomePage: React.FC = () => {
-    const { path, url } = useRouteMatch();
+    const { path } = useRouteMatch();
 
     return (
         <div className="min-h-screen flex flex-row flex-auto flex-shrink-0 antialiased bg-gray-200 text-gray-800">
