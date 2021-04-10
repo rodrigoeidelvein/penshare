@@ -6,7 +6,7 @@ const Navigation: React.FC = () => {
             <nav className="flex flex-row-reverse pt-3">
                 <ul>
                     <li className="inline mr-4 p-3">
-                        <Link to="/">Início</Link>
+                        <Link to="">Início</Link>
                     </li>
                     <li className="inline mr-4 p-3">
                         <Link to="/entrar">Entrar</Link>

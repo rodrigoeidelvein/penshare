@@ -28,7 +28,7 @@ const fetcher = async (url: string) => {
     const res: Response = await fetch(url, {
         credentials: "include"
     })
-    console.log('chamou aqui', res.ok)
+
     if (!res.ok) {
         const error: any = new Error(res.statusText);
         error.info = await res.json();
