@@ -27,7 +27,7 @@ const MostPopularPads: React.FC = () => {
     }]
 
 
-    return (<div className="p-8">
+    return (<div>
         <div className="m-5 font-bold text-lg"><h1>Documentos mais populares</h1></div>
         <div className="flex">
             {pads.map(pad => <CardPadHorizontal pad={pad}/>)}
