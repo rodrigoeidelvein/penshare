@@ -10,6 +10,8 @@ export interface User {
     email: string;
     id: string;
     photo: string;
+    createdAt: string,
+    updatedAt: string,
 }
 
 interface AuthContextData {

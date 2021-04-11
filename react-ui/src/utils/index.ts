@@ -7,5 +7,5 @@ export const deleteCookie = (name: string): void => {
 }
 
 export const cookieExists = (name: string): boolean => {
-    return document.cookie.indexOf('token') >= 0;
+    return document.cookie.indexOf(name) >= 0;
 }
