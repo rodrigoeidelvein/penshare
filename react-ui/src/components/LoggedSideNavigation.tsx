@@ -19,7 +19,7 @@ const LoggedSideNavigation: React.FC = () => {
     console.log(url)
 
     return (
-        <div className="relative h-screen flex flex-col w-64 bg-gray-900 h-full shadow-lg">
+        <div className="relative h-screen flex flex-col w-64 bg-gray-900 h-full shadow-lg user-side-nav">
             <div className="flex items-center pl-6 h-20 border-b border-gray-800">
                 <img src={user.photo} alt={`Avatar of ${user.fullName}`}
                      className="rounded-full h-10 w-10 flex items-center justify-center mr-3 border-2 border-blue-500"/>
