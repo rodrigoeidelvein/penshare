@@ -17,6 +17,7 @@ function TextEditor() {
     const [initialContent, setInitialContent] = useState("");
     const [rawContent, setRawcontent] = useState("");
     const [editModeEnabled, setEditModeEnabled] = useState(false);
+    const [isFirstLoad, setIsFirstLoad] = useState(true);
     const [title, setTitle] = useState("");
     const [pad, setPad] = useState({} as Pad);
 
@@ -31,7 +32,6 @@ function TextEditor() {
                 const pad = await res.json() as Pad;
                 if (pad.content) {
                     setInitialContent(pad.content);
-                    setContent(content);
                 }
 
                 if (pad.title) {
@@ -71,9 +71,14 @@ function TextEditor() {
 
     const handleEditorChange = (newContent: string, editor: TinyMCEEditor) => {
         const newRawContent = editor.getContent({format: "text"});
-        setContent(newContent)
+        setContent(newContent);
         setRawcontent(newRawContent);
-        saveToDb(pad, newContent, newRawContent, title);
+
+        if (!isFirstLoad) {
+            saveToDb(pad, newContent, newRawContent, title);
+        }
+
+        setIsFirstLoad(false);
     }
 
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
