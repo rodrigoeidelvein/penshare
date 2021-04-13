@@ -1,12 +1,22 @@
-import {Pad} from './MostPopularPads'
+import {User} from "../contexts/auth";
+
+export interface Pad {
+    id: string,
+    content?: string,
+    rawContent?: string,
+    title?: string,
+    updatedAt: string,
+    createdAt: string,
+    userId: string,
+    author: User
+}
 
 const CardPad: React.FC<{pad:Pad}> = ({children, pad}) => {
     return (<div className="w-1/2 h-auto rounded overflow-hidden shadow-lg my-2">
-        <img className="w-full" alt="lorem ipsum" src={pad.image} />
         <div className="px-6 py-4">
-            <div className="font-bold text-xl mb-2">{pad.name}</div>
+            <div className="font-bold text-xl mb-2">{pad.title}</div>
             <p className="text-grey-darker text-base">
-                {pad.description}
+                {pad.content?.substring(0, 20)}...
             </p>
         </div>
         <div className="px-6 py-4">

@@ -4,8 +4,6 @@ const User = db.users;
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_LOGIN_CLIENT_ID);
 
-const Op = db.Sequelize.Op;
-
 exports.login = async (req, res) => {
     if (!req.body.token) {
         res.status(400).send({
