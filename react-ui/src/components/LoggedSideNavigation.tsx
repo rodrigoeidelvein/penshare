@@ -16,8 +16,6 @@ const LoggedSideNavigation: React.FC = () => {
 
     const {user, logOut} = useContext(AuthContext);
 
-    console.log(url)
-
     return (
         <div className="relative h-screen flex flex-col w-64 bg-gray-900 h-full shadow-lg">
             <div className="flex items-center pl-6 h-20 border-b border-gray-800">
