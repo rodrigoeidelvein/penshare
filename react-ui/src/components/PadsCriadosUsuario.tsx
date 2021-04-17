@@ -1,8 +1,8 @@
 import CardPadHorizontal from "./CardPadHorizontal";
 import Button from "./Button";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
-import {useContext, useState} from "react";
-import AuthContext, {User} from "../contexts/auth";
+import {useContext} from "react";
+import AuthContext from "../contexts/auth";
 import {Pad} from "./CardPad";
 import {useHistory} from "react-router-dom";
 import UserPadsContext, {UserPadsProvider} from "../contexts/UserPads";
@@ -31,7 +31,11 @@ const PadsCriadosUsuario: React.FC = () => {
             <div className="flex flex-wrap">
                 <UserPadsContext.Consumer>
                     {({pads}) => {
-                        return pads.map((pad: Pad) => <CardPadHorizontal pad={pad} key={pad.id} author={user}/>)
+                        if (pads.length) {
+                            return pads.map((pad: Pad) => <CardPadHorizontal showOptions={true} pad={pad} key={pad.id} author={user}/>)
+                        }
+
+                        return <div>Você ainda não criou nenhum documento</div>
                     }}
                 </UserPadsContext.Consumer>
             </div>

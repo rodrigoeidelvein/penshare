@@ -32,7 +32,7 @@ const LoginPage: React.FC = () => {
     return (
         <HomeContainer>
             <div className="text-4xl">
-                Faça login no <span className="app-name">Penshare</span>
+                <span className="login-title">Faça login no <span className="app-name">Penshare</span></span>
                 <div className="mt-3 text-center">
                      <GoogleLogin
                             clientId={clientId}

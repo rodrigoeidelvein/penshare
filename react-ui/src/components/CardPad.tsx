@@ -1,4 +1,5 @@
 import {User} from "../contexts/auth";
+import {PadType} from "../enums";
 
 export interface Pad {
     id: string,
@@ -9,6 +10,7 @@ export interface Pad {
     createdAt: string,
     userId: string,
     author: User
+    type: PadType
 }
 
 const CardPad: React.FC<{pad:Pad}> = ({children, pad}) => {

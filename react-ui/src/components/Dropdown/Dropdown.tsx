@@ -45,8 +45,8 @@ const Dropdown: React.FC<{ padId: string }> = ({ padId }) => {
                         aria-label="Mais ações. Botão pop-up."
                         onClick={handleClick}
                     >
-                        <span>...</span>
-                        <FontAwesomeIcon icon={faChevronDown} className="top-1 left-1" />
+                        <span>Opções</span>
+                        <FontAwesomeIcon icon={faChevronDown} className="relative top-1 left-2" />
                     </button>
                 </span>
                 <div className="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">

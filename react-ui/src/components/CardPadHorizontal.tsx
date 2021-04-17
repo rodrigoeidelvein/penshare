@@ -2,8 +2,11 @@ import {Pad} from "./CardPad";
 import {User} from "../contexts/auth";
 import {useHistory} from "react-router-dom";
 import Dropdown from "./Dropdown/Dropdown";
+import {faLock, faLockOpen} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {PadType} from "../enums";
 
-const CardPadHorizontal: React.FC<{ pad: Pad, author: User }> = ({pad, author}) => {
+const CardPadHorizontal: React.FC<{ pad: Pad, author: User, showOptions: boolean }> = ({pad, author, showOptions}) => {
     const history = useHistory();
     const months: string[] = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
 
@@ -20,6 +23,24 @@ const CardPadHorizontal: React.FC<{ pad: Pad, author: User }> = ({pad, author}) 
         history.push(`/p/${pad.id}`);
     }
 
+    const renderPadType = () => {
+        if (pad.type === PadType.PRIVATE) {
+            return (<div><FontAwesomeIcon icon={faLock}/> Privado</div>)
+        }
+
+        return (<div><FontAwesomeIcon icon={faLockOpen}/> Público</div>)
+    }
+
+    const shouldRenderOptions = () => {
+        if (showOptions) {
+            return (<div className="absolute right-2 top-2">
+                <Dropdown padId={pad.id}/>
+            </div>)
+        }
+
+        return <></>
+    }
+
     return (<div
         className="duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer max-w-full w-96 h-auto lg:flex text-sm rounded-2xl mr-5 mb-5"
         onClick={navigateToEditor}>
@@ -28,8 +49,9 @@ const CardPadHorizontal: React.FC<{ pad: Pad, author: User }> = ({pad, author}) 
         >
             <div className="mb-8">
                 <div className="text-black font-bold text-lg mb-2">{pad.title}</div>
-                <div className="absolute right-2 top-2">
-                    <Dropdown padId={pad.id} />
+                {shouldRenderOptions()}
+                <div className="absolute right-4 bottom-4 text-base">
+                    {renderPadType()}
                 </div>
                 <p className="text-grey-darker text-sm break-words">{pad.rawContent && pad.rawContent.substring(0, 20)}</p>
             </div>
@@ -38,7 +60,7 @@ const CardPadHorizontal: React.FC<{ pad: Pad, author: User }> = ({pad, author}) 
                      src={author.photo}
                      alt={`Avatar de ${author.fullName}`}/>
                 <div className="text-sm">
-                    <p className="text-black leading-none">{pad.author}</p>
+                    <p className="text-black leading-none">{author.fullName}</p>
                     <p className="text-grey-dark">{formatDate(pad.createdAt)}</p>
                 </div>
             </div>

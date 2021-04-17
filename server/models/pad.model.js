@@ -18,6 +18,18 @@ module.exports = (sequelize, Sequelize, user) => {
         title: {
             type: DataTypes.STRING,
             defaultValue: null
+        },
+        type: {
+            type: DataTypes.STRING,
+            validate: {
+                isIn: [["PUBLIC", "PRIVATE"]]
+            },
+            defaultValue: "PUBLIC",
+            allowNull: false
+        },
+        stars: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
         }
     });
 
