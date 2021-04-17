@@ -45,6 +45,24 @@ exports.updatePad = async (req, res) => {
         res.status(200).send({ message: "ok" });
     } catch (e) {
         console.log(e);
-        res.status(500).send({error: "Erro ao atualizar pad"});
+        res.status(500).send({message: "Erro ao atualizar pad"});
+    }
+}
+
+exports.deletePad = async (req, res) => {
+    const { id: padId } = req.params;
+
+    try {
+        const pad = await Pad.findByPk(padId);
+        console.log(pad)
+        if (!pad) {
+            res.status(404).send({ message: 'Pad não encontrado.' })
+        }
+
+        pad.destroy();
+        res.status(200).send({ message: 'Pad excluído com sucesso.' })
+    } catch (e) {
+        console.log(e);
+        res.status(500).send({ message: 'Erro ao excluir pad.' })
     }
 }
