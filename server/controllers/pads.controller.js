@@ -1,12 +1,10 @@
 const db = require('../models')
-const { nanoid } = require('nanoid');
+const {nanoid} = require('nanoid');
 const Pad = db.pads;
 const User = db.users;
 
 exports.createPad = async (req, res) => {
-    const { user } = req;
-
-    console.log(user)
+    const {user} = req;
 
     const createdPad = await Pad.create({
         id: nanoid(10),
@@ -18,31 +16,31 @@ exports.createPad = async (req, res) => {
 }
 
 exports.getPadsByUserId = async (req, res) => {
-    const { user } = req;
+    const {user} = req;
 
-    const padsByUser = await User.findByPk(user.id, { include: ["pads"] });
+    const padsByUser = await User.findByPk(user.id, {include: ["pads"]});
     res.status(200).json(padsByUser);
 }
 
 exports.getPad = async (req, res) => {
     const {id: padId} = req.params;
 
-    const pad = await Pad.findByPk(padId, { include: ["author"] });
+    const pad = await Pad.findByPk(padId, {include: ["author"]});
 
     res.status(200).send(pad);
 }
 
 exports.updatePad = async (req, res) => {
-    const { id, content, rawContent, title } = req.body;
+    const {id, content, rawContent, title} = req.body;
 
     try {
-        await Pad.update({ content, rawContent, title  }, {
+        await Pad.update({content, rawContent, title}, {
             where: {
                 id
             }
         });
 
-        res.status(200).send({ message: "ok" });
+        res.status(200).send({message: "ok"});
     } catch (e) {
         console.log(e);
         res.status(500).send({message: "Erro ao atualizar pad"});
@@ -50,19 +48,43 @@ exports.updatePad = async (req, res) => {
 }
 
 exports.deletePad = async (req, res) => {
-    const { id: padId } = req.params;
+    const {id: padId} = req.params;
 
     try {
         const pad = await Pad.findByPk(padId);
         console.log(pad)
         if (!pad) {
-            res.status(404).send({ message: 'Pad não encontrado.' })
+            res.status(404).send({message: 'Pad não encontrado.'})
         }
 
         pad.destroy();
-        res.status(200).send({ message: 'Pad excluído com sucesso.' })
+        res.status(200).send({message: 'Pad excluído com sucesso.'})
     } catch (e) {
         console.log(e);
-        res.status(500).send({ message: 'Erro ao excluir pad.' })
+        res.status(500).send({message: 'Erro ao excluir pad.'})
+    }
+}
+
+exports.mostPopularPads = async (req, res) => {
+    try {
+        const popularPads = await Pad.findAll({
+            where: {
+                type: "PUBLIC"
+            },
+            order: [
+                ['stars', 'DESC']
+            ],
+            include: ["author"]
+        });
+
+        if (popularPads.length) {
+            res.status(200).send(popularPads);
+        } else {
+            res.status(200).send({ message: "Nenhum documento foi criado publicamente.", pads: [] });
+        }
+    } catch (e) {
+        console.log(e);
+        console.log("Erro ao buscar documentos mais populares");
+        res.status(500).send({ message: "Erro ao buscar pads mais populares" });
     }
 }

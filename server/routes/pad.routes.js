@@ -6,6 +6,7 @@ module.exports = app => {
 
 
     router.get('/user/', googleAuth, padController.getPadsByUserId);
+    router.get('/popular/', googleAuth, padController.mostPopularPads);
     router.get('/:id/', googleAuth, padController.getPad);
     router.put('/', googleAuth, padController.updatePad);
     router.post('/', googleAuth, padController.createPad);
