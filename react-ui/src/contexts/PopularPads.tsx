@@ -21,8 +21,8 @@ export const PopularPadsProvider: React.FC = ({children}) => {
             credentials: "include"
         });
 
-        const userPads = await res.json() as Pad[];
-        setPads(userPads);
+        const popularPads = await res.json() as Pad[];
+        setPads(popularPads);
     }
 
     return (<PopularPadsContext.Provider value={{pads}}>

@@ -1,10 +1,6 @@
 import {createContext, useEffect, useState} from "react";
 import {Pad} from "../components/CardPad";
 
-export interface UserPadsResponse {
-    pads: Pad[]
-}
-
 interface UserPadsContextData {
     pads: Pad[],
     getUserPads: () => void
@@ -25,8 +21,8 @@ export const UserPadsProvider: React.FC = ({ children }) => {
             credentials: "include"
         });
 
-        const userPads = await res.json() as UserPadsResponse;
-        setPads(userPads.pads);
+        const userPads = await res.json() as Pad[];
+        setPads(userPads);
     }
 
     return (<UserPadsContext.Provider value={{pads, getUserPads}}>

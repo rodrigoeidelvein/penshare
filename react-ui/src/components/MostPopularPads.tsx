@@ -9,7 +9,6 @@ const MostPopularPads: React.FC = () => {
             <div className="flex flex-wrap">
                 <PopularPadsContext.Consumer>
                     {({pads}) => {
-                        // return <div>{JSON.stringify(pads[0])}</div>
                         if (pads.length) {
                             return pads.map((pad: Pad) => <CardPadHorizontal showOptions={false} pad={pad} key={pad.id} author={pad.author}/>)
                         }
