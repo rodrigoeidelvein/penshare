@@ -3,10 +3,9 @@ import AuthContext from "../contexts/auth";
 import {GoogleLogout} from "react-google-login";
 import {faFolderOpen, faFolderPlus, faHome, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {NavLink, useRouteMatch} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
 const LoggedSideNavigation: React.FC = () => {
-    const {url} = useRouteMatch();
 
     const clientId = process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID as string;
 
@@ -37,7 +36,7 @@ const LoggedSideNavigation: React.FC = () => {
                         </div>
                     </li>
                     <li>
-                        <NavLink to={`/`} exact
+                        <NavLink to="/" exact
                                  activeClassName="text-gray-200 bg-gray-700 border-blue-500"
                                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-blue-500 pr-6">
                                 <span className="inline-flex justify-center items-center ml-4">
@@ -78,9 +77,9 @@ const LoggedSideNavigation: React.FC = () => {
                                       render={renderProps => (
                                           <button onClick={renderProps.onClick}
                                                   className="w-full w-auto relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-red-500 pr-6">
-                                <span className="inline-flex justify-center items-center ml-4 text-red-400">
-                                    <FontAwesomeIcon icon={faSignOutAlt}/>
-                                </span>
+                                            <span className="inline-flex justify-center items-center ml-4 text-red-400">
+                                                <FontAwesomeIcon icon={faSignOutAlt}/>
+                                            </span>
                                               <span
                                                   className="ml-2 font-semibold text-sm tracking-wide truncate font-sans">Sair</span>
                                           </button>

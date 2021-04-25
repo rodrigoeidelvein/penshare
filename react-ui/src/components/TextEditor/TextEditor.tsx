@@ -4,8 +4,9 @@ import {useParams} from "react-router-dom";
 import debounce from "lodash.debounce";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
-import {Pad} from "./CardPad";
+import {Pad} from "../CardPad";
 import {Editor as TinyMCEEditor} from "tinymce";
+import './textEditor.css';
 
 interface IParams {
     padId: string
@@ -111,7 +112,7 @@ function TextEditor() {
             apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
             initialValue={initialContent}
             init={{
-                height: 500,
+                height: '700',
                 menubar: false,
                 plugins: [
                     'advlist autolink lists link image charmap print preview anchor',
