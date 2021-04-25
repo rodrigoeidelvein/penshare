@@ -1,7 +1,7 @@
 import {CardPadProps} from "./CardPad";
 import {useHistory} from "react-router-dom";
 import Dropdown from "./Dropdown/Dropdown";
-import {faLock, faLockOpen, faArrowUp, faArrowDown} from "@fortawesome/free-solid-svg-icons";
+import {faLock, faLockOpen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {PadType} from "../enums";
 import LikeButton from "./LikeButton";
@@ -54,7 +54,7 @@ const CardPadHorizontal: React.FC<CardPadProps> = ({pad, author, showOptions}) =
                     {renderPadType()}
                     <LikeButton likes={pad.likesCount} liked={pad.liked ? pad.liked : false} padId={pad.id} />
                 </div>
-                <p className="text-grey-darker text-sm break-words">{pad.rawContent && pad.rawContent.substring(0, 20)}</p>
+                <p className="text-grey-darker text-sm break-words">{pad.rawContent && pad.rawContent.substring(0, 50)}</p>
             </div>
             <div className="flex items-center">
                 <img className="w-10 h-10 rounded-full mr-4"
