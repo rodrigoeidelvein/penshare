@@ -25,5 +25,3 @@ I
 react-ui/build/index.html,6\6\66326aa0f465103cb8154d62cdbfcc3ff5e02349
 ]
 -react-ui/src/components/CardPadHorizontal.tsx,b\d\bd88884831b4b689c8a3ec7545680dd05d62a999
-T
-$react-ui/src/components/Dropdown.tsx,e\9\e96808b5bc07d40ace3b8f571010efed4f7fb5b7

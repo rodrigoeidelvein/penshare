@@ -47,6 +47,7 @@ if (!isDev && cluster.isMaster) {
 
     require('./routes/auth.routes')(app);
     require('./routes/pad.routes')(app);
+    require('./routes/like.routes')(app);
 
     // Priority serve any static files.
     app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
