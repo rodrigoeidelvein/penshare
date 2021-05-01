@@ -4,11 +4,23 @@ import {useParams} from "react-router-dom";
 import debounce from "lodash.debounce";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
-import {Pad} from "./CardPad";
+import {Authorizations, Pad} from "./CardPad";
 import {Editor as TinyMCEEditor} from "tinymce";
 
 interface IParams {
     padId: string
+}
+
+interface PadResponse {
+    pad: Pad,
+    authorizations: Authorizations
+}
+
+const defaultAuthorization: Authorizations = {
+    id: 'leitor',
+    read: false,
+    write: false,
+    delete: false
 }
 
 function TextEditor() {
@@ -20,6 +32,7 @@ function TextEditor() {
     const [isFirstLoad, setIsFirstLoad] = useState(true);
     const [title, setTitle] = useState("");
     const [pad, setPad] = useState({} as Pad);
+    const [authorization, setAuthorization] = useState(defaultAuthorization as Authorizations);
 
     useEffect(() => {
         async function getPadInfo() {
@@ -29,7 +42,10 @@ function TextEditor() {
                     credentials: "include"
                 });
 
-                const pad = await res.json() as Pad;
+                const padInfo = await res.json() as PadResponse;
+
+                const { pad, authorizations } = padInfo;
+
                 if (pad.content) {
                     setInitialContent(pad.content);
                 }
@@ -45,6 +61,7 @@ function TextEditor() {
                 }
 
                 setPad(pad);
+                setAuthorization(authorizations);
             } catch (e) {
                 console.error('Erro ao buscar informações sobre o pad');
             }
@@ -97,6 +114,10 @@ function TextEditor() {
         }
     }
 
+    const canUserWrite = (): boolean => {
+        return authorization.write;
+    }
+
     return (<div className="w-full p-10">
         <input
             value={title}
@@ -106,10 +127,11 @@ function TextEditor() {
             disabled={!editModeEnabled}
             className="text-lg font-bold p-3 rounded-sm mb-3 mr-5 w-11/12"
         />
-        <a role="button" title="Editar" onClick={handleEditClick}><FontAwesomeIcon icon={faPencilAlt}/></a>
+        {canUserWrite() ? <a role="button" title="Editar" onClick={handleEditClick}><FontAwesomeIcon icon={faPencilAlt}/></a> : ''}
         <Editor
             apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
             initialValue={initialContent}
+            disabled={!canUserWrite()}
             init={{
                 height: 500,
                 menubar: false,

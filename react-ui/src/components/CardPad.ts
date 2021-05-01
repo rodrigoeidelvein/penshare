@@ -12,7 +12,16 @@ export interface Pad {
     author: User
     type: PadType,
     likesCount: number,
-    liked?: boolean
+    liked: boolean
+}
+
+export interface Authorizations {
+    id: string,
+    createdAt?: string,
+    updatedAt?: string,
+    read: boolean,
+    write: boolean,
+    delete: boolean
 }
 
 export interface CardPadProps {

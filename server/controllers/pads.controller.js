@@ -2,23 +2,41 @@ const db = require('../models')
 const {nanoid} = require('nanoid');
 const Pad = db.pads;
 const User = db.users;
+const PadAuthorization = db.padAuthorizations;
 
 exports.createPad = async (req, res) => {
     const {user} = req;
 
-    const createdPad = await Pad.create({
-        id: nanoid(10),
-        userId: user.id
-    });
+    try {
+        const createdPad = await Pad.create({
+            id: nanoid(10),
+            userId: user.id
+        });
 
-    console.log(JSON.stringify(createdPad, null, 4));
-    res.status(201).send(createdPad);
+        PadAuthorization.create({
+            id: nanoid(10),
+            userId: user.id,
+            sharedWith: user.id,
+            padId: createdPad.id,
+            roleId: 'autor'
+        });
+
+        res.status(201).send(createdPad);
+    } catch (e) {
+        console.error('Erro ao criar documento');
+        res.sendStatus(500).send({message: "Erro ao criar documento"})
+    }
 }
 
 exports.getPadsByUserId = async (req, res) => {
     const {user} = req;
 
-    const padsByUser = await User.findByPk(user.id, {include: ["pads"]});
+    const padsByUser = await Pad.findAll({
+        where: {
+            userId: user.id
+        }
+    });
+
     res.status(200).json(padsByUser);
 }
 
@@ -27,7 +45,9 @@ exports.getPad = async (req, res) => {
 
     const pad = await Pad.findByPk(padId, {include: ["author"]});
 
-    res.status(200).send(pad);
+    const {authorizations} = req.user;
+
+    res.status(200).send({pad, authorizations});
 }
 
 exports.updatePad = async (req, res) => {
@@ -80,11 +100,11 @@ exports.mostPopularPads = async (req, res) => {
         if (popularPads.length) {
             res.status(200).send(popularPads);
         } else {
-            res.status(200).send({ message: "Nenhum documento foi criado publicamente.", pads: [] });
+            res.status(200).send({message: "Nenhum documento foi criado publicamente.", pads: []});
         }
     } catch (e) {
         console.log(e);
         console.log("Erro ao buscar documentos mais populares");
-        res.status(500).send({ message: "Erro ao buscar pads mais populares" });
+        res.status(500).send({message: "Erro ao buscar pads mais populares"});
     }
 }

@@ -39,8 +39,11 @@ if (!isDev && cluster.isMaster) {
     app.use(cookieParser());
 
     const db = require('./models');
+    const utils = require('./utils');
     // db.sequelize.sync({force: true}).then(() => {
-    //     console.log("Drop and re-sync db.");
+    //     utils.createDefaultRoles().then(() => {
+    //         console.log("Roles created")
+    //     });
     // });
 
     db.sequelize.sync();
