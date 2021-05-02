@@ -1,4 +1,4 @@
-const db = require('../../models');
+const db = require('../models');
 const User = db.User;
 
 const {OAuth2Client} = require('google-auth-library');
