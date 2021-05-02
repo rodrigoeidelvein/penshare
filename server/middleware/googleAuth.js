@@ -1,6 +1,6 @@
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_LOGIN_CLIENT_ID);
-const db = require('../models');
+const db = require('../../models');
 
 module.exports = async (req, res, next) => {
     const {token} = req.cookies;
@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
             audience: process.env.GOOGLE_LOGIN_CLIENT_ID
         });
 
-        const user = await db.users.findByPk(userData.getPayload().sub)
+        const user = await db.User.findByPk(userData.getPayload().sub)
 
         if (user) {
             req.user = user.dataValues;

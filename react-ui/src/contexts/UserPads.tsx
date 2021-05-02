@@ -9,7 +9,7 @@ interface UserPadsContextData {
 const UserPadsContext = createContext<UserPadsContextData>({} as UserPadsContextData);
 
 export const UserPadsProvider: React.FC = ({ children }) => {
-    const [pads, setPads] = useState([] as Pad[])
+    const [pads, setPads] = useState([] as Pad[]);
 
     useEffect(() => {
         getUserPads();

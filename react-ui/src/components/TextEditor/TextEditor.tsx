@@ -3,10 +3,12 @@ import {Editor} from "@tinymce/tinymce-react";
 import {useParams} from "react-router-dom";
 import debounce from "lodash.debounce";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
+import {faPencilAlt, faShareSquare} from "@fortawesome/free-solid-svg-icons";
 import {Authorizations, Pad} from "../CardPad";
 import {Editor as TinyMCEEditor} from "tinymce";
 import './textEditor.css';
+import SharePadDialog from "../SharePadDialog";
+import {Button} from "@material-ui/core";
 
 interface IParams {
     padId: string
@@ -34,6 +36,7 @@ function TextEditor() {
     const [title, setTitle] = useState("");
     const [pad, setPad] = useState({} as Pad);
     const [authorization, setAuthorization] = useState(defaultAuthorization as Authorizations);
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     useEffect(() => {
         async function getPadInfo() {
@@ -45,7 +48,7 @@ function TextEditor() {
 
                 const padInfo = await res.json() as PadResponse;
 
-                const { pad, authorizations } = padInfo;
+                const {pad, authorizations} = padInfo;
 
                 if (pad.content) {
                     setInitialContent(pad.content);
@@ -119,7 +122,19 @@ function TextEditor() {
         return authorization.write;
     }
 
+    const handleClose = () => {
+        setDialogOpen(false);
+    }
+
+    const handleOpen = () => {
+        setDialogOpen(true);
+    }
+
     return (<div className="w-full p-10">
+        <div>
+            <Button className="float-right" variant="contained" color="primary" startIcon={<FontAwesomeIcon icon={faShareSquare}/>}
+                    onClick={handleOpen}>Compartilhar</Button>
+        </div>
         <input
             value={title}
             onChange={onChangeTitle}
@@ -128,7 +143,9 @@ function TextEditor() {
             disabled={!editModeEnabled}
             className="text-lg font-bold p-3 rounded-sm mb-3 mr-5 w-11/12"
         />
-        {canUserWrite() ? <a role="button" title="Editar" onClick={handleEditClick}><FontAwesomeIcon icon={faPencilAlt}/></a> : ''}
+        <SharePadDialog open={dialogOpen} onClose={handleClose}/>
+        {canUserWrite() ?
+            <a role="button" title="Editar" onClick={handleEditClick}><FontAwesomeIcon icon={faPencilAlt}/></a> : ''}
         <Editor
             apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
             initialValue={initialContent}

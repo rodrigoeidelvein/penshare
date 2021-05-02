@@ -13,5 +13,7 @@ module.exports = app => {
     router.post('/', googleAuth, padController.createPad);
     router.delete('/:id', googleAuth, padController.deletePad);
 
+    router.get('/authorization/:id', googleAuth, padController.getAuthorizationsForPad);
+
     app.use('/api/pad/', router);
 }

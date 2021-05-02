@@ -1,8 +1,8 @@
-const db = require('../models')
+const db = require('../../models')
 const {nanoid} = require('nanoid');
-const Pad = db.pads;
-const User = db.users;
-const PadAuthorization = db.padAuthorizations;
+const Pad = db.Pad;
+const User = db.User;
+const PadAuthorization = db.PadAuthorization;
 
 exports.createPad = async (req, res) => {
     const {user} = req;
@@ -23,7 +23,7 @@ exports.createPad = async (req, res) => {
 
         res.status(201).send(createdPad);
     } catch (e) {
-        console.error('Erro ao criar documento');
+        console.error('Erro ao criar documento', e);
         res.sendStatus(500).send({message: "Erro ao criar documento"})
     }
 }
@@ -72,7 +72,6 @@ exports.deletePad = async (req, res) => {
 
     try {
         const pad = await Pad.findByPk(padId);
-        console.log(pad)
         if (!pad) {
             res.status(404).send({message: 'Pad não encontrado.'})
         }
@@ -91,9 +90,6 @@ exports.mostPopularPads = async (req, res) => {
             where: {
                 type: "PUBLIC"
             },
-            order: [
-                ['stars', 'DESC']
-            ],
             include: ["author"]
         });
 
@@ -106,5 +102,24 @@ exports.mostPopularPads = async (req, res) => {
         console.log(e);
         console.log("Erro ao buscar documentos mais populares");
         res.status(500).send({message: "Erro ao buscar pads mais populares"});
+    }
+}
+
+exports.getAuthorizationsForPad = async (req, res) => {
+    const {id: padId} = req.params;
+    console.log(padId)
+    try {
+        const authorizedUsers = await PadAuthorization.findAll({
+            where: {
+                padId
+            },
+            include: ['author']
+        })
+
+        console.log(authorizedUsers)
+
+        res.status(200).send(authorizedUsers)
+    } catch (e) {
+        console.error("Erro ao buscar autorizações para o documento.");
     }
 }

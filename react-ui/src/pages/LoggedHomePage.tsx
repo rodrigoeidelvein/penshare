@@ -1,7 +1,7 @@
 import LoggedSideNavigation from "../components/LoggedSideNavigation";
 import Dashboard from '../components/Dashboard';
 import {Route, Switch, useRouteMatch} from "react-router-dom";
-import PadsCriadosUsuario from "../components/PadsCriadosUsuario";
+import PadsCriadosUsuario from "./PadsCriadosUsuario";
 import TextEditor from "../components/TextEditor";
 
 const LoggedHomePage: React.FC = () => {

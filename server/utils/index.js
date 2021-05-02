@@ -1,4 +1,4 @@
-const db = require('../models');
+const db = require('../../models');
 const Role = db.roles;
 
 exports.createDefaultRoles = async () => {

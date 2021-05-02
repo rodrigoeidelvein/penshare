@@ -1,6 +1,7 @@
-const db = require('../models');
-const Pad = db.pads;
-const PadAuthorization = db.padAuthorizations;
+const db = require('../../models');
+console.log(db)
+const Pad = db.Pad;
+const PadAuthorization = db.PadAuthorization;
 
 exports.toRead = async (req, res, next) => {
     const {id: padId} = req.params;

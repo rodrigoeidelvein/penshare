@@ -25,8 +25,6 @@ I
 react-ui/build/index.html,6\6\66326aa0f465103cb8154d62cdbfcc3ff5e02349
 ]
 -react-ui/src/components/CardPadHorizontal.tsx,b\d\bd88884831b4b689c8a3ec7545680dd05d62a999
-^
-.react-ui/src/components/PadsCriadosUsuario.tsx,6\d\6d81a414d2fb13a78d7f3cc8b6d68767ae65a8cf
 V
 &react-ui/src/components/LikeButton.tsx,b\4\b4344fa915da1bb8d70281f2c3a1d98758dc3ea8
 U
@@ -51,8 +49,6 @@ W
 server/index.js,e\1\e1a504bc36c43a5b06e18911fe39381356468d7f
 R
 "react-ui/src/components/CardPad.ts,e\c\ec0b07cdec87390b22138d16388ecbd3f4932671
-V
-&react-ui/src/components/TextEditor.tsx,5\2\52fd5ab6d883d98494d98000a3a3954f464e7b1a
 U
 %server/controllers/auth.controller.js,c\3\c3e55e76401fbed7ec8d734825ec152d4a208543
 U
