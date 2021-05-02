@@ -1,7 +1,6 @@
 const db = require('../../models');
-console.log(db)
-const Pad = db.Pad;
-const PadAuthorization = db.PadAuthorization;
+
+const { PadAuthorization } = db;
 
 exports.toRead = async (req, res, next) => {
     const {id: padId} = req.params;
@@ -15,12 +14,9 @@ exports.toRead = async (req, res, next) => {
             },
             include: ["role"]
         })
-
         if (!padAuthorization) {
             res.status(404).send({ message: "Pad não encontrado" });
         }
-
-        console.log(padAuthorization.role)
 
         req.user.authorizations = padAuthorization.role;
         next();

@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
             });
 
             Pad.hasMany(models.PadAuthorization, {foreignKey: "padId"});
+            Pad.hasMany(models.Like, {foreignKey: "padId"});
         }
     };
     Pad.init({
@@ -49,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
             references: {
                 model: "Users",
                 key: "id",
-                as: 'userId'
+                as: "userId"
             }
         }
     }, {

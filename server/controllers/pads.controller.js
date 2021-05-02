@@ -1,7 +1,8 @@
-const db = require('../models')
+const db = require('../../models')
+const Sequelize = require('sequelize');
 const {nanoid} = require('nanoid');
-const Pad = db.pads;
-const User = db.users;
+
+const { Pad, Like, PadAuthorization } = db;
 
 exports.createPad = async (req, res) => {
     const {user} = req;
@@ -40,13 +41,13 @@ exports.getPadsByUserId = async (req, res) => {
                 attributes: ["userId"]
             }],
             attributes: {
-                include: [[Sequelize.fn("COUNT", Sequelize.col("likes.id")), "likesCount"]]
+                include: [[Sequelize.fn("COUNT", Sequelize.col("Likes.id")), "likesCount"]]
             },
-            group: ["pad.id", "author.id", "likes.id"]
+            group: ["Pad.id", "author.id", "Likes.id"]
         });
 
         for (const pad of padsByUser) {
-            const isLiked = pad.likes.some(x => x.userId === user.id);
+            const isLiked = pad.Likes.some(x => x.userId === user.id);
 
             pad.setDataValue('liked', isLiked)
         }
@@ -70,9 +71,9 @@ exports.getPad = async (req, res) => {
             attributes: []
         }],
         attributes: {
-            include: [[Sequelize.fn("COUNT", Sequelize.col("likes.id")), "likesCount"]]
+            include: [[Sequelize.fn("COUNT", Sequelize.col("Likes.id")), "likesCount"]]
         },
-        group: ["pad.id", "author.id"]
+        group: ["Pad.id", "author.id"]
     });
 
     const {authorizations} = req.user;
@@ -126,18 +127,18 @@ exports.mostPopularPads = async (req, res) => {
                 [Sequelize.col('likesCount')]
             ],
             attributes: {
-                include: [[Sequelize.fn("COUNT", Sequelize.col("likes.id")), "likesCount"]]
+                include: [[Sequelize.fn("COUNT", Sequelize.col("Likes.id")), "likesCount"]]
             },
             include: ["author", {
                 model: Like,
                 attributes: ['userId']
             }],
-            group: ["pad.id", "author.id", 'likes.id']
+            group: ["Pad.id", "author.id", 'Likes.id']
         });
 
 
         for (const pad of popularPads) {
-            const isLiked = pad.likes.some(x => x.userId === user.id);
+            const isLiked = pad.Likes.some(x => x.userId === user.id);
 
             pad.setDataValue('liked', isLiked)
         }

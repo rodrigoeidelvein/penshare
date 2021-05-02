@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             User.hasMany(models.Pad, {foreignKey: "userId"});
             User.hasMany(models.PadAuthorization, {foreignKey: "userId"});
+            User.hasMany(models.Like, {foreignKey: "userId"});
         }
     };
     User.init({
