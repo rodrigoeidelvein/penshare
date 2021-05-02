@@ -1,6 +1,6 @@
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_LOGIN_CLIENT_ID);
-const db = require('../../models');
+const db = require('../models');
 
 module.exports = async (req, res, next) => {
     const {token} = req.cookies;
