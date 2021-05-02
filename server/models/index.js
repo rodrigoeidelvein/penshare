@@ -25,6 +25,13 @@ db.pads.belongsTo(db.users, {
     as: "author"
 });
 
+db.likes = require('./like.model')(sequelize, Sequelize);
+
+db.likes.belongsTo(db.users, { foreignKey: "userId", targetKey: "id" });
+db.likes.belongsTo(db.pads, { foreignKey: "padId", targetKey: "id" });
+db.pads.hasMany(db.likes, { foreignKey: "padId", targetKey: "id" });
+db.users.hasMany(db.likes, { foreignKey: "userId", targetKey: "id" });
+
 db.users.hasMany(db.padAuthorizations, {
     as: "sharedPads"
 })

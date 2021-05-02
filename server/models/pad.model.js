@@ -1,6 +1,6 @@
-const {DataTypes} = require('sequelize');
+const { DataTypes } = require('sequelize');
 
-module.exports = (sequelize) => {
+module.exports = (sequelize, Sequelize, user) => {
     const Pad = sequelize.define("pad", {
             id: {
                 primaryKey: true,
@@ -26,11 +26,8 @@ module.exports = (sequelize) => {
                 },
                 defaultValue: "PUBLIC",
                 allowNull: false
-            },
-            stars: {
-                type: DataTypes.INTEGER,
-                defaultValue: 0
             }
+
         },
         {
             paranoid: true

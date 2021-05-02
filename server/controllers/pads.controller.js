@@ -1,8 +1,7 @@
-const db = require('../../models')
+const db = require('../models')
 const {nanoid} = require('nanoid');
-const Pad = db.Pad;
-const User = db.User;
-const PadAuthorization = db.PadAuthorization;
+const Pad = db.pads;
+const User = db.users;
 
 exports.createPad = async (req, res) => {
     const {user} = req;
@@ -31,19 +30,50 @@ exports.createPad = async (req, res) => {
 exports.getPadsByUserId = async (req, res) => {
     const {user} = req;
 
-    const padsByUser = await Pad.findAll({
-        where: {
-            userId: user.id
-        }
-    });
+    try {
+        const padsByUser = await Pad.findAll({
+            where: {
+                userId: user.id
+            },
+            include: ["author", {
+                model: Like,
+                attributes: ["userId"]
+            }],
+            attributes: {
+                include: [[Sequelize.fn("COUNT", Sequelize.col("likes.id")), "likesCount"]]
+            },
+            group: ["pad.id", "author.id", "likes.id"]
+        });
 
-    res.status(200).json(padsByUser);
+        for (const pad of padsByUser) {
+            const isLiked = pad.likes.some(x => x.userId === user.id);
+
+            pad.setDataValue('liked', isLiked)
+        }
+
+        res.status(200).json(padsByUser);
+    } catch (e) {
+        console.log(e);
+        console.log("Erro ao buscar documentos do usuário");
+        res.status(500).send({message: "Erro ao buscar documentos do usuário"});
+    }
+
+
 }
 
 exports.getPad = async (req, res) => {
     const {id: padId} = req.params;
 
-    const pad = await Pad.findByPk(padId, {include: ["author"]});
+    const pad = await Pad.findByPk(padId, {
+        include: ["author", {
+            model: Like,
+            attributes: []
+        }],
+        attributes: {
+            include: [[Sequelize.fn("COUNT", Sequelize.col("likes.id")), "likesCount"]]
+        },
+        group: ["pad.id", "author.id"]
+    });
 
     const {authorizations} = req.user;
 
@@ -85,13 +115,32 @@ exports.deletePad = async (req, res) => {
 }
 
 exports.mostPopularPads = async (req, res) => {
+    const {user} = req;
+
     try {
         const popularPads = await Pad.findAll({
             where: {
                 type: "PUBLIC"
             },
-            include: ["author"]
+            order: [
+                [Sequelize.col('likesCount')]
+            ],
+            attributes: {
+                include: [[Sequelize.fn("COUNT", Sequelize.col("likes.id")), "likesCount"]]
+            },
+            include: ["author", {
+                model: Like,
+                attributes: ['userId']
+            }],
+            group: ["pad.id", "author.id", 'likes.id']
         });
+
+
+        for (const pad of popularPads) {
+            const isLiked = pad.likes.some(x => x.userId === user.id);
+
+            pad.setDataValue('liked', isLiked)
+        }
 
         if (popularPads.length) {
             res.status(200).send(popularPads);
@@ -101,7 +150,7 @@ exports.mostPopularPads = async (req, res) => {
     } catch (e) {
         console.log(e);
         console.log("Erro ao buscar documentos mais populares");
-        res.status(500).send({message: "Erro ao buscar pads mais populares"});
+        res.status(500).send({ message: "Erro ao buscar pads mais populares" });
     }
 }
 
