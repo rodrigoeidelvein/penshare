@@ -5,6 +5,7 @@ import {faLock, faLockOpen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {PadType} from "../enums";
 import LikeButton from "./LikeButton";
+import {MouseEvent} from "react";
 
 const CardPadHorizontal: React.FC<CardPadProps> = ({pad, author, showOptions}) => {
     const history = useHistory();
@@ -19,7 +20,7 @@ const CardPadHorizontal: React.FC<CardPadProps> = ({pad, author, showOptions}) =
         return `${formatDay(dateObject.getDate())} de ${months[dateObject.getMonth()]} de ${dateObject.getFullYear()}`
     }
 
-    const navigateToEditor = () => {
+    const navigateToEditor = (event: MouseEvent<HTMLDivElement>) => {
         history.push(`/p/${pad.id}`);
     }
 

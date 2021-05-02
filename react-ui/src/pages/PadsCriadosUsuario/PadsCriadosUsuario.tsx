@@ -1,11 +1,13 @@
-import CardPadHorizontal from "./CardPadHorizontal";
-import Button from "./Button";
+import CardPadHorizontal from "../../components/CardPadHorizontal";
+import Button from "../../components/Button";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
-import {useContext} from "react";
-import AuthContext from "../contexts/auth";
-import {Pad} from "./CardPad";
+import {useContext, useState} from "react";
+import AuthContext from "../../contexts/auth";
+import {Pad} from "../../components/CardPad";
 import {useHistory} from "react-router-dom";
-import UserPadsContext, {UserPadsProvider} from "../contexts/UserPads";
+import UserPadsContext, {UserPadsProvider} from "../../contexts/UserPads";
+import {Modal} from "@material-ui/core";
+import SharePadDialog from "../../components/SharePadDialog/SharePadDialog";
 
 
 const PadsCriadosUsuario: React.FC = () => {

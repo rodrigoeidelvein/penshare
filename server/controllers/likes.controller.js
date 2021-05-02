@@ -1,7 +1,6 @@
-const db = require('../models');
+const db = require('../../models');
 
-const Pad = db.pads;
-const Like = db.likes;
+const {Pad, Like} = db;
 
 const getLikeCount = async (padId) => {
     const likes = await Like.findAll({
@@ -10,7 +9,6 @@ const getLikeCount = async (padId) => {
         }
     });
 
-    console.log(likes.length)
     return likes.length;
 }
 

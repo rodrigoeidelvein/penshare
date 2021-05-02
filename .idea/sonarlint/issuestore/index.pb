@@ -8,7 +8,8 @@ L
 N
 react-ui/src/contexts/auth.tsx,6\4\643dcb57c1f4f139d18e501a31640f306786a3f5
 =
-react-ui/.env,1\9\195ff88bcc8cb382bcdf84d03f8404a0703a8ad7
+
+react-ui/.env,1\9\195ff88bcc8cb382bcdf84d03f8404a0703a8ad7
 K
 server/routes/pad.routes.js,e\c\ec0dfa6d458f1a4c65382208c6378c89ffdfe729
 H
@@ -25,3 +26,35 @@ I
 react-ui/build/index.html,6\6\66326aa0f465103cb8154d62cdbfcc3ff5e02349
 ]
 -react-ui/src/components/CardPadHorizontal.tsx,b\d\bd88884831b4b689c8a3ec7545680dd05d62a999
+V
+&react-ui/src/components/LikeButton.tsx,b\4\b4344fa915da1bb8d70281f2c3a1d98758dc3ea8
+U
+%react-ui/src/contexts/PopularPads.tsx,c\d\cddf5a61af775b6deaeae6b7cf909e96bed2104f
+Z
+*react-ui/src/components/Dropdown/index.tsx,e\9\e97d9ae7378e30832d0323ea783a92c98d4f9dea
+U
+%react-ui/src/pages/LoggedHomePage.tsx,1\f\1f2f39b33500a0841935ac2f254e8af62910afb1
+]
+-react-ui/src/components/Dropdown/Dropdown.tsx,b\1\b1e30003aa8c7060aa3bafca75e854a9d2776457
+K
+server/models/user.model.js,f\f\ffcf1eef795b5cf181a1e50d6babf81623f81081
+J
+server/models/pad.model.js,8\0\80120476f609a55c7b3e65b85787b3ed70d90148
+O
+server/middleware/googleAuth.js,e\f\efb4f9186661155cf1d58751c7bf242dfb3cdd01
+K
+server/models/role.model.js,5\6\56be4adb52e267cf3254d6be90b19dd1c9201bc4
+W
+'server/models/padAuthorization.model.js,d\4\d458cbb9e71fb65b37fa4a088b4e71a0e361ab4b
+?
+server/index.js,e\1\e1a504bc36c43a5b06e18911fe39381356468d7f
+R
+"react-ui/src/components/CardPad.ts,e\c\ec0b07cdec87390b22138d16388ecbd3f4932671
+U
+%server/controllers/auth.controller.js,c\3\c3e55e76401fbed7ec8d734825ec152d4a208543
+U
+%server/middleware/hasAuthorization.js,5\7\5731a9c0f6061ad8e7d951b9c8f8ec4a32e18efc
+R
+"react-ui/src/contexts/UserPads.tsx,2\8\28d76eec4f0f309ba7049493e4bc2299bc590a01
+R
+"react-ui/src/components/Button.tsx,1\d\1d8ed6b11cf3f600a1636560ce0494e8772274c0
