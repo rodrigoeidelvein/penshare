@@ -1,10 +1,8 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 
 module.exports = {
     "development": {
         "url": process.env.DATABASE_URL,
-        "password": "admin",
-        "user": "postgres",
         "dialect": "postgres"
     },
     "test": {
