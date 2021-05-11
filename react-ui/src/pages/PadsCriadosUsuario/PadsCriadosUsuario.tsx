@@ -1,5 +1,5 @@
 import CardPadHorizontal from "../../components/CardPadHorizontal";
-import Button from "../../components/Button";
+import MyButton from "../../components/MyButton";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {useContext, useState} from "react";
 import AuthContext from "../../contexts/auth";
@@ -28,7 +28,7 @@ const PadsCriadosUsuario: React.FC = () => {
 
     return (<div className="p-6">
         <UserPadsProvider>
-            <Button text="Criar" icon={faPlus} onClick={createPad}/>
+            <MyButton text="Criar" icon={faPlus} onClick={createPad}/>
             <div className="my-5 font-bold text-lg"><h1>Criados por você</h1></div>
             <div className="flex flex-wrap">
                 <UserPadsContext.Consumer>

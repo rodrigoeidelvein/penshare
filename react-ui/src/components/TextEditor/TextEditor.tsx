@@ -143,7 +143,6 @@ function TextEditor() {
             disabled={!editModeEnabled}
             className="text-lg font-bold p-3 rounded-sm mb-3 mr-5 w-11/12"
         />
-        <SharePadDialog open={dialogOpen} onClose={handleClose}/>
         {canUserWrite() ?
             <a role="button" title="Editar" onClick={handleEditClick}><FontAwesomeIcon icon={faPencilAlt}/></a> : ''}
         <Editor
