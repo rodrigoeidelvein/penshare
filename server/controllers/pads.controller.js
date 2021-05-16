@@ -2,7 +2,7 @@ const db = require('../models')
 const Sequelize = require('sequelize');
 const {nanoid} = require('nanoid');
 
-const { Pad, Like, PadAuthorization } = db;
+const { Pad, Like, PadAuthorization, Branch, Revision } = db;
 
 exports.createPad = async (req, res) => {
     const {user} = req;
@@ -20,6 +20,21 @@ exports.createPad = async (req, res) => {
             padId: createdPad.id,
             roleId: 'autor'
         });
+
+        const createdBranch = await Branch.create({
+            padId: createdPad.id,
+            name: "principal",
+            owner: user.id,
+        });
+
+        const createdRevision = await Revision.create({
+            branchId: createdBranch.id
+        });
+
+        createdBranch.head = createdRevision.id;
+        createdPad.mainBranch = createdBranch.id;
+        await createdBranch.save();
+        await createdPad.save();
 
         res.status(201).send(createdPad);
     } catch (e) {

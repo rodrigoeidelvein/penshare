@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 
             Pad.hasMany(models.PadAuthorization, {foreignKey: "padId"});
             Pad.hasMany(models.Like, {foreignKey: "padId"});
+            Pad.hasMany(models.Branch, {foreignKey: "padId"})
         }
     };
     Pad.init({
@@ -51,6 +52,14 @@ module.exports = (sequelize, DataTypes) => {
                 model: "Users",
                 key: "id",
                 as: "userId"
+            }
+        },
+        mainBranch: {
+            type: DataTypes.NUMBER,
+            references: {
+                model: "Branches",
+                key: "id",
+                as: "mainBranch"
             }
         }
     }, {
