@@ -23,7 +23,7 @@ exports.createPad = async (req, res) => {
 
         const createdBranch = await Branch.create({
             padId: createdPad.id,
-            name: "principal",
+            name: "Principal",
             owner: user.id,
         });
 

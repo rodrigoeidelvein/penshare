@@ -3,11 +3,7 @@ const db = require('../models');
 const {Pad, Like} = db;
 
 const getLikeCount = async (padId) => {
-    const likes = await Like.findAll({
-        where: {
-            padId
-        }
-    });
+    const likes = await Like.findAll({ where: { padId }});
 
     return likes.length;
 }
@@ -22,12 +18,7 @@ exports.handleLike = async (req, res) => {
         return res.status(404).send({ message: "Pad não foi encontrado ou foi removido." });
     }
 
-    const like = await Like.findOne({
-        where: {
-            padId,
-            userId: user.id
-        }
-    });
+    const like = await Like.findOne({ where: { padId, userId: user.id }});
 
     if (!like) {
         await Like.create({

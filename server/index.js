@@ -38,19 +38,10 @@ if (!isDev && cluster.isMaster) {
     app.use(bodyParser.json());
     app.use(cookieParser());
 
-    // const db = require('./models');
-    // const utils = require('./utils');
-    // db.sequelize.sync({force: true}).then(() => {
-    //     utils.createDefaultRoles().then(() => {
-    //         console.log("Roles created")
-    //     });
-    // });
-
-    // db.sequelize.sync();
-
     require('./routes/auth.routes')(app);
     require('./routes/pad.routes')(app);
     require('./routes/like.routes')(app);
+    require('./routes/branch.routes')(app);
 
     // Priority serve any static files.
     app.use(express.static(path.resolve(__dirname, '../react-ui/build')));

@@ -34,6 +34,12 @@ module.exports = (sequelize, DataTypes) => {
                 key: "id",
                 as: "owner"
             }
+        },
+        content: {
+            type: DataTypes.STRING
+        },
+        rawContent: {
+            type: DataTypes.STRING
         }
     }, {
         sequelize,
