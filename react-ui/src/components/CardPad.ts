@@ -12,7 +12,8 @@ export interface Pad {
     author: User
     type: PadType,
     likesCount: number,
-    liked: boolean
+    liked: boolean,
+    mainBranch: number
 }
 
 export interface Authorizations {

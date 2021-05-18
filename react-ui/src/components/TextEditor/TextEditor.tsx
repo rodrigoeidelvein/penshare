@@ -9,6 +9,7 @@ import {Editor as TinyMCEEditor} from "tinymce";
 import './textEditor.css';
 import SharePadDialog from "../SharePadDialog";
 import {Button} from "@material-ui/core";
+import DropdownBranches from "../DropdownBranches";
 
 interface IParams {
     padId: string
@@ -146,6 +147,7 @@ function TextEditor() {
         <SharePadDialog open={dialogOpen} onClose={handleClose}/>
         {canUserWrite() ?
             <a role="button" title="Editar" onClick={handleEditClick}><FontAwesomeIcon icon={faPencilAlt}/></a> : ''}
+        <DropdownBranches padId={padId} mainBranchId={pad.mainBranch}/>
         <Editor
             apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
             initialValue={initialContent}
