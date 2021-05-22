@@ -1,31 +1,30 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Pads', {
+    await queryInterface.createTable('like_pad', {
       id: {
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
-      content: {
-        type: Sequelize.TEXT
+      id_user: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'user',
+          key: 'id'
+        }
       },
-      rawContent: {
-        type: Sequelize.TEXT
-      },
-      title: {
-        type: Sequelize.STRING
-      },
-      type: {
-        type: Sequelize.STRING
-      },
-      userId: {
+      id_pad: {
         type: Sequelize.STRING,
         references: {
-          model: "Users",
-          key: "id",
-          as: "userId"
+          model: 'pad',
+          key: 'id'
         }
+      },
+      amount: {
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -38,6 +37,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Pads');
+    await queryInterface.dropTable('like_pad');
   }
 };

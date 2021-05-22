@@ -1,4 +1,5 @@
 const db = require('../models');
+console.log(db)
 const User = db.User;
 
 const {OAuth2Client} = require('google-auth-library');

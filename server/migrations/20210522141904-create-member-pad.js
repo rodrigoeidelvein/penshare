@@ -1,28 +1,32 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Likes', {
+    await queryInterface.createTable('member_pad', {
       id: {
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.UUID,
-        default: Sequelize.UUIDV4
+        type: Sequelize.INTEGER
       },
-      padId: {
+      id_pad: {
         type: Sequelize.STRING,
         references: {
-          model: "Pads",
-          key: "id",
-          as: "padId"
-        },
-        onDelete: "cascade"
+          model: 'pad',
+          key: 'id'
+        }
       },
-      userId: {
-        type: Sequelize.STRING,
+      id_user: {
+        type: Sequelize.INTEGER,
         references: {
-          model: "Users",
-          key: "id",
-          as: "userId"
+          model: 'user',
+          key: 'id'
+        }
+      },
+      id_pad_role: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'pad_role',
+          key: 'id'
         }
       },
       createdAt: {
@@ -36,6 +40,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Likes');
+    await queryInterface.dropTable('member_pad');
   }
 };

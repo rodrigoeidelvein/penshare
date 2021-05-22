@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         userId: {
             type: DataTypes.STRING,
             references: {
-                model: "Users",
+                model: "user",
                 key: "id",
                 as: "userId"
             }
@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         sharedWith: {
             type: DataTypes.STRING,
             references: {
-                model: "Users",
+                model: "user",
                 key: "id",
                 as: "sharedWith"
             }

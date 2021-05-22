@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         padId: {
             type: DataTypes.STRING,
             references: {
-                model: "Pads",
+                model: "pad",
                 key: "id",
                 as: "padId"
             }
@@ -31,14 +31,14 @@ module.exports = (sequelize, DataTypes) => {
         userId: {
             type: DataTypes.STRING,
             references: {
-                model: "Users",
+                model: "user",
                 key: "id",
                 as: "userId"
             }
         },
     }, {
         sequelize,
-        modelName: 'Like',
+        modelName: 'like_pad',
     });
     return Like;
 };

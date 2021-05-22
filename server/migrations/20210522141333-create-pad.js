@@ -1,20 +1,25 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Roles', {
+    await queryInterface.createTable('pad', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.STRING
       },
-      read: {
-        type: Sequelize.BOOLEAN
+      title: {
+        type: Sequelize.STRING
       },
-      write: {
-        type: Sequelize.BOOLEAN
+      type: {
+        type: Sequelize.ENUM('PRIVATE', 'PUBLIC'),
+        allowNull: false
       },
-      delete: {
-        type: Sequelize.BOOLEAN
+      id_author: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'user',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,
@@ -27,6 +32,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Roles');
+    await queryInterface.dropTable('pad');
   }
 };

@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     User.init({
         id: {
             primaryKey: true,
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
             allowNull: false
         },
         firstName: {
@@ -32,13 +33,21 @@ module.exports = (sequelize, DataTypes) => {
         photo: {
             type: DataTypes.STRING
         },
+        idGoogle: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        idOutlook: {
+            type: DataTypes.STRING,
+            allowNull: true
+        }
         email: {
             type: DataTypes.STRING,
             allowNull: false
         }
     }, {
         sequelize,
-        modelName: 'User',
+        modelName: 'user',
     });
     return User;
 };

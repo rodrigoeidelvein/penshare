@@ -48,14 +48,14 @@ module.exports = (sequelize, DataTypes) => {
         userId: {
             type: DataTypes.STRING,
             references: {
-                model: "Users",
+                model: "user",
                 key: "id",
                 as: "userId"
             }
         }
     }, {
         sequelize,
-        modelName: "Pad",
+        modelName: "pad",
     });
     return Pad;
 };
