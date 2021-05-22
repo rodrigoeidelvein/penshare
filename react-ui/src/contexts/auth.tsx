@@ -3,6 +3,7 @@ import {cookieExists, deleteCookie, setCookie} from "../utils";
 import {GoogleLoginResponse, GoogleLoginResponseOffline} from "react-google-login";
 import {useHistory} from 'react-router-dom';
 import useSWR, {mutate} from "swr";
+import {Error} from "sequelize";
 
 export interface User {
     firstName: string;
@@ -54,7 +55,7 @@ export const AuthProvider: React.FC = ({children}) => {
 
         setCookie('token', googleData.tokenId);
 
-        const res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}api/auth/`, {
+        const res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}api/auth/google`, {
             method: "POST",
             credentials: "include",
             body: JSON.stringify({token: googleData.tokenId}),
