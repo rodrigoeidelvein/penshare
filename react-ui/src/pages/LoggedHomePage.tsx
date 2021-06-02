@@ -21,6 +21,9 @@ const LoggedHomePage: React.FC = () => {
                     <Route path="/compartilhados">
                         Compartilhados comigo
                     </Route>
+                    <Route path="/sugestoes">
+                        Sugestões Recebidas
+                    </Route>
                     <Route path="/p/:padId">
                         <TextEditor />
                     </Route>

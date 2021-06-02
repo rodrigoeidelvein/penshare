@@ -10,7 +10,7 @@ const MostPopularPads: React.FC = () => {
                 <PopularPadsContext.Consumer>
                     {({pads}) => {
                         if (pads.length) {
-                            return pads.map((pad: Pad) => <CardPadHorizontal showOptions={false} pad={pad} key={pad.id} author={pad.author}/>)
+                            return pads.map((pad: Pad) => <CardPadHorizontal showOptions={false} pad={pad} key={pad.id} author={pad.user}/>)
                         }
 
                         return <div>Nenhum documento foi criado publicamente.</div>

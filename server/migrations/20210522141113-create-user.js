@@ -19,23 +19,27 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      photo: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       id_google: {
         type: Sequelize.STRING
       },
       id_outlook: {
         type: Sequelize.STRING
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('user');
   }
 };

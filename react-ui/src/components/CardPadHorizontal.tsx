@@ -49,7 +49,7 @@ const CardPadHorizontal: React.FC<CardPadProps> = ({pad, author, showOptions}) =
             className="w-full border-r border-b border-l border-gray-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal"
         >
             <div className="mb-8">
-                <div className="text-black font-bold text-lg mb-2">{pad.title}</div>
+                <div className="text-black font-bold text-lg mb-2">{pad.title ? pad.title : 'Sem título'}</div>
                 {shouldRenderOptions()}
                 <div className="absolute right-4 bottom-4 text-base">
                     {renderPadType()}
@@ -63,7 +63,7 @@ const CardPadHorizontal: React.FC<CardPadProps> = ({pad, author, showOptions}) =
                      alt={`Avatar de ${author.fullName}`}/>
                 <div className="text-sm">
                     <p className="text-black leading-none">{author.fullName}</p>
-                    <p className="text-grey-dark">{formatDate(pad.createdAt)}</p>
+                    <p className="text-grey-dark">{formatDate(pad.created_at)}</p>
                 </div>
             </div>
         </div>

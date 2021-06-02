@@ -1,6 +1,5 @@
 const db = require('../models');
-console.log(db)
-const User = db.User;
+const User = db.user;
 
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_LOGIN_CLIENT_ID);
@@ -22,12 +21,14 @@ exports.login = async (req, res) => {
     const {sub, name, given_name, email, picture} = ticket.getPayload();
 
     const user = {
-        id: sub,
+        idGoogle: sub,
         firstName: given_name,
         fullName: name,
         email: email,
         photo: picture
     }
+
+    console.log(user)
 
     const [userInstance] = await User.upsert(user);
 

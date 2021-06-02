@@ -10,13 +10,11 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            Pad.belongsTo(models.User, {
-                foreignKey: "userId",
-                as: "author"
-            });
+            Pad.belongsTo(models.user, { foreignKey: "idUser"});
 
-            Pad.hasMany(models.PadAuthorization, {foreignKey: "padId"});
-            Pad.hasMany(models.Like, {foreignKey: "padId"});
+            // Pad.hasMany(models.PadAuthorization, {foreignKey: "padId"});
+            Pad.hasMany(models.like_pad, { foreignKey: "idPad"});
+            Pad.hasMany(models.pad_suggestion, { foreignKey: "idPad"});
         }
     };
     Pad.init({
@@ -25,17 +23,16 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        content: {
-            type: DataTypes.TEXT,
-            defaultValue: null
-        },
-        rawContent: {
-            type: DataTypes.TEXT,
-            defaultValue: null
-        },
         title: {
             type: DataTypes.STRING,
             defaultValue: null
+        },
+        content: {
+            type: DataTypes.TEXT
+        },
+        rawContent: {
+            type: DataTypes.TEXT,
+            field: 'raw_content'
         },
         type: {
             type: DataTypes.STRING,
@@ -45,12 +42,12 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: "PUBLIC",
             allowNull: false
         },
-        userId: {
+        idUser: {
             type: DataTypes.STRING,
+            field: 'id_user',
             references: {
                 model: "user",
                 key: "id",
-                as: "userId"
             }
         }
     }, {

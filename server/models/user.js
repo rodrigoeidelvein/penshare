@@ -10,9 +10,11 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            User.hasMany(models.Pad, {foreignKey: "userId"});
-            User.hasMany(models.PadAuthorization, {foreignKey: "userId"});
-            User.hasMany(models.Like, {foreignKey: "userId"});
+            User.hasMany(models.pad, {foreignKey: "idUser"});
+            // User.hasMany(models.PadAuthorization, {foreignKey: "userId"});
+            User.hasMany(models.like_pad, {foreignKey: "idUser"});
+            User.hasMany(models.pad_suggestion, { foreignKey: "idContributor"});
+            User.hasMany(models.pad_suggestion, { foreignKey: "idOwner"});
         }
     };
     User.init({
@@ -25,22 +27,27 @@ module.exports = (sequelize, DataTypes) => {
         firstName: {
             type: DataTypes.STRING,
             allowNull: false,
+            field: "first_name"
         },
         fullName: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            field: "full_name"
         },
         photo: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull: true
         },
         idGoogle: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: true,
+            field: "id_google"
         },
         idOutlook: {
             type: DataTypes.STRING,
-            allowNull: true
-        }
+            allowNull: true,
+            field: "id_outlook"
+        },
         email: {
             type: DataTypes.STRING,
             allowNull: false

@@ -2,35 +2,28 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('like_pad', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
       id_user: {
         type: Sequelize.INTEGER,
+        primaryKey: true,
         references: {
-          model: 'user',
-          key: 'id'
-        }
+          model:"user",
+          key: "id"
+        },
+        onDelete: "CASCADE"
       },
       id_pad: {
         type: Sequelize.STRING,
         references: {
-          model: 'pad',
-          key: 'id'
-        }
+          model: "pad",
+          key: "id"
+        },
+        onDelete: "CASCADE"
       },
-      amount: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }

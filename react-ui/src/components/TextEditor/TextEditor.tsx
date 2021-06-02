@@ -132,8 +132,9 @@ function TextEditor() {
 
     return (<div className="w-full p-10">
         <div>
-            <Button className="float-right" variant="contained" color="primary" startIcon={<FontAwesomeIcon icon={faShareSquare}/>}
-                    onClick={handleOpen}>Compartilhar</Button>
+            {/*<Button className="float-right" variant="contained" color="primary" startIcon={<FontAwesomeIcon icon={faShareSquare}/>}*/}
+            {/*        onClick={handleOpen}>Compartilhar</Button>*/}
+            <Button className="float-right" variant="contained" color="primary">Enviar sugestão</Button>
         </div>
         <input
             value={title}
@@ -144,12 +145,10 @@ function TextEditor() {
             className="text-lg font-bold p-3 rounded-sm mb-3 mr-5 w-11/12"
         />
         <SharePadDialog open={dialogOpen} onClose={handleClose}/>
-        {canUserWrite() ?
-            <a role="button" title="Editar" onClick={handleEditClick}><FontAwesomeIcon icon={faPencilAlt}/></a> : ''}
+        <a role="button" title="Editar" onClick={handleEditClick}><FontAwesomeIcon icon={faPencilAlt}/></a>
         <Editor
             apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
             initialValue={initialContent}
-            disabled={!canUserWrite()}
             init={{
                 height: '700',
                 menubar: false,

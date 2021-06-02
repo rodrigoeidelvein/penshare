@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('revision', {
+    await queryInterface.createTable("revision", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,25 +11,27 @@ module.exports = {
       changeset: {
         type: Sequelize.STRING
       },
-      id_author: {
+      id_user: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'user',
-          key: 'id'
-        }
+          model: "user",
+          key: "id"
+        },
+        onDelete: "CASCADE"
       },
       id_branch: {
         type: Sequelize.STRING,
         references: {
-          model: 'branch',
-          key: 'id'
-        }
+          model: "branch",
+          key: "id"
+        },
+        onDelete: "CASCADE"
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }

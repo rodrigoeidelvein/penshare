@@ -11,7 +11,9 @@ module.exports = async (req, res, next) => {
             audience: process.env.GOOGLE_LOGIN_CLIENT_ID
         });
 
-        const user = await db.User.findByPk(userData.getPayload().sub)
+        const user = await db.user.findOne({
+            where: { idGoogle: userData.getPayload().sub}
+        });
 
         if (user) {
             req.user = user.dataValues;

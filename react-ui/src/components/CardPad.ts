@@ -6,10 +6,10 @@ export interface Pad {
     content?: string,
     rawContent?: string,
     title?: string,
-    updatedAt: string,
-    createdAt: string,
+    updated_at: string,
+    created_at: string,
     userId: string,
-    author: User
+    user: User,
     type: PadType,
     likesCount: number,
     liked: boolean

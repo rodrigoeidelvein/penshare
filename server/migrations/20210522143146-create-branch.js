@@ -7,31 +7,36 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.STRING
       },
+      title: {
+        type: Sequelize.TEXT,
+      },
       content: {
         type: Sequelize.TEXT
       },
       raw_content: {
         type: Sequelize.TEXT
       },
-      pad_id: {
+      id_pad: {
         type: Sequelize.STRING,
         references: {
           model: 'pad',
           key: 'id'
-        }
+        },
+        onDelete: "CASCADE"
       },
-      user_id: {
+      id_user: {
         type: Sequelize.INTEGER,
         references: {
           model: 'user',
           key: 'id'
-        }
+        },
+        onDelete: "CASCADE"
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }
