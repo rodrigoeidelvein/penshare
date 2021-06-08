@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      PadSuggestion.belongsTo(models.user, {  foreignKey: ""})
+      PadSuggestion.belongsTo(models.user, {  foreignKey: "idContributor"})
+      PadSuggestion.belongsTo(models.pad, { foreignKey: "idPad" });
     }
   };
   PadSuggestion.init({
@@ -21,11 +22,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     content: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+      allowNull: false
     },
     rawContent: {
       type: DataTypes.TEXT,
-      field: "raw_content"
+      field: "raw_content",
+      allowNull: false
     },
     changeSet: {
       type: DataTypes.TEXT,
@@ -33,15 +36,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     idPad: {
       type: DataTypes.STRING,
-      field: "id_pad"
+      field: "id_pad",
+      allowNull: false
     },
     idContributor: {
       type: DataTypes.INTEGER,
-      field: "id_contributor"
+      field: "id_contributor",
+      allowNull: false
     },
     status: {
       type: DataTypes.ENUM("APPROVED", "REFUSED", "PENDING"),
-      default: "PENDING"
+      defaultValue: "PENDING"
     },
     approved_at: {
       type: DataTypes.DATE

@@ -28,7 +28,7 @@ exports.update = async (pad, idPad) => {
 /**
  * Retorna os pads do usuário, junto com o número de likes dos pads.
  * @param idUser
- * @returns {Promise<*>}
+ * @returns {Promise<Pad>}
  */
 exports.findAllByUser = async (idUser) => {
     return Pad.findAll({

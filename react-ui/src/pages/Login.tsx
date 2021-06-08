@@ -26,6 +26,7 @@ const LoginPage: React.FC = () => {
     };
 
     const failureGoogleLoginResponse = (response: GoogleLoginProps) => {
+        console.log(response)
         console.log('fail login')
     };
 

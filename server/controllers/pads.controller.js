@@ -45,17 +45,17 @@ exports.getPadsByUserId = async (req, res) => {
 
 exports.getPad = async (req, res) => {
     const {id: idPad} = req.params;
+    const {user} = req;
     const pad = await PadService.findById(idPad);
 
-    const {authorizations} = req.user;
+    const isOwner = pad.idUser === user.id
 
-    res.status(200).send({pad, authorizations});
+    res.status(200).send({pad, isOwner});
 }
 
 exports.updatePad = async (req, res) => {
     try {
         const idPad = req.body.id;
-        console.log(req.body);
         await PadService.update(req.body, idPad);
 
         res.status(200).send({message: "ok"});

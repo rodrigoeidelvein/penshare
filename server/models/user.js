@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
             // User.hasMany(models.PadAuthorization, {foreignKey: "userId"});
             User.hasMany(models.like_pad, {foreignKey: "idUser"});
             User.hasMany(models.pad_suggestion, { foreignKey: "idContributor"});
-            User.hasMany(models.pad_suggestion, { foreignKey: "idOwner"});
         }
     };
     User.init({

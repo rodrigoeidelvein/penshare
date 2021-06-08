@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("pad_suggestions", {
+    await queryInterface.createTable("pad_suggestion", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,15 +10,18 @@ module.exports = {
       },
       content: {
         type: Sequelize.TEXT,
+        allowNull: false
       },
       raw_content: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: false
       },
       change_set: {
         type: Sequelize.TEXT
       },
       id_pad: {
         type: Sequelize.STRING,
+        allowNull: false,
         references: {
           model: "pad",
           key: "id"
@@ -26,13 +29,7 @@ module.exports = {
       },
       id_contributor: {
         type: Sequelize.INTEGER,
-        references: {
-          model: "user",
-          key: "id"
-        }
-      },
-      id_owner: {
-        type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: "user",
           key: "id"
@@ -66,6 +63,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("pad_suggestions");
+    await queryInterface.dropTable("pad_suggestion");
   }
 };
