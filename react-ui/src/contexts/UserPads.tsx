@@ -1,5 +1,5 @@
 import {createContext, useEffect, useState} from "react";
-import {Pad} from "../components/CardPad";
+import {Pad} from "../interfaces";
 
 interface UserPadsContextData {
     pads: Pad[],

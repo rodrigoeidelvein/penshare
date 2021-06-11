@@ -5,3 +5,15 @@
 .app-name {
   font-family: "Pacifico", serif;
 }
+
+html, body {
+  min-height: 100%;
+  height: auto;
+  padding: 0;
+  margin: 0;
+}
+
+#root {
+  min-height: 100%;
+  height: auto;
+}

@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       branch.belongsTo(models.user, { foreignKey: 'idUser', onDelete: "CASCADE" });
       branch.hasMany(models.revision, { foreignKey: 'idBranch', onDelete: "CASCADE" })
     }
-  };
+  }
   branch.init({
     content: {
       type: DataTypes.TEXT,

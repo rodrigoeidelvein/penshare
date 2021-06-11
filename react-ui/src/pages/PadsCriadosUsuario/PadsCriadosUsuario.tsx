@@ -3,13 +3,11 @@ import Button from "../../components/Button";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {useContext, useState} from "react";
 import AuthContext from "../../contexts/auth";
-import {Pad} from "../../components/CardPad";
+import {Pad} from "../../interfaces";
 import {useHistory} from "react-router-dom";
 import UserPadsContext, {UserPadsProvider} from "../../contexts/UserPads";
 import {Modal} from "@material-ui/core";
 import SharePadDialog from "../../components/SharePadDialog/SharePadDialog";
-
-
 
 const PadsCriadosUsuario: React.FC = () => {
     const history = useHistory();

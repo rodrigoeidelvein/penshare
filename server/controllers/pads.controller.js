@@ -30,7 +30,7 @@ exports.getPadsByUserId = async (req, res) => {
         const padsByUser = await PadService.findAllByUser(user.id);
 
         for (const pad of padsByUser) {
-            const isLiked = pad.like_pads.some(x => x.userId === user.id);
+            const isLiked = pad.like_pads.some(x => x.idUser === user.id);
 
             pad.setDataValue("liked", isLiked)
         }
@@ -72,10 +72,10 @@ exports.deletePad = async (req, res) => {
     try {
         await PadService.delete(idPad, idUser);
 
-        res.status(200).send({message: 'Pad excluído com sucesso.'})
+        res.status(200).send({message: 'Pad excluído com sucesso.'});
     } catch (e) {
         console.log(e);
-        res.status(500).send({message: 'Erro ao excluir pad.'})
+        res.status(500).send({message: 'Erro ao excluir pad.'});
     }
 }
 
@@ -86,7 +86,7 @@ exports.mostPopularPads = async (req, res) => {
         const popularPads = await PadService.findMostPopular();
 
         for (const pad of popularPads) {
-            const isLiked = pad.like_pads.some(x => x.userId === user.id);
+            const isLiked = pad.like_pads.some(x => x.idUser === user.id);
 
             pad.setDataValue('liked', isLiked)
         }

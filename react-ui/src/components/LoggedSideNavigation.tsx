@@ -1,11 +1,11 @@
 import React, {useContext} from "react";
 import AuthContext from "../contexts/auth";
 import {GoogleLogout} from "react-google-login";
-import {faFolderOpen, faFolderPlus, faHome, faPlus, faSignOutAlt, faBell} from "@fortawesome/free-solid-svg-icons";
+import {faBell, faFolderOpen, faFolderPlus, faHome, faPlus, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {NavLink, useHistory} from 'react-router-dom';
-import Button from "./Button";
-import {Pad} from "./CardPad";
+import {Pad} from "../interfaces";
+import {Badge} from "@material-ui/core";
 
 interface PadResponse {
     pad: Pad
@@ -33,7 +33,7 @@ const LoggedSideNavigation: React.FC = () => {
         }
     }
 
-    const {user, logOut} = useContext(AuthContext);
+    const {user, logOut, suggestionsPending} = useContext(AuthContext);
 
     return (
         <div className="relative h-screen flex flex-col w-64 bg-gray-900 h-full shadow-lg">
@@ -100,7 +100,9 @@ const LoggedSideNavigation: React.FC = () => {
                                  activeClassName="text-gray-200 bg-gray-700 border-blue-500"
                                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-blue-500 pr-6">
                                <span className="inline-flex justify-center items-center ml-4">
-                                   <FontAwesomeIcon icon={faBell}/>
+                                   <Badge badgeContent={suggestionsPending} color="primary">
+                                    <FontAwesomeIcon icon={faBell}/>
+                                   </Badge>
                                 </span>
                             <span className="ml-2 font-semibold text-sm tracking-wide truncate font-sans">Sugestões recebidas</span>
                         </NavLink>

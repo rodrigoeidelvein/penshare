@@ -1,4 +1,4 @@
-import {Pad} from "../components/CardPad";
+import {Pad} from "../interfaces";
 import {createContext, useEffect, useState} from "react";
 
 interface PopularPadsContextData {

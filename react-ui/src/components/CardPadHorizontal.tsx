@@ -1,4 +1,4 @@
-import {CardPadProps} from "./CardPad";
+import {CardPadProps} from "../interfaces";
 import {useHistory} from "react-router-dom";
 import Dropdown from "./Dropdown/Dropdown";
 import {faLock, faLockOpen} from "@fortawesome/free-solid-svg-icons";
@@ -6,19 +6,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {PadType} from "../enums";
 import LikeButton from "./LikeButton";
 import {MouseEvent} from "react";
+import { formatDate } from "../utils";
 
 const CardPadHorizontal: React.FC<CardPadProps> = ({pad, author, showOptions}) => {
     const history = useHistory();
-    const months: string[] = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
-
-    const formatDay = (day: number) => {
-        return day < 10 ? `0${day}` : day;
-    }
-
-    const formatDate = (date: string) => {
-        const dateObject: Date = new Date(date);
-        return `${formatDay(dateObject.getDate())} de ${months[dateObject.getMonth()]} de ${dateObject.getFullYear()}`
-    }
 
     const navigateToEditor = (event: MouseEvent<HTMLDivElement>) => {
         history.push(`/p/${pad.id}`);
@@ -53,7 +44,7 @@ const CardPadHorizontal: React.FC<CardPadProps> = ({pad, author, showOptions}) =
                 {shouldRenderOptions()}
                 <div className="absolute right-4 bottom-4 text-base">
                     {renderPadType()}
-                    <LikeButton likes={pad.likesCount} liked={pad.liked ? pad.liked : false} padId={pad.id} />
+                    <LikeButton likes={pad.likesCount} liked={pad.liked} padId={pad.id} />
                 </div>
                 <p className="text-grey-darker text-sm break-words">{pad.rawContent && pad.rawContent.substring(0, 50)}</p>
             </div>

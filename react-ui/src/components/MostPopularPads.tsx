@@ -1,5 +1,5 @@
 import PopularPadsContext, {PopularPadsProvider} from "../contexts/PopularPads";
-import {Pad} from "./CardPad";
+import {Pad} from "../interfaces";
 import CardPadHorizontal from "./CardPadHorizontal";
 
 const MostPopularPads: React.FC = () => {
