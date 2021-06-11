@@ -5,10 +5,9 @@ module.exports = app => {
     const padController = require('../controllers/pads.controller');
     const router = require('express').Router();
 
-
     router.get('/user/', googleAuth, padController.getPadsByUserId);
     router.get('/popular/', googleAuth, padController.mostPopularPads);
-    router.get('/:id/', googleAuth, hasAuthorization.toRead, padController.getPad);
+    router.get('/:id/', googleAuth, padController.getPad);
     router.put('/', googleAuth, padController.updatePad);
     router.post('/', googleAuth, padController.createPad);
     router.delete('/:id', googleAuth, padController.deletePad);

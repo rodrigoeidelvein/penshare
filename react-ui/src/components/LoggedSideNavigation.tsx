@@ -1,17 +1,37 @@
 import React, {useContext} from "react";
 import AuthContext from "../contexts/auth";
 import {GoogleLogout} from "react-google-login";
-import {faFolderOpen, faFolderPlus, faHome, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
+import {faFolderOpen, faFolderPlus, faHome, faPlus, faSignOutAlt, faBell} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {NavLink} from 'react-router-dom';
+import {NavLink, useHistory} from 'react-router-dom';
+import Button from "./Button";
+import {Pad} from "./CardPad";
+
+interface PadResponse {
+    pad: Pad
+}
 
 const LoggedSideNavigation: React.FC = () => {
+    const history = useHistory();
 
     const clientId = process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID as string;
 
     const successGoogleLogoutResponse = () => {
         logOut();
     };
+
+    const createPad = async () => {
+        const res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}api/pad/`, {
+            method: "POST",
+            credentials: "include"
+        });
+
+        if (res.ok) {
+            const createdPadData = await res.json() as PadResponse;
+            const newPad: Pad = createdPadData.pad;
+            history.push(`/p/${newPad.id}`);
+        }
+    }
 
     const {user, logOut} = useContext(AuthContext);
 
@@ -21,7 +41,7 @@ const LoggedSideNavigation: React.FC = () => {
                 <img src={user.photo} alt={`Avatar of ${user.fullName}`}
                      className="rounded-full h-10 w-10 flex items-center justify-center mr-3 border-2 border-blue-500"/>
                 <div className="ml-1">
-                    <p className="ml-1 text-md font-medium tracking-wide truncate text-gray-100 font-sans">{user.fullName}</p>
+                    <p className="ml-1 text-md font-medium tracking-wide break-words text-gray-100 font-sans">{user.fullName}</p>
                     <div className="badge">
                         <span
                             className="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-blue-800 bg-blue-100 rounded-full">Free</span>
@@ -30,6 +50,16 @@ const LoggedSideNavigation: React.FC = () => {
             </div>
             <div className="overflow-y-auto overflow-x-hidden flex-grow">
                 <ul className="flex flex-col py-6 space-y-1">
+                    <li>
+                        <a
+                            className="cursor-pointer relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-blue-500 pr-6"
+                            onClick={createPad}>
+                            <span className="inline-flex justify-center items-center ml-4">
+                                <FontAwesomeIcon icon={faPlus}/>
+                            </span>
+                            <span className="ml-2 font-semibold text-sm tracking-wide truncate font-sans">Criar documento</span>
+                        </a>
+                    </li>
                     <li className="px-5">
                         <div
                             className="flex font-semibold text-sm text-gray-300 my-4 font-sans uppercase">Dashboard
@@ -63,6 +93,16 @@ const LoggedSideNavigation: React.FC = () => {
                                    <FontAwesomeIcon icon={faFolderPlus}/>
                                 </span>
                             <span className="ml-2 font-semibold text-sm tracking-wide truncate font-sans">Compartilhados com você</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/sugestoes"
+                                 activeClassName="text-gray-200 bg-gray-700 border-blue-500"
+                                 className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-blue-500 pr-6">
+                               <span className="inline-flex justify-center items-center ml-4">
+                                   <FontAwesomeIcon icon={faBell}/>
+                                </span>
+                            <span className="ml-2 font-semibold text-sm tracking-wide truncate font-sans">Sugestões recebidas</span>
                         </NavLink>
                     </li>
                     <li className="px-5">

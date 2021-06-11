@@ -3,12 +3,12 @@ import {Editor} from "@tinymce/tinymce-react";
 import {useParams} from "react-router-dom";
 import debounce from "lodash.debounce";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPencilAlt, faShareSquare} from "@fortawesome/free-solid-svg-icons";
+import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
 import {Authorizations, Pad} from "../CardPad";
 import {Editor as TinyMCEEditor} from "tinymce";
 import './textEditor.css';
-import SharePadDialog from "../SharePadDialog";
 import {Button} from "@material-ui/core";
+import SuggestionCommentDialog from "../SuggestionCommentDialog";
 
 interface IParams {
     padId: string
@@ -16,7 +16,7 @@ interface IParams {
 
 interface PadResponse {
     pad: Pad,
-    authorizations: Authorizations
+    isOwner: boolean
 }
 
 const defaultAuthorization: Authorizations = {
@@ -37,6 +37,7 @@ function TextEditor() {
     const [pad, setPad] = useState({} as Pad);
     const [authorization, setAuthorization] = useState(defaultAuthorization as Authorizations);
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [isOwner, setIsOwner] = useState(true);
 
     useEffect(() => {
         async function getPadInfo() {
@@ -48,7 +49,7 @@ function TextEditor() {
 
                 const padInfo = await res.json() as PadResponse;
 
-                const {pad, authorizations} = padInfo;
+                const {pad, isOwner} = padInfo;
 
                 if (pad.content) {
                     setInitialContent(pad.content);
@@ -65,7 +66,7 @@ function TextEditor() {
                 }
 
                 setPad(pad);
-                setAuthorization(authorizations);
+                setIsOwner(isOwner);
             } catch (e) {
                 console.error('Erro ao buscar informações sobre o pad');
             }
@@ -91,6 +92,10 @@ function TextEditor() {
     }, 500), []);
 
     const handleEditorChange = (newContent: string, editor: TinyMCEEditor) => {
+        if (!isOwner) {
+            return;
+        }
+
         const newRawContent = editor.getContent({format: "text"});
         setContent(newContent);
         setRawcontent(newRawContent);
@@ -118,10 +123,6 @@ function TextEditor() {
         }
     }
 
-    const canUserWrite = (): boolean => {
-        return authorization.write;
-    }
-
     const handleClose = () => {
         setDialogOpen(false);
     }
@@ -132,8 +133,8 @@ function TextEditor() {
 
     return (<div className="w-full p-10">
         <div>
-            <Button className="float-right" variant="contained" color="primary" startIcon={<FontAwesomeIcon icon={faShareSquare}/>}
-                    onClick={handleOpen}>Compartilhar</Button>
+            {!isOwner ?
+                <Button onClick={handleOpen} className="float-right" variant="contained" color="primary">Enviar sugestão</Button> : ""}
         </div>
         <input
             value={title}
@@ -143,15 +144,15 @@ function TextEditor() {
             disabled={!editModeEnabled}
             className="text-lg font-bold p-3 rounded-sm mb-3 mr-5 w-11/12"
         />
-        <SharePadDialog open={dialogOpen} onClose={handleClose}/>
-        {canUserWrite() ?
-            <a role="button" title="Editar" onClick={handleEditClick}><FontAwesomeIcon icon={faPencilAlt}/></a> : ''}
+        <SuggestionCommentDialog open={dialogOpen} onClose={handleClose}/>
+        <a role="button" title="Editar" onClick={handleEditClick}><FontAwesomeIcon icon={faPencilAlt}/></a>
         <Editor
             apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
             initialValue={initialContent}
-            disabled={!canUserWrite()}
             init={{
-                height: '700',
+                language: "pt_BR",
+                language_url: "/langs/pt_BR.js",
+                height: "700",
                 menubar: false,
                 plugins: [
                     'advlist autolink lists link image charmap print preview anchor',

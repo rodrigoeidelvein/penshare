@@ -3,42 +3,39 @@ const {
     Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    class Like extends Model {
+    class LikePad extends Model {
         /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            Like.belongsTo(models.User, {foreignKey: "userId", onDelete: "cascade"});
-            Like.belongsTo(models.Pad, {foreignKey: "padId", onDelete: "cascade"});
+            LikePad.belongsTo(models.user, {foreignKey: "idUser", onDelete: "cascade"});
+            LikePad.belongsTo(models.pad, {foreignKey: "idPad", onDelete: "cascade"});
         }
     };
-    Like.init({
-        id: {
+    LikePad.init({
+        idUser: {
             primaryKey: true,
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4
-        },
-        padId: {
             type: DataTypes.STRING,
+            field: "id_user",
             references: {
-                model: "Pads",
+                model: "user",
                 key: "id",
-                as: "padId"
             }
         },
-        userId: {
+        idPad: {
             type: DataTypes.STRING,
+            field: "id_pad",
             references: {
-                model: "Users",
+                model: "pad",
                 key: "id",
-                as: "userId"
             }
         },
     }, {
         sequelize,
-        modelName: 'Like',
+        freezeTableName: true,
+        modelName: 'like_pad',
     });
-    return Like;
+    return LikePad;
 };

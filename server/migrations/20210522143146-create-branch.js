@@ -1,43 +1,48 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Pads', {
+    await queryInterface.createTable('branch', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.STRING
       },
+      title: {
+        type: Sequelize.TEXT,
+      },
       content: {
         type: Sequelize.TEXT
       },
-      rawContent: {
+      raw_content: {
         type: Sequelize.TEXT
       },
-      title: {
-        type: Sequelize.STRING
-      },
-      type: {
-        type: Sequelize.STRING
-      },
-      userId: {
+      id_pad: {
         type: Sequelize.STRING,
         references: {
-          model: "Users",
-          key: "id",
-          as: "userId"
-        }
+          model: 'pad',
+          key: 'id'
+        },
+        onDelete: "CASCADE"
       },
-      createdAt: {
+      id_user: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'user',
+          key: 'id'
+        },
+        onDelete: "CASCADE"
+      },
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Pads');
+    await queryInterface.dropTable('branch');
   }
 };
