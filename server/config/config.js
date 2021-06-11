@@ -16,6 +16,7 @@ module.exports = {
     "test": {
         "use_env_variable": process.env.DATABASE_URL,
         "dialect": "postgres",
+        "url": process.env.DATABASE_URL,
         "dialectOptions": {
             ssl: {
                 require: true,
@@ -24,7 +25,14 @@ module.exports = {
         }
     },
     "production": {
+        "use_env_variable": process.env.DATABASE_URL,
+        "dialect": "postgres",
         "url": process.env.DATABASE_URL,
-        "dialect": "postgres"
+        "dialectOptions": {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }
+        }
     }
 }
