@@ -22,6 +22,13 @@ module.exports = {
                 require: true,
                 rejectUnauthorized: false
             }
+        },
+        define: {
+            underscored: true,
+            underscoredAll: true,
+            createdAt: 'created_at',
+            updatedAt: 'updated_at',
+            freezeTableName: true
         }
     },
     "production": {
@@ -33,6 +40,13 @@ module.exports = {
                 require: true,
                 rejectUnauthorized: false
             }
+        },
+        define: {
+            underscored: true,
+            underscoredAll: true,
+            createdAt: 'created_at',
+            updatedAt: 'updated_at',
+            freezeTableName: true
         }
     }
 }

@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
             field: "id_outlook"
         },
-        email: {
+        email: {''
             type: DataTypes.STRING,
             allowNull: false
         }
