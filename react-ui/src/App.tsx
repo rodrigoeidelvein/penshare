@@ -10,7 +10,7 @@ function App() {
     return (
         <Router>
             <AuthProvider>
-                <div>
+                <div className="h-full">
                     <Switch>
                         <Route path="/sobre">
                             Olá, nós somos alunos da FTEC do curso de Análise e Desenvolvimento

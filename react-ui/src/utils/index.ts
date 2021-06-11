@@ -26,3 +26,26 @@ export const arraysEquals = (a: [], b: []): boolean => {
 
     return true;
 }
+
+export const formatDay = (day: number) => {
+    return day < 10 ? `0${day}` : day;
+}
+
+export const formatDate = (date: string) => {
+    const months: string[] = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+    const dateObject: Date = new Date(date);
+    return `${formatDay(dateObject.getDate())} de ${months[dateObject.getMonth()]} de ${dateObject.getFullYear()}`
+}
+
+export const editorConfig = {
+    apiKey: process.env.REACT_APP_TINYMCE_API_KEY,
+    init: {
+        language: "pt_BR",
+        language_url: "/langs/pt_BR.js",
+        height: "700",
+        menubar: false,
+        toolbar: "undo redo | formatselect | bold italic underline backcolor | \
+                    alignleft aligncenter alignright alignjustify | \
+                    bullist numlist outdent indent | removeformat |",
+    }
+}

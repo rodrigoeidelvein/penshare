@@ -3,21 +3,13 @@ import {cookieExists, deleteCookie, setCookie} from "../utils";
 import {GoogleLoginResponse, GoogleLoginResponseOffline} from "react-google-login";
 import {useHistory} from 'react-router-dom';
 import useSWR, {mutate} from "swr";
-
-export interface User {
-    firstName: string;
-    fullName: string
-    email: string;
-    id: string;
-    photo: string;
-    createdAt: string,
-    updatedAt: string,
-}
+import { User } from "../interfaces";
 
 interface AuthContextData {
     isSigned: boolean;
     user: User;
     error: any;
+    suggestionsPending: number,
 
     logIn(googleData: GoogleLoginResponse | GoogleLoginResponseOffline): Promise<void>;
 
@@ -26,26 +18,33 @@ interface AuthContextData {
 
 const AuthContext = createContext<AuthContextData>(({} as AuthContextData));
 
-const fetcher = async (url: string) => {
-    const res: Response = await fetch(url, {
-        credentials: "include"
-    })
-
-    if (!res.ok) {
-        const error: any = new Error(res.statusText);
-        error.info = await res.json();
-        error.status = res.status;
-        throw error;
-    }
-
-    return await res.json();
-}
-
 export const AuthProvider: React.FC = ({children}) => {
     let history = useHistory();
     const [user, setUser] = useState({} as User);
 
+    const fetcher = async (url: string) => {
+        const res: Response = await fetch(url, {
+            credentials: "include"
+        })
+
+        if (res.status === 401) {
+            deleteCookie('token');
+            window.location.reload();
+        }
+
+        if (!res.ok) {
+            const error: any = new Error(res.statusText);
+            error.info = await res.json();
+            error.status = res.status;
+            throw error;
+        }
+
+        return await res.json();
+    }
+
     const {data, error} = useSWR(cookieExists('token') ? `${process.env.REACT_APP_API_ENDPOINT}api/auth/me` : null, fetcher)
+
+    const {data: suggestionsPending, error: suggestionsError} = useSWR(data ? `${process.env.REACT_APP_API_ENDPOINT}api/suggestion?user=${data.id}&status=PENDING` : null, fetcher)
 
     async function logIn(googleData: GoogleLoginResponse | GoogleLoginResponseOffline) {
         if (!("googleId" in googleData)) {
@@ -82,8 +81,10 @@ export const AuthProvider: React.FC = ({children}) => {
         })
     }
 
+    const suggestionsPendingLength = suggestionsPending ? suggestionsPending.length : 0;
+
     return (
-        <AuthContext.Provider value={{isSigned: !!data, error, user: data, logIn, logOut}}>
+        <AuthContext.Provider value={{isSigned: !!data, error, user: data, logIn, logOut, suggestionsPending: suggestionsPendingLength}}>
             {children}
         </AuthContext.Provider>
     )

@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
             MemberPad.belongsTo(models.pad, { foreignKey: "idPad" });
             MemberPad.belongsTo(models.user, { foreignKey: "idUser"});
         }
-    };
+    }
     MemberPad.init({
         id: {
             primaryKey: true,

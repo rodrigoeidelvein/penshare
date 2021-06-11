@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
             LikePad.belongsTo(models.user, {foreignKey: "idUser", onDelete: "cascade"});
             LikePad.belongsTo(models.pad, {foreignKey: "idPad", onDelete: "cascade"});
         }
-    };
+    }
     LikePad.init({
         idUser: {
             primaryKey: true,

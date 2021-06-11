@@ -36,10 +36,10 @@ module.exports = {
         }
       },
       status: {
-        type: Sequelize.ENUM("APPROVED", "REFUSED", "PENDING"),
+        type: Sequelize.ENUM("APPROVED", "REJECTED", "PENDING"),
         default: false
       },
-      approved_at: {
+      reviewed_at: {
         type: Sequelize.DATE
       },
       read: {

@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       PadSuggestion.belongsTo(models.user, {  foreignKey: "idContributor"})
       PadSuggestion.belongsTo(models.pad, { foreignKey: "idPad" });
     }
-  };
+  }
   PadSuggestion.init({
     id: {
       primaryKey: true,
@@ -45,10 +45,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     status: {
-      type: DataTypes.ENUM("APPROVED", "REFUSED", "PENDING"),
+      type: DataTypes.ENUM("APPROVED", "REJECTED", "PENDING"),
       defaultValue: "PENDING"
     },
-    approved_at: {
+    reviewed_at: {
       type: DataTypes.DATE
     },
     read: {

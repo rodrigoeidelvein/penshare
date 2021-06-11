@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
 
         }
-    };
+    }
     PadRole.init({
         id: {
             primaryKey: true,
