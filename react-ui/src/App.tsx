@@ -1,8 +1,8 @@
 import "tailwindcss/tailwind.css";
-import Home from "./pages/Home";
+import Home from "./pages/HomePage";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import LoginPage from "./pages/Login";
-import AuthContext, {AuthProvider} from './contexts/auth';
+import AuthContext, {AuthProvider} from "./contexts/auth";
 import LoggedHomePage from "./pages/LoggedHomePage";
 
 function App() {
