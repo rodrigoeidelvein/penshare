@@ -1,4 +1,5 @@
 const CategoryService = require("../services/CategoryService");
+const CategoryPadService = require("../services/CategoryPadService");
 
 exports.create = async (req, res) => {
     try {
@@ -31,9 +32,27 @@ exports.findById = async (req, res) => {
     }
 }
 
+exports.findAll = async (req, res) => {
+    try {
+        res.status(200).json(await CategoryService.findAll());
+    } catch (e) {
+        console.error("Erro ao encontrar categoria", e);
+        res.status(500).json({message: "Erro ao encontrar categoria"});
+    }
+}
+
 exports.findByName = async (req, res) => {
     try {
         res.status(200).json(await CategoryService.findByName(req.query.name));
+    } catch (e) {
+        console.error("Erro ao encontrar categoria", e);
+        res.status(500).json({message: "Erro ao encontrar categoria"});
+    }
+}
+
+exports.findPadsByCategoryId = async (req, res) => {
+    try {
+        res.status(200).json(await CategoryPadService.findPadsByCategoryId(req.query.id));
     } catch (e) {
         console.error("Erro ao encontrar categoria", e);
         res.status(500).json({message: "Erro ao encontrar categoria"});

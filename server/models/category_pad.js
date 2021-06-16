@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         idPad: {
             allowNull: false,
             type: DataTypes.STRING,
+            field: "id_pad",
             references: {
                 model: "pad",
                 key: "id"
@@ -24,15 +25,17 @@ module.exports = (sequelize, DataTypes) => {
         },
         idCategory: {
             allowNull: false,
+            field: "id_category",
             type: DataTypes.INTEGER,
             references: {
-                model: "pad",
+                model: "category",
                 key: "id"
             }
         }
     }, {
         sequelize,
         modelName: 'category_pad',
+        timestamps: false
     });
     return category_pad;
 };

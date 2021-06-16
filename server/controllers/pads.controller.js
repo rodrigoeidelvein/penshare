@@ -1,6 +1,7 @@
 const db = require("../models")
-const PadService = require("../services/PadService")
-const BranchService = require("../services/BranchService")
+const PadService = require("../services/PadService");
+const BranchService = require("../services/BranchService");
+const CategoryPadService = require("../services/CategoryPadService");
 
 const {
     revision: Revision,
@@ -119,5 +120,41 @@ exports.getAuthorizationsForPad = async (req, res) => {
         res.status(200).send(authorizedUsers)
     } catch (e) {
         console.error("Erro ao buscar autorizações para o documento.");
+    }
+}
+
+exports.getCategories = async (req, res) => {
+    try {
+        res.json(await CategoryPadService.findByPadId(req.params.id));
+    } catch (e) {
+        console.error("Erro ao buscar categorias do documento.", e);
+        res.status(500).send({message: "Erro ao buscar categories do documento."});
+    }
+}
+
+exports.getPadsByCategory = async (req, res) => {
+    try {
+        res.json(await CategoryPadService.findByPadId(req.params.id));
+    } catch (e) {
+        console.error("Erro ao buscar documentos por categoria.", e);
+        res.status(500).send({message: "Erro ao buscar documentos por categoria."});
+    }
+}
+
+exports.addCategory = async (req, res) => {
+    try {
+        res.json(await CategoryPadService.addCategoryToPad(req.params.id, req.params.idCategory));
+    } catch (e) {
+        console.error("Erro ao buscar documentos por categoria.", e);
+        res.status(500).send({message: "Erro ao buscar documentos por categoria."});
+    }
+}
+
+exports.deleteCategory = async (req, res) => {
+    try {
+        res.json(await CategoryPadService.removeCategoryFromPad(req.params.id, req.params.idCategory));
+    } catch (e) {
+        console.error("Erro ao excluir categoria do documento.", e);
+        res.status(500).send({message: "Erro ao excluir categoria do documento."});
     }
 }

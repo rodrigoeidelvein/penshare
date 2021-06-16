@@ -8,6 +8,10 @@ exports.findById = async (id) => {
     return Category.findByPk(id);
 }
 
+exports.findAll = async () => {
+    return Category.findAll();
+}
+
 exports.findByName = async (name) => {
     const conditions = name ? { where: { name }} : {};
 

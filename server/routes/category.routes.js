@@ -7,7 +7,9 @@ module.exports = app => {
     router.post("/", googleAuth, categoryController.create);
     router.put("/:id", googleAuth, categoryController.update);
     router.get("/:id", categoryController.findById);
-    router.get("/", categoryController.findByName);
+    router.get("/", categoryController.findAll);
+    router.get("/name", categoryController.findByName);
+    router.get("/:id/pads", categoryController.findPadsByCategoryId);
 
     app.use("/api/category", router);
 }
