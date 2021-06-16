@@ -13,16 +13,6 @@ const PadsCriadosUsuario: React.FC = () => {
     const {user} = useContext(AuthContext);
     const [search, setSearch] = useState("");
 
-    const renderStartAdornment = () => {
-        return (<InputAdornment position="start"><FontAwesomeIcon
-            icon={faSearch}/></InputAdornment>)
-    }
-
-    const renderEndAdornment = () => {
-        return (<InputAdornment position="start"><FontAwesomeIcon
-            icon={faSearch}/></InputAdornment>)
-    }
-
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value);
     }
