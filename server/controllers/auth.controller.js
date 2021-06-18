@@ -30,9 +30,13 @@ exports.login = async (req, res) => {
 
     console.log(user)
 
-    const [userInstance] = await User.upsert(user);
+    const userInstance = await User.findOne({ where: { idGoogle: sub }});
 
-    return res.status(201).send(userInstance);
+    if (userInstance) {
+        res.status(201).send(userInstance);
+    } else {
+        res.status(200).send(await User.create(user));
+    }
 }
 
 exports.logout = async (req, res) => {
