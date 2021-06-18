@@ -23,15 +23,17 @@ exports.updateStatus = async (idSuggestion, status) => {
 }
 
 exports.findByStatus = async (idUser, status) => {
-    return PadSuggestion.findAll({
-        where: {status},
+    const options = {
+        ...(status && {where: {status}}),
         include: [{
             model: Pad,
             where: {idUser}
         }, {
             model: User
         }]
-    });
+    }
+
+    return PadSuggestion.findAll(options);
 }
 
 exports.delete = async (idUser, idSuggestion) => {

@@ -38,7 +38,8 @@ exports.getByPadOwner = async (req, res) => {
 
 exports.getSuggestionsByStatus = async (req, res) => {
     try {
-        res.status(200).send(await SuggestionService.findByStatus(req.query.user, req.query.status))
+        const status = req.query.status ? req.query.status : "";
+        res.status(200).send(await SuggestionService.findByStatus(req.query.user, status))
     } catch (e) {
         console.error("Erro ao buscar sugestões do usuário", e);
         res.status(500).send({message: "Erro ao buscar sugestões do usuário"});
@@ -49,7 +50,7 @@ exports.acceptSuggestion = async (req, res) => {
     try {
         res.json(await SuggestionService.updateStatus(req.params.id, "APPROVED", new Date()));
     } catch (e) {
-        console.error("Erro ao aceitar sugestão");
+        console.error("Erro ao aceitar sugestão", e);
         res.status(500).json({message: "Erro ao aceitar sugestão"});
     }
 }
@@ -60,7 +61,7 @@ exports.rejectSuggestion = async (req, res) => {
     try {
         res.json(await SuggestionService.updateStatus(id, "REJECTED"));
     } catch (e) {
-        console.error("Erro ao rejeitar sugestão");
+        console.error("Erro ao rejeitar sugestão", e);
         res.status(500).json({message: "Erro ao rejeitar sugestão"});
     }
 }
