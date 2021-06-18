@@ -2,17 +2,22 @@ const googleAuth = require('../middleware/googleAuth');
 const hasAuthorization = require('../middleware/hasAuthorization');
 
 module.exports = app => {
-    const padController = require('../controllers/pads.controller');
-    const router = require('express').Router();
+    const padController = require("../controllers/pads.controller");
+    const router = require("express").Router();
 
-    router.get('/user/', googleAuth, padController.getPadsByUserId);
-    router.get('/popular/', googleAuth, padController.mostPopularPads);
-    router.get('/:id/', googleAuth, padController.getPad);
-    router.put('/', googleAuth, padController.updatePad);
-    router.post('/', googleAuth, padController.createPad);
-    router.delete('/:id', googleAuth, padController.deletePad);
+    router.get("/user/", googleAuth, padController.getPadsByUserId);
+    router.get("/popular/", googleAuth, padController.mostPopularPads);
+    router.get("/:id/", googleAuth, padController.getPad);
+    router.get("/authorization/:id/", googleAuth, padController.getAuthorizationsForPad);
+    router.get("/:id/categories/", padController.getCategories);
 
-    router.get('/authorization/:id', googleAuth, padController.getAuthorizationsForPad);
+    router.put("/", googleAuth, padController.updatePad);
 
-    app.use('/api/pad/', router);
+    router.post("/", googleAuth, padController.createPad);
+    router.put("/:id/categories/:idCategory", googleAuth, padController.addCategory);
+
+    router.delete("/:id/categories/:idCategory", googleAuth, padController.deleteCategory)
+    router.delete("/:id", googleAuth, padController.deletePad);
+
+    app.use("/api/pad/", router);
 }
