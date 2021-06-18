@@ -268,7 +268,36 @@ describe("Suggestion endpoints", () => {
         expect(res.statusCode).toBe(200);
         expect(res.body.message).toBe("Sugestão excluída com sucesso");
     });
-})
+});
+
+describe("Authentication endpoints", () => {
+    it("should make a successful login", async () => {
+        const res = await request(app)
+            .post("/api/auth")
+            .send({
+                token
+            });
+
+        expect(res.statusCode).toBe(201);
+    });
+
+    it("should get the user information", async () => {
+        const res = await request(app)
+            .get("/api/auth/me")
+            .set("Cookie", cookie);
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                idGoogle: expect.any(String),
+                firstName: expect.any(String),
+                fullName: expect.any(String),
+                email: expect.any(String),
+                photo: expect.any(String)
+            })
+        );
+    });
+});
 
 afterAll(() => {
     models.sequelize.close();
