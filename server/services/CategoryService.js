@@ -19,5 +19,7 @@ exports.findByName = async (name) => {
 }
 
 exports.update = async (category, idCategory) => {
-    return Category.update(category, { where: { id: idCategory } });
+    await Category.update(category, { where: { id: idCategory } });
+
+    return await Category.findByPk(idCategory);
 }

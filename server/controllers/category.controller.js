@@ -3,9 +3,7 @@ const CategoryPadService = require("../services/CategoryPadService");
 
 exports.create = async (req, res) => {
     try {
-        const createdCategory = await CategoryService.create(req.body);
-
-        res.status(201).json({ category: createdCategory });
+        res.status(201).json(await CategoryService.create(req.body));
     } catch (e) {
         console.error("Erro ao criar categoria", e);
         res.status(500).json({message: "Erro ao criar categoria"});
@@ -14,9 +12,7 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        await CategoryService.update(req.body, req.params.id);
-
-        res.status(200).json({ message: "ok" });
+        res.status(200).json(await CategoryService.update(req.body, req.params.id));
     } catch (e) {
         console.error("Erro ao atualizar categoria", e);
         res.status(500).json({message: "Erro ao atualizar categoria"});
@@ -52,7 +48,7 @@ exports.findByName = async (req, res) => {
 
 exports.findPadsByCategoryId = async (req, res) => {
     try {
-        res.status(200).json(await CategoryPadService.findPadsByCategoryId(req.query.id));
+        res.status(200).json(await CategoryPadService.findPadsByCategoryId(req.params.id));
     } catch (e) {
         console.error("Erro ao encontrar categoria", e);
         res.status(500).json({message: "Erro ao encontrar categoria"});

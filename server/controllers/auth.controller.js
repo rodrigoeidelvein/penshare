@@ -28,8 +28,6 @@ exports.login = async (req, res) => {
         photo: picture
     }
 
-    console.log(user)
-
     const userInstance = await User.findOne({ where: { idGoogle: sub }});
 
     if (userInstance) {

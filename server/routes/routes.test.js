@@ -1,8 +1,12 @@
 const request = require("supertest");
 const app = require("../index");
 const models = require("../models");
-const token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE5ZmUyYTdiNjc5NTIzOTYwNmNhMGE3NTA3OTRhN2JkOWZkOTU5NjEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNDcwOTc2NTY2Mzc1LXNvZzFwczA5MnZobWVpbmE2NWxpOGZpbWluMnIxN2poLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNDcwOTc2NTY2Mzc1LXNvZzFwczA5MnZobWVpbmE2NWxpOGZpbWluMnIxN2poLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTE0MTIzMDI5MzAwMjczMjkyNTk0IiwiZW1haWwiOiJyb2RyaWdvZWlkZWx2ZWluQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiLUo3QXZmRlJOZndwczNRVlFaNXFRZyIsIm5hbWUiOiJSb2RyaWdvIEZhemVuZGEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUFUWEFKd0VHUV9MSmlOeldPWXRScnlpaWM1V1NkeGEzMk5PNm5vdTVRV0I9czk2LWMiLCJnaXZlbl9uYW1lIjoiUm9kcmlnbyIsImZhbWlseV9uYW1lIjoiRmF6ZW5kYSIsImxvY2FsZSI6InB0LUJSIiwiaWF0IjoxNjI0MDI2OTYyLCJleHAiOjE2MjQwMzA1NjIsImp0aSI6IjdiYzQyYjEyM2FlYzk1Y2ZiYjBhYzI2ODY3MzQyODY2OTYyZGRkOTMifQ.RucYcpSHeq3y-nseb-Bad9OcBgTayOeK5hWhkH5sPgwRMzq8Wv4kcBkMAcMEuhpKO2CGmpWK7YOexdHjx0bhFeGfjmUIhKozj9qqarQ74otshFKBQTb52FMVI4Lr2H5mR0pf9F9JNdswbkISe1pZK_M9R_os5TRpa_fuo_sZUDCv1xZAzEbSETAZZAEt6ay91oyDEkkz5R9Jq1q1GA6jI6UTTO2c-YfbinfnCOYUzIWKgT9uBsqLL9Xvr_2JhO4-Cj18A3dd8xsLQV7ov4Tn08wBpwNEQmFD9EOOaQtESQY7eK8_50HK2z0_zPEaj728lmTlOqbY7QlmdiaWBxrBfA"
+const token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE5ZmUyYTdiNjc5NTIzOTYwNmNhMGE3NTA3OTRhN2JkOWZkOTU5NjEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNDcwOTc2NTY2Mzc1LXNvZzFwczA5MnZobWVpbmE2NWxpOGZpbWluMnIxN2poLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNDcwOTc2NTY2Mzc1LXNvZzFwczA5MnZobWVpbmE2NWxpOGZpbWluMnIxN2poLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTE0MTIzMDI5MzAwMjczMjkyNTk0IiwiZW1haWwiOiJyb2RyaWdvZWlkZWx2ZWluQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiQktOSS1IZUZ5MVFBR0Nna1owZ2VEZyIsIm5hbWUiOiJSb2RyaWdvIEZhemVuZGEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUFUWEFKd0VHUV9MSmlOeldPWXRScnlpaWM1V1NkeGEzMk5PNm5vdTVRV0I9czk2LWMiLCJnaXZlbl9uYW1lIjoiUm9kcmlnbyIsImZhbWlseV9uYW1lIjoiRmF6ZW5kYSIsImxvY2FsZSI6InB0LUJSIiwiaWF0IjoxNjI0MTEzOTI3LCJleHAiOjE2MjQxMTc1MjcsImp0aSI6IjU3ZjdhMTEzMzRkNmQzNmFjMTk1OTFmZGRlNmNkZmIyNTY3YzVmYTEifQ.wAuU2jbvUdGpmmqnNDVtDi2CAZJoH-uhjIefGz9FO_xHQQBG_uGiLFiRfBwnszlNhdMK9mXIASc2z85NI96V-Qz7oN6hxU4_TmjT_woiVkxMMEXfjGkqjLFv9SDMwfKBLwyAN8wIVuzCkx7GxlVf5uzDXEcmkmpIPiEtmZWCZUeqYCW-7x40_ADi8_dYt0vEFU6pd6bSzcpHP8coPVDc1lo-sRyuZkCQuNt9VUsHtXe64wArXar3s4UqvGSxZlGOqbM98fbSk__lSIDXp8zVjvXMmJIQmQ9OMY8HAleO-eeaJWgyLf-98Mfc6nqPKTMi3ROdpNcqLcsGzU6ooTnjAQ"
 const cookie = `G_AUTHUSER_H=0; token=${token}`;
+
+const CategoryService = require("../services/CategoryService");
+const PadService = require("../services/PadService");
+const CategoryPadService = require("../services/CategoryPadService");
 
 describe("Pad endpoints", () => {
     var idPad = "";
@@ -298,6 +302,97 @@ describe("Authentication endpoints", () => {
         );
     });
 });
+
+describe("Categories endpoints", () => {
+    it("should create a new category", async () => {
+        const res = await request(app)
+            .post("/api/category")
+            .send({
+                name: "Desenvolvimento"
+            })
+            .set("Cookie", cookie)
+
+        const expected = {
+            id: 1,
+            name: "Desenvolvimento"
+        }
+
+        expect(res.body).toMatchObject(expected);
+        expect(res.statusCode).toBe(201);
+    })
+
+    it("should find a category by ID", async () => {
+        const res = await request(app)
+            .get("/api/category/1")
+
+        const expected = {
+            id: 1,
+            name: "Desenvolvimento"
+        }
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toMatchObject(expected);
+    });
+
+    it("should update a category", async () => {
+        const res = await request(app)
+            .put("/api/category/1")
+            .send({
+                name: "Desenvolvimento 1"
+            })
+            .set("Cookie", cookie);
+
+        const expected = {
+            id: 1,
+            name: "Desenvolvimento 1"
+        }
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toMatchObject(expected);
+    });
+
+    it("should find all categories", async () => {
+        // create two more categories to have data to test
+        await CategoryService.create({ name: "Programação" });
+        await CategoryService.create({ name: "Comunicação" });
+
+        const res = await request(app)
+            .get("/api/category");
+
+        expect(res.statusCode).toBe(200);
+
+        // There was another category created in the previous tests
+        expect(res.body.length).toBe(3);
+    });
+
+    it("should find a category by name", async () => {
+        const res = await request(app)
+            .get("/api/category/?name=Desenvolvimento+1")
+
+        let expected = {
+            id: 1,
+            name: "Desenvolvimento 1"
+        }
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body.length).toBe(1);
+        expect(res.body[0]).toMatchObject(expected);
+    });
+
+    it("should get pads by category", async () => {
+        // Get all the created pads so far
+        const pads = await PadService.findAll();
+
+        await CategoryPadService.addCategoryToPad(pads[0].id, 1);
+        await CategoryPadService.addCategoryToPad(pads[1].id, 1);
+
+        const res = await request(app)
+            .get("/api/category/1/pads")
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body.length).toBe(2);
+    });
+})
 
 afterAll(() => {
     models.sequelize.close();
