@@ -1,7 +1,7 @@
 const request = require("supertest");
 const app = require("../index");
 const models = require("../models");
-const token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE5ZmUyYTdiNjc5NTIzOTYwNmNhMGE3NTA3OTRhN2JkOWZkOTU5NjEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNDcwOTc2NTY2Mzc1LXNvZzFwczA5MnZobWVpbmE2NWxpOGZpbWluMnIxN2poLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNDcwOTc2NTY2Mzc1LXNvZzFwczA5MnZobWVpbmE2NWxpOGZpbWluMnIxN2poLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTE0MTIzMDI5MzAwMjczMjkyNTk0IiwiZW1haWwiOiJyb2RyaWdvZWlkZWx2ZWluQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiQktOSS1IZUZ5MVFBR0Nna1owZ2VEZyIsIm5hbWUiOiJSb2RyaWdvIEZhemVuZGEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUFUWEFKd0VHUV9MSmlOeldPWXRScnlpaWM1V1NkeGEzMk5PNm5vdTVRV0I9czk2LWMiLCJnaXZlbl9uYW1lIjoiUm9kcmlnbyIsImZhbWlseV9uYW1lIjoiRmF6ZW5kYSIsImxvY2FsZSI6InB0LUJSIiwiaWF0IjoxNjI0MTEzOTI3LCJleHAiOjE2MjQxMTc1MjcsImp0aSI6IjU3ZjdhMTEzMzRkNmQzNmFjMTk1OTFmZGRlNmNkZmIyNTY3YzVmYTEifQ.wAuU2jbvUdGpmmqnNDVtDi2CAZJoH-uhjIefGz9FO_xHQQBG_uGiLFiRfBwnszlNhdMK9mXIASc2z85NI96V-Qz7oN6hxU4_TmjT_woiVkxMMEXfjGkqjLFv9SDMwfKBLwyAN8wIVuzCkx7GxlVf5uzDXEcmkmpIPiEtmZWCZUeqYCW-7x40_ADi8_dYt0vEFU6pd6bSzcpHP8coPVDc1lo-sRyuZkCQuNt9VUsHtXe64wArXar3s4UqvGSxZlGOqbM98fbSk__lSIDXp8zVjvXMmJIQmQ9OMY8HAleO-eeaJWgyLf-98Mfc6nqPKTMi3ROdpNcqLcsGzU6ooTnjAQ"
+const token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE5ZmUyYTdiNjc5NTIzOTYwNmNhMGE3NTA3OTRhN2JkOWZkOTU5NjEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNDcwOTc2NTY2Mzc1LXNvZzFwczA5MnZobWVpbmE2NWxpOGZpbWluMnIxN2poLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNDcwOTc2NTY2Mzc1LXNvZzFwczA5MnZobWVpbmE2NWxpOGZpbWluMnIxN2poLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTE0MTIzMDI5MzAwMjczMjkyNTk0IiwiZW1haWwiOiJyb2RyaWdvZWlkZWx2ZWluQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiVWtoSEhJMUd3Tm5KYWFGN0cxUDNqQSIsIm5hbWUiOiJSb2RyaWdvIEZhemVuZGEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUFUWEFKd0VHUV9MSmlOeldPWXRScnlpaWM1V1NkeGEzMk5PNm5vdTVRV0I9czk2LWMiLCJnaXZlbl9uYW1lIjoiUm9kcmlnbyIsImZhbWlseV9uYW1lIjoiRmF6ZW5kYSIsImxvY2FsZSI6InB0LUJSIiwiaWF0IjoxNjI0MTIxNDkzLCJleHAiOjE2MjQxMjUwOTMsImp0aSI6IjkxNDM0Y2Y3MmRlNjU2NmU3MTZlMGE3NmU4NTdkYmRiYWEwNjhlMzEifQ.zZ9qNWQQGEQM4u8M2TRcy30hY7Z7N0F2M24-KxXY37FMICkd5YojtDkv_BZspR0qPCMJikJNuY1-OxsD1PST4GR0TRB4RpZ5EH6gwB2vmVVM6RptV9Yvi-BOh26RrZTgnfZMTFHbpGrEFJPoI0AuUQ8C7W5eZWGJ_ZqfwIR50YDNw4J9WMxjCpyw6U50BW-6KPKv7yefLXRMGKGnBA18ADehXqHP2P5oi4DaAIe53bWfMY87_r5rZgaWVyYL8lNKEdIGxaxMtI_ekq5CuPtEXkQeTw35--ZxokZzHQsnhWzd5N152RR0XLR5uI1ezDJ_u3xYFESR9B5nvnqIpSiMTw"
 const cookie = `G_AUTHUSER_H=0; token=${token}`;
 
 const CategoryService = require("../services/CategoryService");
@@ -71,6 +71,11 @@ describe("Pad endpoints", () => {
         expect(res.body.pad.content).toBe("<b>teste</b>");
         expect(res.body.pad.rawContent).toBe("teste");
         expect(res.body.pad.title).toBe("Test Title");
+        expect(res.body.pad).toEqual(
+            expect.objectContaining({
+                categories: expect.any(Array)
+            })
+        )
     });
 
     it("should assert that the user is the pad's owner", async () => {

@@ -1,7 +1,7 @@
 const {nanoid} = require('nanoid');
 const Sequelize = require('sequelize');
 
-const {pad: Pad, like_pad: LikePad, user: User} = require('../models');
+const {pad: Pad, like_pad: LikePad, user: User, category: Category} = require('../models');
 
 exports.create = async (idUser) => {
     return Pad.create({id: nanoid(10), idUser});
@@ -18,7 +18,9 @@ exports.findAll = async () => {
 }
 
 exports.findById = async (idPad) => {
-    return Pad.findByPk(idPad);
+    return Pad.findByPk(idPad, {
+        include: Category
+    });
 }
 
 exports.update = async (pad, idPad) => {
