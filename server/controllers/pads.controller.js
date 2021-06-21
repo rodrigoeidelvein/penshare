@@ -57,9 +57,8 @@ exports.getPad = async (req, res) => {
 exports.updatePad = async (req, res) => {
     try {
         const idPad = req.body.id;
-        await PadService.update(req.body, idPad);
 
-        res.status(200).send({message: "ok"});
+        res.status(200).send(await PadService.update(req.body, idPad));
     } catch (e) {
         console.log(e);
         res.status(500).send({message: "Erro ao atualizar pad"});

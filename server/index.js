@@ -9,9 +9,12 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const isDev = process.env.NODE_ENV !== 'production';
+const isUnitTest = process.env.NODE_ENV === 'unitTest';
 const PORT = process.env.PORT || 5000;
 
 // Multi-process to utilize all CPU cores.
+const app = express()
+
 if (!isDev && cluster.isMaster) {
     console.error(`Node cluster master ${process.pid} is running`);
 
@@ -25,7 +28,6 @@ if (!isDev && cluster.isMaster) {
     });
 
 } else {
-    const app = express();
 
     const originURL = isDev ? 'http://localhost:3000' : 'https://penshare-stage.herokuapp.com'
 
@@ -52,7 +54,11 @@ if (!isDev && cluster.isMaster) {
         response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
     });
 
-    app.listen(PORT, function () {
-        console.error(`Node ${isDev ? 'dev server' : 'cluster worker ' + process.pid}: listening on port ${PORT}`);
-    });
+    if (!isUnitTest) {
+        app.listen(PORT, function () {
+            console.error(`Node ${isDev ? 'dev server' : 'cluster worker ' + process.pid}: listening on port ${PORT}`);
+        });
+    }
 }
+
+module.exports = app;

@@ -7,6 +7,7 @@ import {PadType} from "../enums";
 import LikeButton from "./LikeButton";
 import {MouseEvent} from "react";
 import { formatDate } from "../utils";
+import {Avatar, Chip} from "@material-ui/core";
 
 const CardPadHorizontal: React.FC<CardPadProps> = ({pad, author, showOptions}) => {
     const history = useHistory();
@@ -42,6 +43,9 @@ const CardPadHorizontal: React.FC<CardPadProps> = ({pad, author, showOptions}) =
             <div className="mb-8">
                 <div className="text-black font-bold text-lg mb-2">{pad.title ? pad.title : 'Sem título'}</div>
                 {shouldRenderOptions()}
+                <div className="py-2">
+                    <Chip variant="outlined" size="small" label="Desenvolvimento" color="primary" avatar={<Avatar>D</Avatar>} />
+                </div>
                 <div className="absolute right-4 bottom-4 text-base">
                     {renderPadType()}
                     <LikeButton likes={pad.likesCount} liked={pad.liked} padId={pad.id} />

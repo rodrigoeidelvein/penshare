@@ -7,9 +7,10 @@ import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
 import {Authorizations, Pad, PadResponse} from "../../interfaces";
 import {Editor as TinyMCEEditor} from "tinymce";
 import './textEditor.css';
-import {Button, LinearProgress} from "@material-ui/core";
+import {Button, Chip, LinearProgress, TextField} from "@material-ui/core";
 import SuggestionCommentDialog from "../SuggestionCommentDialog";
 import {editorConfig} from "../../utils";
+import {Autocomplete} from "@material-ui/lab";
 
 interface IParams {
     padId: string
@@ -35,6 +36,8 @@ function TextEditor() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [isOwner, setIsOwner] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [categories, setCategories] = useState([]);
+    const [availableCategories, setAvailableCategories] = useState([{id: 1, name: "Desenvolvimento"}]);
 
     useEffect(() => {
         async function getPadInfo() {
@@ -138,6 +141,11 @@ function TextEditor() {
         setDialogOpen(true);
     }
 
+    const handleChangeCategories = (event: any, newValue: any) => {
+        console.log(newValue)
+        setCategories(newValue);
+    }
+
     return (<div className="w-full p-10">
         <div>
             {!isOwner ?
@@ -154,6 +162,26 @@ function TextEditor() {
         />
         <SuggestionCommentDialog open={dialogOpen} onClose={handleClose} content={content} rawContent={rawContent}/>
         {isOwner && <a role="button" title="Editar" onClick={handleEditClick}><FontAwesomeIcon icon={faPencilAlt}/></a>}
+        <div>
+            <Autocomplete
+                className="w-1/4 py-3"
+                renderInput={(params) => (
+                    <TextField {...params} variant="outlined" label="Categorias" placeholder="Categorias" />
+                )} options={availableCategories.map((category: any) => category.name)}
+                id="id-categorias"
+                multiple
+                freeSolo
+                value={categories}
+                onChange={handleChangeCategories}
+                filterSelectedOptions
+                renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                        <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />
+                    ))
+                }
+
+            />
+        </div>
         <Editor
             {...editorConfig}
             initialValue={initialContent}

@@ -22,7 +22,8 @@ exports.findById = async (idPad) => {
 }
 
 exports.update = async (pad, idPad) => {
-    return Pad.update(pad, { where: { id: idPad}});
+    await Pad.update(pad, { where: { id: idPad}})
+    return await Pad.findByPk(idPad);
 }
 
 /**
