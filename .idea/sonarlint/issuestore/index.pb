@@ -1,6 +1,4 @@
 
-F
-react-ui/tsconfig.json,9\2\9241dc851663838f4c8e65a99553afa8feae2c19
 R
 "react-ui/src/__tests__/App.test.js,e\f\efc437c1614d2d49adfbfd659551fdf0a740223a
 4

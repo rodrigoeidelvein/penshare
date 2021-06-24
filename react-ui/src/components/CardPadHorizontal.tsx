@@ -6,7 +6,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {PadType} from "../enums";
 import LikeButton from "./LikeButton";
 import {MouseEvent} from "react";
-import { formatDate } from "../utils";
+import {formatDate} from "../utils";
 import {Avatar, Chip} from "@material-ui/core";
 
 const CardPadHorizontal: React.FC<CardPadProps> = ({pad, author, showOptions}) => {
@@ -34,6 +34,21 @@ const CardPadHorizontal: React.FC<CardPadProps> = ({pad, author, showOptions}) =
         return <></>
     }
 
+    const getFirstLetterUpperCase = (name: string) => {
+        return name.charAt(0).toUpperCase();
+    }
+
+    const renderCategories = () => {
+        if (!pad.categories.length) {
+            return <></>;
+        }
+
+        return pad.categories.map(category => (
+            <Chip key={category.id} variant="outlined" size="small" label={category.name} color="primary"
+                  avatar={<Avatar>{getFirstLetterUpperCase(category.name)}</Avatar>}/>
+        ))
+    }
+
     return (<div
         className="duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer max-w-full w-96 h-auto lg:flex text-sm rounded-2xl mr-5 mb-5"
         onClick={navigateToEditor}>
@@ -44,11 +59,11 @@ const CardPadHorizontal: React.FC<CardPadProps> = ({pad, author, showOptions}) =
                 <div className="text-black font-bold text-lg mb-2">{pad.title ? pad.title : 'Sem título'}</div>
                 {shouldRenderOptions()}
                 <div className="py-2">
-                    <Chip variant="outlined" size="small" label="Desenvolvimento" color="primary" avatar={<Avatar>D</Avatar>} />
+                    {renderCategories()}
                 </div>
                 <div className="absolute right-4 bottom-4 text-base">
                     {renderPadType()}
-                    <LikeButton likes={pad.likesCount} liked={pad.liked} padId={pad.id} />
+                    <LikeButton likes={pad.likesCount} liked={pad.liked} padId={pad.id}/>
                 </div>
                 <p className="text-grey-darker text-sm break-words">{pad.rawContent && pad.rawContent.substring(0, 50)}</p>
             </div>

@@ -1,14 +1,14 @@
 const {nanoid} = require('nanoid');
 const Sequelize = require('sequelize');
 
-const {pad: Pad, like_pad: LikePad, user: User} = require('../models');
+const {pad: Pad, like_pad: LikePad, user: User, category: Category} = require('../models');
 
 exports.create = async (idUser) => {
     return Pad.create({id: nanoid(10), idUser});
 }
 
 exports.delete = async (idPad, idUser) => {
-    const pad = await Pad.findByPk(idPad, { where: { idUser }})
+    const pad = await Pad.findByPk(idPad, {where: {idUser}})
 
     return pad.destroy();
 }
@@ -22,7 +22,7 @@ exports.findById = async (idPad) => {
 }
 
 exports.update = async (pad, idPad) => {
-    await Pad.update(pad, { where: { id: idPad}})
+    await Pad.update(pad, {where: {id: idPad}})
     return await Pad.findByPk(idPad);
 }
 
@@ -60,7 +60,10 @@ exports.findMostPopular = async () => {
         attributes: {
             include: [[Sequelize.fn("COUNT", Sequelize.col("like_pads.id_user")), "likesCount"]]
         },
-        include: [User, LikePad],
-        group: ["pad.id", "user.id", "like_pads.id_user"]
+        include: [
+            User,
+            LikePad,
+            {model: Category, through: {attributes: []}}],
+        group: ["pad.id", "user.id", "like_pads.id_user", "categories.id"]
     })
 }
