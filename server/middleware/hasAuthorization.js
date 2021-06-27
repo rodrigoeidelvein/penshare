@@ -15,7 +15,7 @@ exports.toRead = async (req, res, next) => {
             include: ["role"]
         })
         if (!padAuthorization) {
-            res.status(404).send({ message: "Pad não encontrado" });
+            res.status(404).send({ message: "PadPage não encontrado" });
         }
 
         req.user.authorizations = padAuthorization.role;

@@ -1,10 +1,10 @@
 const request = require("supertest");
 const app = require("../index");
 const models = require("../models");
-const token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE5ZmUyYTdiNjc5NTIzOTYwNmNhMGE3NTA3OTRhN2JkOWZkOTU5NjEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNDcwOTc2NTY2Mzc1LXNvZzFwczA5MnZobWVpbmE2NWxpOGZpbWluMnIxN2poLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNDcwOTc2NTY2Mzc1LXNvZzFwczA5MnZobWVpbmE2NWxpOGZpbWluMnIxN2poLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTE0MTIzMDI5MzAwMjczMjkyNTk0IiwiZW1haWwiOiJyb2RyaWdvZWlkZWx2ZWluQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiU1E2ZUlxc2JsTU1OOEMzU0ZFTmlWZyIsIm5hbWUiOiJSb2RyaWdvIEZhemVuZGEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUFUWEFKd0VHUV9MSmlOeldPWXRScnlpaWM1V1NkeGEzMk5PNm5vdTVRV0I9czk2LWMiLCJnaXZlbl9uYW1lIjoiUm9kcmlnbyIsImZhbWlseV9uYW1lIjoiRmF6ZW5kYSIsImxvY2FsZSI6InB0LUJSIiwiaWF0IjoxNjIzOTc1ODI4LCJleHAiOjE2MjM5Nzk0MjgsImp0aSI6IjIyOTk3ZjEyZmVjZDI0OGM1OWM0OGEyMGZlY2E4ZmJhODQzMmQ3MDgifQ.w_VHIqC2DZJr-iXzQX4QE9US8wVAoVq2pjwU3x4Zu-h7Yrfwh8le2jk5idPKWJcz6mWysTo4EhyjEPyjtxiiH8_7yGYlD1DgOXCdej5QdfhEpRoooQpiCeBxVlvCxa7tA8DgarP_YaNPEDj094aYMwj38nH5zq3RREb3_Z7KAJ5TyVAWfpNx9uX2NaSyBDdn1nbF4am2kfFCId8OukVGEtT-3X0_AD_yctC81mFk8O1QcQVN4tnM-XMH6bN0qgXX-cWYhJc5Y9E5kSTGpQN6ZC43TCsRvmi8VtMJwOpTyFd1-G2QpW5KLiRG0lfe6cZBIQYbTyMeaAi7iQtcO4-8xQ"
+const token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjExMmU0YjUyYWI4MzMwMTdkMzg1Y2UwZDBiNGM2MDU4N2VkMjU4NDIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNDcwOTc2NTY2Mzc1LXNvZzFwczA5MnZobWVpbmE2NWxpOGZpbWluMnIxN2poLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNDcwOTc2NTY2Mzc1LXNvZzFwczA5MnZobWVpbmE2NWxpOGZpbWluMnIxN2poLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTE0MTIzMDI5MzAwMjczMjkyNTk0IiwiZW1haWwiOiJyb2RyaWdvZWlkZWx2ZWluQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiRW5uSUZPMklrdTBDMXhFRWdodm9qdyIsIm5hbWUiOiJSb2RyaWdvIEZhemVuZGEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUFUWEFKd0VHUV9MSmlOeldPWXRScnlpaWM1V1NkeGEzMk5PNm5vdTVRV0I9czk2LWMiLCJnaXZlbl9uYW1lIjoiUm9kcmlnbyIsImZhbWlseV9uYW1lIjoiRmF6ZW5kYSIsImxvY2FsZSI6InB0LUJSIiwiaWF0IjoxNjI0ODI3MDAwLCJleHAiOjE2MjQ4MzA2MDAsImp0aSI6IjlmMTczZWFjM2NlNGRkOTdiZDg4MWY1Njk5MmNhZGM4MTc0YTA4ZjUifQ.Xd8c_759yb2c4je6_hammr3sg-zrxyi75RIRbYr8rKEHsu1owywVRsdijS1N34fEUoc2luPfM92GwsGc9fRqQa76axDGaj06BSR8Yjmq0L5oNsLuUricztUsTJ6jxHVYMkHtc7ZhHaEWI-2WRirggBuBSrRpSEWLQ7vwcARG2NVdpy1G6C6ziX1pwohctKwju4lgVQtd6C5J8aQk2KDEjzDzCLqMvODF07MnAllW8RhrtL5BqjwXsHApgpB1vGgZ2FP-ycrkrv2PXD_pWfko9o0fjcl8YRRqTOQ3EJd_d6tjtZ04IqW0kd7jI1PkRWY8kimdSFVm34nOIjPF0X0Npw"
 const cookie = `G_AUTHUSER_H=0; token=${token}`;
 
-describe("Pad endpoints", () => {
+describe("PadPage endpoints", () => {
     var idPad = "";
 
     it("should make a successful login", async () => {
@@ -103,15 +103,39 @@ describe("Pad endpoints", () => {
         expect(res.body.length).toBe(3);
     });
 
+    it("should turn the pad to private", async () => {
+        const res = await request(app)
+            .put(`/api/pad/type/${idPad}`)
+            .send({
+                type: "PRIVATE"
+            })
+            .set("Cookie", cookie);
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body.type).toBe("PRIVATE");
+    })
+
     it("should delete the pad successfully", async () => {
         const res = await request(app)
             .delete(`/api/pad/${idPad}`)
             .set("Cookie", cookie);
 
         expect(res.statusCode).toBe(200);
-        expect(res.body.message).toBe("Pad excluído com sucesso.");
+        expect(res.body.message).toBe("PadPage excluído com sucesso.");
     });
 });
+
+describe("User Endpoints", () => {
+    it("should find users by email", async () => {
+        const res = await request(app)
+            .get(`/api/user?email=rodr`)
+            .set("Cookie", cookie);
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body.length).toBe(1);
+        expect(res.body[0].email).toBe("rodrigoeidelvein@gmail.com");
+    })
+})
 
 afterAll(() => {
     models.sequelize.close();

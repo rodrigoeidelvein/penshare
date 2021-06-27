@@ -20,6 +20,7 @@ export interface User {
     email: string;
     id: string;
     photo: string;
+    premium: boolean,
     createdAt: string,
     updatedAt: string,
 }

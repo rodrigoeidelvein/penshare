@@ -12,6 +12,9 @@ module.exports = app => {
     router.post('/', googleAuth, padController.createPad);
     router.delete('/:id', googleAuth, padController.deletePad);
 
+    // Turn pad public and private according to the request's body.
+    router.put('/type/:id', googleAuth, padController.changeTypePad);
+
     router.get('/authorization/:id', googleAuth, padController.getAuthorizationsForPad);
 
     app.use('/api/pad/', router);

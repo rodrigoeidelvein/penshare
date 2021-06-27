@@ -71,7 +71,7 @@ exports.deletePad = async (req, res) => {
     try {
         await PadService.delete(idPad, idUser);
 
-        res.status(200).send({message: 'Pad excluído com sucesso.'});
+        res.status(200).send({message: 'PadPage excluído com sucesso.'});
     } catch (e) {
         console.log(e);
         res.status(500).send({message: 'Erro ao excluir pad.'});
@@ -118,5 +118,18 @@ exports.getAuthorizationsForPad = async (req, res) => {
         res.status(200).send(authorizedUsers)
     } catch (e) {
         console.error("Erro ao buscar autorizações para o documento.");
+    }
+}
+
+exports.changeTypePad = async (req, res) => {
+    const { id: idPad } = req.params;
+    const { type } = req.body;
+
+    try {
+        const pad = await PadService.findById(idPad);
+        res.status(200).send(await PadService.update({...pad, type}, idPad));
+    } catch (e) {
+        console.error("Erro ao alterar o status do documento.", e);
+        res.status(500).send({message: "Erro ao alterar o status do documento."});
     }
 }

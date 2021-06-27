@@ -5,6 +5,7 @@ import PadsCriadosUsuario from "./PadsCriadosUsuario";
 import TextEditor from "../components/TextEditor";
 import SuggestionsReceived from "./SuggestionsReceived";
 import SuggestionEditor from "./SuggestionEditor";
+import PadPage from "./Pad";
 
 const LoggedHomePage: React.FC = () => {
     const {path} = useRouteMatch();
@@ -29,7 +30,7 @@ const LoggedHomePage: React.FC = () => {
                         <SuggestionsReceived title="Sugestões rejeitadas" status="REJECTED" />
                     </Route>
                     <Route path="/p/:padId">
-                        <TextEditor />
+                        <PadPage />
                     </Route>
                     <Route path="/sugestao/:suggestionId">
                         <SuggestionEditor />
