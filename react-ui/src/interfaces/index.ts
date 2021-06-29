@@ -11,7 +11,8 @@ export interface Pad {
     user: User,
     type: PadType,
     likesCount: number,
-    liked: boolean
+    liked: boolean,
+    categories: Category[]
 }
 
 export interface User {
@@ -60,4 +61,11 @@ export interface CardPadProps {
 export interface PadResponse {
     pad: Pad,
     isOwner: boolean
+}
+
+export interface Category {
+    id: number,
+    name: string,
+    created_at: string,
+    updated_at: string
 }
