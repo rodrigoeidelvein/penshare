@@ -1,6 +1,7 @@
 const db = require("../models")
-const PadService = require("../services/PadService")
-const BranchService = require("../services/BranchService")
+const PadService = require("../services/PadService");
+const BranchService = require("../services/BranchService");
+const CategoryPadService = require("../services/CategoryPadService");
 
 const {
     revision: Revision,
@@ -71,7 +72,7 @@ exports.deletePad = async (req, res) => {
     try {
         await PadService.delete(idPad, idUser);
 
-        res.status(200).send({message: 'PadPage excluído com sucesso.'});
+        res.status(200).send({message: 'Pad excluído com sucesso.'});
     } catch (e) {
         console.log(e);
         res.status(500).send({message: 'Erro ao excluir pad.'});
@@ -118,6 +119,54 @@ exports.getAuthorizationsForPad = async (req, res) => {
         res.status(200).send(authorizedUsers)
     } catch (e) {
         console.error("Erro ao buscar autorizações para o documento.");
+    }
+}
+
+exports.getCategories = async (req, res) => {
+    try {
+        res.json(await CategoryPadService.findByPadId(req.params.id));
+    } catch (e) {
+        console.error("Erro ao buscar categorias do documento.", e);
+        res.status(500).send({message: "Erro ao buscar categories do documento."});
+    }
+}
+
+exports.getPadsByCategory = async (req, res) => {
+    try {
+        res.json(await CategoryPadService.findByPadId(req.params.id));
+    } catch (e) {
+        console.error("Erro ao buscar documentos por categoria.", e);
+        res.status(500).send({message: "Erro ao buscar documentos por categoria."});
+    }
+}
+
+exports.addCategory = async (req, res) => {
+    try {
+        res.json(await CategoryPadService.addCategoryToPad(req.params.id, req.params.idCategory));
+    } catch (e) {
+        console.error("Erro ao adicionar categoria", e);
+        res.status(500).send({message: "Erro ao adicionar categoria"});
+    }
+}
+
+exports.addCategories = async (req, res) => {
+    console.log(req.body.categories)
+    try {
+        const { id: idPad } = req.params;
+        await PadService.removeCategories(idPad);
+        await PadService.addCategories(idPad, req.body.categories);
+    } catch (e) {
+        console.error("Erro ao adicionar categorias.", e);
+        res.status(500).send({message: "Erro ao adicionar categorias"});
+    }
+}
+
+exports.deleteCategory = async (req, res) => {
+    try {
+        res.json(await CategoryPadService.removeCategoryFromPad(req.params.id, req.params.idCategory));
+    } catch (e) {
+        console.error("Erro ao excluir categoria do documento.", e);
+        res.status(500).send({message: "Erro ao excluir categoria do documento."});
     }
 }
 

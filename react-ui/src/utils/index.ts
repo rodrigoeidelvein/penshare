@@ -1,3 +1,5 @@
+import {Category, Pad} from "../interfaces";
+
 export const setCookie = (name: string, value: string): void => {
     document.cookie = name + '=' + value + '; Path=/;';
 }
@@ -48,4 +50,19 @@ export const editorConfig = {
                     alignleft aligncenter alignright alignjustify | \
                     bullist numlist outdent indent | removeformat |",
     }
+}
+
+export const filterByCategory = (pad: Pad, categoriesSearch: Category[]) => {
+    if (!categoriesSearch.length) {
+        return pad;
+    }
+
+    const padCategories: number[] = pad.categories.map(category => category.id);
+    const searchCategories: number[] = categoriesSearch.map((category: Category) => category.id);
+
+    return searchCategories.every(id => padCategories.indexOf(id) >= 0);
+}
+
+export const filterByName = (pad: Pad, search: string) => {
+    return pad.title?.toUpperCase().includes(search)
 }
