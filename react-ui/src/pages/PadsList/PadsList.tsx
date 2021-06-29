@@ -1,13 +1,19 @@
-import {Category, Pad} from "../interfaces";
-import CardPadHorizontal from "./CardPadHorizontal";
+import React, {ChangeEvent, useEffect, useState} from "react";
+import {Category, Pad} from "../../interfaces";
+import {filterByCategory, filterByName} from "../../utils";
+import CardPadHorizontal from "../../components/CardPadHorizontal";
 import {InputAdornment, TextField} from "@material-ui/core";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch, faTimes} from "@fortawesome/free-solid-svg-icons";
-import React, {ChangeEvent, useEffect, useState} from "react";
 import {Autocomplete} from "@material-ui/lab";
-import {filterByCategory, filterByName} from "../utils";
 
-const MostPopularPads: React.FC = () => {
+interface IProps {
+    title: string,
+    type: "user" | "popular"
+    showOptions: boolean
+}
+
+const PadsList: React.FC<IProps> = ({title, type, showOptions}) => {
     const [search, setSearch] = useState("");
     const [categories, setCategories] = useState<Category[]>([]);
     const [categoriesSearch, setCategoriesSearch] = useState([]);
@@ -15,7 +21,7 @@ const MostPopularPads: React.FC = () => {
 
     useEffect(() => {
         const getMostPopularPads = async () => {
-            const res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}api/pad/popular/`, {
+            const res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}api/pad/${type}/`, {
                 method: "GET",
                 credentials: "include"
             });
@@ -62,12 +68,12 @@ const MostPopularPads: React.FC = () => {
         return pads
             .filter(pad => filterByName(pad, search))
             .filter(pad => filterByCategory(pad, categoriesSearch))
-            .map((pad: Pad) => <CardPadHorizontal showOptions={false} pad={pad} key={pad.id}
+            .map((pad: Pad) => <CardPadHorizontal showOptions={showOptions} pad={pad} key={pad.id}
                                                   author={pad.user}/>)
     }
 
     return (<div className="p-8">
-        <div className="my-5 font-bold text-lg"><h1>Documentos mais populares</h1></div>
+        <div className="my-5 font-bold text-lg"><h1>{title}</h1></div>
         <div className="py-5">
             <TextField label="Filtrar" value={search} onChange={handleChange} InputProps={{
                 startAdornment: (
@@ -102,7 +108,7 @@ const MostPopularPads: React.FC = () => {
         <div className="flex flex-wrap">
             {shouldRenderPads()}
         </div>
-    </div>);
+    </div>)
 }
 
-export default MostPopularPads;
+export default PadsList;

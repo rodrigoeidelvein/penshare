@@ -1,10 +1,9 @@
 import LoggedSideNavigation from "../components/LoggedSideNavigation";
-import Dashboard from '../components/Dashboard';
 import {Route, Switch, useRouteMatch} from "react-router-dom";
-import PadsCriadosUsuario from "./PadsCriadosUsuario";
 import TextEditor from "../components/TextEditor";
 import SuggestionsReceived from "./SuggestionsReceived";
 import SuggestionEditor from "./SuggestionEditor";
+import PadsList from "./PadsList";
 
 const LoggedHomePage: React.FC = () => {
     const {path} = useRouteMatch();
@@ -15,10 +14,10 @@ const LoggedHomePage: React.FC = () => {
             <div className="w-full">
                 <Switch>
                     <Route exact path={path}>
-                        <Dashboard/>
+                        <PadsList title="Documentos mais populares" type="popular" showOptions={false} />
                     </Route>
                     <Route path="/criados">
-                        <PadsCriadosUsuario/>
+                        <PadsList title="Criados por você" type="user" showOptions />
                     </Route>
                     <Route path="/compartilhados">
                         Compartilhados comigo

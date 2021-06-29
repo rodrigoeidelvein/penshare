@@ -1,4 +1,4 @@
-const { category_pad: CategoryPad, pad: Pad } = require("../models");
+const { category_pad: CategoryPad, pad: Pad, category: Category, sequelize } = require("../models");
 const CategoryService = require("../services/CategoryService");
 const PadService = require("../services/PadService");
 
@@ -36,4 +36,16 @@ exports.removeCategoryFromPad = async (idPad, idCategory) => {
     pad.removeCategory(category);
 
     return CategoryPad.findAll({ where: { idPad }});
+}
+
+/**
+ * Removes the categories that don't belong to any pad.
+ * @returns {Promise<void>}
+ */
+exports.cleanUp = async () => {
+    await sequelize.query("delete " +
+        "FROM category c " +
+        "WHERE c.id NOT IN " +
+        "    (SELECT cp.id_category " +
+        "     FROM category_pad cp)");
 }

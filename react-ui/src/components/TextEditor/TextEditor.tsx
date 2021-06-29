@@ -4,7 +4,7 @@ import {useParams} from "react-router-dom";
 import debounce from "lodash.debounce";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
-import {Authorizations, Pad, PadResponse} from "../../interfaces";
+import {Authorizations, Pad, PadResponse, Category} from "../../interfaces";
 import {Editor as TinyMCEEditor} from "tinymce";
 import './textEditor.css';
 import {Button, Chip, LinearProgress, TextField} from "@material-ui/core";
@@ -36,8 +36,8 @@ function TextEditor() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [isOwner, setIsOwner] = useState(true);
     const [loading, setLoading] = useState(false);
-    const [categories, setCategories] = useState([]);
-    const [availableCategories, setAvailableCategories] = useState([{id: 1, name: "Desenvolvimento"}]);
+    const [categories, setCategories] = useState<String[]>([]);
+    const [availableCategories, setAvailableCategories] = useState<Category[]>([]);
 
     useEffect(() => {
         async function getPadInfo() {
@@ -69,6 +69,7 @@ function TextEditor() {
 
                 setPad(pad);
                 setIsOwner(isOwner);
+                setCategories(pad.categories.map((category: Category) => category.name));
             } catch (e) {
                 console.error('Erro ao buscar informações sobre o pad');
             } finally {
@@ -76,7 +77,18 @@ function TextEditor() {
             }
         }
 
+        const getCategories = async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}api/category/`, {
+                method: "GET",
+                credentials: "include"
+            });
+
+            const categoriesResult = await res.json() as Category[];
+            setAvailableCategories(categoriesResult);
+        }
+
         getPadInfo();
+        getCategories();
     }, []);
 
     const saveToDb = useCallback(debounce(async (pad: Pad, newContent: string, newRawContent: string, newTitle: string) => {
@@ -141,9 +153,17 @@ function TextEditor() {
         setDialogOpen(true);
     }
 
-    const handleChangeCategories = (event: any, newValue: any) => {
-        console.log(newValue)
+    const handleChangeCategories = async (event: any, newValue: any) => {
         setCategories(newValue);
+
+        const res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}api/pad/${pad.id}/categories`, {
+            body: JSON.stringify({ categories: newValue }),
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
     }
 
     return (<div className="w-full p-10">
@@ -169,8 +189,9 @@ function TextEditor() {
                     <TextField {...params} variant="outlined" label="Categorias" placeholder="Categorias" />
                 )} options={availableCategories.map((category: any) => category.name)}
                 id="id-categorias"
-                multiple
                 freeSolo
+                multiple
+                size="small"
                 value={categories}
                 onChange={handleChangeCategories}
                 filterSelectedOptions

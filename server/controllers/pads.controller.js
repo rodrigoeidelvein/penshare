@@ -144,8 +144,20 @@ exports.addCategory = async (req, res) => {
     try {
         res.json(await CategoryPadService.addCategoryToPad(req.params.id, req.params.idCategory));
     } catch (e) {
-        console.error("Erro ao buscar documentos por categoria.", e);
-        res.status(500).send({message: "Erro ao buscar documentos por categoria."});
+        console.error("Erro ao adicionar categoria", e);
+        res.status(500).send({message: "Erro ao adicionar categoria"});
+    }
+}
+
+exports.addCategories = async (req, res) => {
+    console.log(req.body.categories)
+    try {
+        const { id: idPad } = req.params;
+        await PadService.removeCategories(idPad);
+        await PadService.addCategories(idPad, req.body.categories);
+    } catch (e) {
+        console.error("Erro ao adicionar categorias.", e);
+        res.status(500).send({message: "Erro ao adicionar categorias"});
     }
 }
 

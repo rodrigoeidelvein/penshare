@@ -1,13 +1,10 @@
 import {faChevronDown, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {MouseEvent, useContext} from "react";
+import {MouseEvent} from "react";
 import './dropdown.css'
-import UserPadsContext from "../../contexts/UserPads";
 import MenuItem from "./MenuItem";
 
 const Dropdown: React.FC<{ padId: string }> = ({padId}) => {
-    const {getUserPads} = useContext(UserPadsContext);
-
     const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
     }
@@ -26,8 +23,6 @@ const Dropdown: React.FC<{ padId: string }> = ({padId}) => {
                 method: "DELETE",
                 credentials: "include"
             });
-
-            getUserPads();
         } catch (e) {
             console.error(e);
             console.log('Erro ao excluir documento.');

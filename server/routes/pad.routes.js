@@ -16,6 +16,9 @@ module.exports = app => {
     router.post("/", googleAuth, padController.createPad);
     router.put("/:id/categories/:idCategory", googleAuth, padController.addCategory);
 
+    // Receives a list of categories by name and add to the pad
+    router.post("/:id/categories", googleAuth, padController.addCategories);
+
     router.delete("/:id/categories/:idCategory", googleAuth, padController.deleteCategory)
     router.delete("/:id", googleAuth, padController.deletePad);
 
