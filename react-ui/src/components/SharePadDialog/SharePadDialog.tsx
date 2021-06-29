@@ -21,17 +21,20 @@ interface DialogProps {
 
 const SharePadDialog: React.FC<DialogProps> = ({open, onClose}) => {
     const [options, setOptions] = useState<User[]>([]);
-    const [value, setValue] = useState<User | null>(null);
+    const [value, setValue] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const [noOptionsText, setNoOptionsText] = useState("Digite para encontrar");
+    const [contributors, setContributors] = useState<User[]>([]);
 
     const renderInput = (params: AutocompleteRenderInputParams) => {
         return <TextField {...params} label="Procure por e-mail" variant="outlined" fullWidth/>;
     }
 
-    const handleOnChange = (event: any, newValue: User | null) => {
-        setOptions(newValue ? [newValue, ...options] : options);
+    const handleOnChange = (event: any, newValue: any) => {
+        console.log(event.target.value)
+        setContributors(newValue ? [newValue, ...options] : options);
         setValue(newValue);
+        setContributors(newValue ? [newValue, ...contributors] : contributors);
     }
 
     const handleInputChange = (event: any, newInputValue: string) => {
@@ -52,7 +55,7 @@ const SharePadDialog: React.FC<DialogProps> = ({open, onClose}) => {
 
     useEffect(() => {
         if (inputValue === "") {
-            setOptions(value ? [value] : []);
+            setOptions([]);
             setNoOptionsText("Digite para encontrar");
             return undefined;
         }
@@ -66,7 +69,7 @@ const SharePadDialog: React.FC<DialogProps> = ({open, onClose}) => {
                 let newOptions = [] as User[];
 
                 if (value) {
-                    newOptions = [value];
+                    newOptions = value;
                 }
 
                 if (results) {
@@ -78,6 +81,11 @@ const SharePadDialog: React.FC<DialogProps> = ({open, onClose}) => {
         }
 
     }, [value, inputValue, fetcher])
+
+    const handleOptionSelected = (option: User, value: User): boolean => {
+        console.log(option, value)
+        return true
+    }
 
     const renderOption = (option: User) => {
         return (
@@ -103,6 +111,7 @@ const SharePadDialog: React.FC<DialogProps> = ({open, onClose}) => {
                 id="share-pad-email"
                 getOptionLabel={option => option.email}
                 filterOptions={x => x}
+                multiple
                 filterSelectedOptions
                 autoComplete
                 includeInputInList

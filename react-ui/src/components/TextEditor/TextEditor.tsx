@@ -218,7 +218,6 @@ function TextEditor() {
                         <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />
                     ))
                 }
-
             />
         </div>
         <Editor
