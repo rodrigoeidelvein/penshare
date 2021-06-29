@@ -63,6 +63,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.0.4",
-    "@types/react-scroll": "^1.8.2"
+    "@types/react-scroll": "^1.8.2",
+    "@types/react-tabs": "^2.3.2"
   }
 }

@@ -7,7 +7,7 @@ import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
 import {Authorizations, Pad, PadResponse, Category} from "../../interfaces";
 import {Editor as TinyMCEEditor} from "tinymce";
 import './textEditor.css';
-import {Button, Chip, LinearProgress, TextField} from "@material-ui/core";
+import {Button, Grid, LinearProgress, Chip, TextField} from "@material-ui/core";
 import SuggestionCommentDialog from "../SuggestionCommentDialog";
 import {editorConfig} from "../../utils";
 import {Autocomplete} from "@material-ui/lab";

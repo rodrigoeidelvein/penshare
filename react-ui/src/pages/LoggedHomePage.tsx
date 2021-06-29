@@ -1,9 +1,11 @@
 import LoggedSideNavigation from "../components/LoggedSideNavigation";
 import {Route, Switch, useRouteMatch} from "react-router-dom";
+import PadsCriadosUsuario from "./PadsCriadosUsuario";
 import TextEditor from "../components/TextEditor";
 import SuggestionsReceived from "./SuggestionsReceived";
 import SuggestionEditor from "./SuggestionEditor";
 import PadsList from "./PadsList";
+import PadPage from "./Pad";
 
 const LoggedHomePage: React.FC = () => {
     const {path} = useRouteMatch();
