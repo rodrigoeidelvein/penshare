@@ -9,18 +9,19 @@ import {Autocomplete} from "@material-ui/lab";
 
 interface IProps {
     title: string,
-    type: "user" | "popular"
-    showOptions: boolean
+    type: "user" | "popular" | "shared/user"
+    showOptions: boolean,
+    emptyMessage: string
 }
 
-const PadsList: React.FC<IProps> = ({title, type, showOptions}) => {
+const PadsList: React.FC<IProps> = ({title, type, showOptions, emptyMessage}) => {
     const [search, setSearch] = useState("");
     const [categories, setCategories] = useState<Category[]>([]);
     const [categoriesSearch, setCategoriesSearch] = useState([]);
     const [pads, setPads] = useState([] as Pad[]);
 
     useEffect(() => {
-        const getMostPopularPads = async () => {
+        const getPads = async () => {
             const res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}api/pad/${type}/`, {
                 method: "GET",
                 credentials: "include"
@@ -41,12 +42,12 @@ const PadsList: React.FC<IProps> = ({title, type, showOptions}) => {
         }
 
         async function fetchData() {
-            await getMostPopularPads();
+            await getPads();
             await getCategories();
         }
 
         fetchData();
-    }, [])
+    }, [type])
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value.toUpperCase());
@@ -62,7 +63,7 @@ const PadsList: React.FC<IProps> = ({title, type, showOptions}) => {
 
     const shouldRenderPads = () => {
         if (!pads.length) {
-            return <div>Nenhum documento foi criado publicamente.</div>
+            return <div>{emptyMessage}</div>
         }
 
         return pads

@@ -17,8 +17,8 @@ const PadPage: React.FC = () => {
 
             <TabPanel>
                 <ul>
-                    <li>rodrigo</li>
-                    <li>nathalia</li>
+                    <li>Pedro</li>
+                    <li>João</li>
                 </ul>
             </TabPanel>
 

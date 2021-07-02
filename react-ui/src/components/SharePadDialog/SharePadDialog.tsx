@@ -16,10 +16,11 @@ import throttle from "lodash.throttle";
 
 interface DialogProps {
     open: boolean,
-    onClose: () => void
+    onClose: () => void,
+    padId: string
 }
 
-const SharePadDialog: React.FC<DialogProps> = ({open, onClose}) => {
+const SharePadDialog: React.FC<DialogProps> = ({open, onClose, padId}) => {
     const [options, setOptions] = useState<User[]>([]);
     const [value, setValue] = useState([]);
     const [inputValue, setInputValue] = useState("");
@@ -30,11 +31,33 @@ const SharePadDialog: React.FC<DialogProps> = ({open, onClose}) => {
         return <TextField {...params} label="Procure por e-mail" variant="outlined" fullWidth/>;
     }
 
-    const handleOnChange = (event: any, newValue: any) => {
-        console.log(event.target.value)
-        setContributors(newValue ? [newValue, ...options] : options);
+    const addMember = async (member: User) => {
+        await fetch(`${process.env.REACT_APP_API_ENDPOINT}api/pad/${padId}/member/${member.id}`, {
+            method: "PUT",
+            credentials: "include"
+        });
+    }
+
+    const removeMember = async (member: User) => {
+        await fetch(`${process.env.REACT_APP_API_ENDPOINT}api/pad/${padId}/member/${member.id}`, {
+            method: "DELETE",
+            credentials: "include"
+        });
+    }
+
+    const handleOnChange = async (...params: any) => {
+        const newValue = params[1];
+        const selectionType = params[2];
+        const optionSelected = params[3].option;
+
         setValue(newValue);
         setContributors(newValue ? [newValue, ...contributors] : contributors);
+
+        if (selectionType === "select-option") {
+            await addMember(optionSelected);
+        } else {
+            await removeMember(optionSelected);
+        }
     }
 
     const handleInputChange = (event: any, newInputValue: string) => {
@@ -54,8 +77,21 @@ const SharePadDialog: React.FC<DialogProps> = ({open, onClose}) => {
         }, 300), [])
 
     useEffect(() => {
+        const getMembers = async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_ENDPOINT}api/pad/${padId}/member`, {
+                method: "GET",
+                credentials: "include"
+            });
+
+            const membersInfo = await res.json();
+
+            setValue(membersInfo)
+        }
+        getMembers();
+    }, [])
+
+    useEffect(() => {
         if (inputValue === "") {
-            setOptions([]);
             setNoOptionsText("Digite para encontrar");
             return undefined;
         }
@@ -79,13 +115,9 @@ const SharePadDialog: React.FC<DialogProps> = ({open, onClose}) => {
                 setOptions(newOptions);
             })
         }
-
     }, [value, inputValue, fetcher])
 
-    const handleOptionSelected = (option: User, value: User): boolean => {
-        console.log(option, value)
-        return true
-    }
+
 
     const renderOption = (option: User) => {
         return (
@@ -114,6 +146,7 @@ const SharePadDialog: React.FC<DialogProps> = ({open, onClose}) => {
                 multiple
                 filterSelectedOptions
                 autoComplete
+                disableClearable
                 includeInputInList
                 onInputChange={handleInputChange}
                 value={value}
@@ -125,7 +158,7 @@ const SharePadDialog: React.FC<DialogProps> = ({open, onClose}) => {
             />
             <DialogActions>
                 <Button onClick={onClose} color="primary">
-                    Cancelar
+                    Sair
                 </Button>
             </DialogActions>
         </DialogContent>

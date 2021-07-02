@@ -16,13 +16,13 @@ const LoggedHomePage: React.FC = () => {
             <div className="w-full">
                 <Switch>
                     <Route exact path={path}>
-                        <PadsList title="Documentos mais populares" type="popular" showOptions={false} />
+                        <PadsList title="Documentos mais populares" type="popular" showOptions={false} emptyMessage="Nenhum documento criado ainda." />
                     </Route>
                     <Route path="/criados">
-                        <PadsList title="Criados por você" type="user" showOptions />
+                        <PadsList title="Criados por você" type="user" showOptions emptyMessage="Você ainda não criou nenhum documento." />
                     </Route>
                     <Route path="/compartilhados">
-                        Compartilhados comigo
+                        <PadsList title="Compartilhados com você" type="shared/user" showOptions={false} emptyMessage="Nenhum documento foi compartilhado com você ainda" />
                     </Route>
                     <Route path="/sugestoes">
                         <SuggestionsReceived title="Sugestões pendentes" status="PENDING" />

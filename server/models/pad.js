@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
             Pad.hasMany(models.like_pad, { foreignKey: "idPad"});
             Pad.hasMany(models.pad_suggestion, { foreignKey: "idPad"});
             Pad.belongsToMany(models.category, { through: models.category_pad, foreignKey: "idPad" });
+            Pad.belongsToMany(models.user, { through: models.member_pad, as: "members", foreignKey: "idPad" });
         }
     };
     Pad.init({

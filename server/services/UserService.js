@@ -1,5 +1,5 @@
-const { user: User } = require("../models");
-const { Op } = require("sequelize")
+const {user: User} = require("../models");
+const {Op} = require("sequelize")
 
 exports.findByEmail = async (email) => {
     return await User.findAll({
@@ -10,4 +10,8 @@ exports.findByEmail = async (email) => {
             }
         }
     })
+}
+
+exports.findById = async (id) => {
+    return await User.findByPk(id);
 }

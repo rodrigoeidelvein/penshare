@@ -198,7 +198,7 @@ function TextEditor() {
             className="text-lg font-bold p-3 rounded-sm mb-3 mr-5 w-11/12"
         />
         <SuggestionCommentDialog open={dialogOpenSuggestion} onClose={handleCloseSuggestion} content={content} rawContent={rawContent}/>
-        <SharePadDialog open={dialogOpenShare} onClose={handleCloseShare} />
+        {pad.id && <SharePadDialog open={dialogOpenShare} onClose={handleCloseShare} padId={pad.id} />}
         {isOwner && <a role="button" title="Editar" onClick={handleEditClick}><FontAwesomeIcon icon={faPencilAlt}/></a>}
         <div>
             <Autocomplete
@@ -209,6 +209,7 @@ function TextEditor() {
                 id="id-categorias"
                 freeSolo
                 multiple
+                disabled={!isOwner}
                 size="small"
                 value={categories}
                 onChange={handleChangeCategories}
