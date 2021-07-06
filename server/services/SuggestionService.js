@@ -46,8 +46,8 @@ exports.delete = async (idUser, idSuggestion) => {
 }
 
 /**
- * Retorna as sugestões relacionadas ao dono do Pad.
- * idUser é referente ao dono do Pad.
+ * Retorna as sugestões relacionadas ao dono do PadPage.
+ * idUser é referente ao dono do PadPage.
  * @param idUser
  * @returns {Promise<PadSuggestion[]>}
  */

@@ -7,12 +7,17 @@ module.exports = app => {
 
     router.get("/user/", googleAuth, padController.getPadsByUserId);
     router.get("/popular/", googleAuth, padController.mostPopularPads);
-    router.get("/:id/", googleAuth, padController.getPad);
+    router.get("/shared/user", googleAuth, padController.getPadsShareWithUser);
+    router.get("/:id/", googleAuth, hasAuthorization, padController.getPad);
     router.get("/authorization/:id/", googleAuth, padController.getAuthorizationsForPad);
     router.get("/:id/categories/", padController.getCategories);
 
     router.put("/", googleAuth, padController.updatePad);
 
+    // Turn pad public and private according to the request's body.
+    router.put('/type/:id', googleAuth, padController.changeTypePad);
+
+    router.get('/authorization/:id', googleAuth, padController.getAuthorizationsForPad);
     router.post("/", googleAuth, padController.createPad);
     router.put("/:id/categories/:idCategory", googleAuth, padController.addCategory);
 
@@ -21,6 +26,10 @@ module.exports = app => {
 
     router.delete("/:id/categories/:idCategory", googleAuth, padController.deleteCategory)
     router.delete("/:id", googleAuth, padController.deletePad);
+
+    router.get("/:id/member", googleAuth, padController.getMembers);
+    router.put("/:idPad/member/:idUser", googleAuth, padController.addMember);
+    router.delete("/:idPad/member/:idUser", googleAuth, padController.removeMember);
 
     app.use("/api/pad/", router);
 }

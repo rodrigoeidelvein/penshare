@@ -33,6 +33,10 @@ const LoggedSideNavigation: React.FC = () => {
         }
     }
 
+    const isPremium = (premium: boolean) => {
+        return premium ? "Premium" : "Free";
+    }
+
     const {user, logOut, suggestionsPending} = useContext(AuthContext);
 
     return (
@@ -44,7 +48,7 @@ const LoggedSideNavigation: React.FC = () => {
                     <p className="ml-1 text-md font-medium tracking-wide break-words text-gray-100 font-sans">{user.fullName}</p>
                     <div className="badge">
                         <span
-                            className="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-blue-800 bg-blue-100 rounded-full">Free</span>
+                            className="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-blue-800 bg-blue-100 rounded-full">{isPremium(user.premium)}</span>
                     </div>
                 </div>
             </div>

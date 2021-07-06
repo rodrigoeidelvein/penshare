@@ -1,27 +1,29 @@
-const db = require('../models');
+const PadService = require("../services/PadService");
 
-const { PadAuthorization } = db;
-
-exports.toRead = async (req, res, next) => {
+module.exports = async (req, res, next) => {
     const {id: padId} = req.params;
     const {id: userId} = req.user;
 
     try {
-        const padAuthorization = await PadAuthorization.findOne({
-            where: {
-                padId,
-                sharedWith: userId
-            },
-            include: ["role"]
-        })
-        if (!padAuthorization) {
-            res.status(404).send({ message: "Pad não encontrado" });
+        const padInstance = await PadService.findById(padId);
+
+        if (padInstance.idUser === userId) {
+            return next();
         }
 
-        req.user.authorizations = padAuthorization.role;
-        next();
+        const userIsMember = await padInstance.hasMember(userId);
+
+        if (userIsMember) {
+            return next();
+        }
+
+        res.status(403).send({
+            error: 'Invalid Request'
+        });
     } catch (e) {
-        console.log(e);
-        res.status(500).send({message: "Erro ao buscar autorização para o documento."});
+        console.error("Erro ao buscar permissões para o usuário", e);
+        res.status(403).send({
+            error: "Erro ao buscar dados do usuário"
+        });
     }
 }

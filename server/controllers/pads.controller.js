@@ -103,6 +103,23 @@ exports.mostPopularPads = async (req, res) => {
     }
 }
 
+exports.getPadsShareWithUser = async (req, res) => {
+    try {
+        const { user } = req;
+
+        const sharedPads = await PadService.findSharedWithUser(user.id);
+
+        if (sharedPads.length) {
+            res.status(200).send(sharedPads);
+        } else {
+            res.status(200).send({message: "Nenhum documento compartilhado com o usuário.", pads: []});
+        }
+    } catch (e) {
+        console.log("Erro ao buscar documentos mais populares", e);
+        res.status(500).send({message: "Erro ao buscar pads mais populares"});
+    }
+}
+
 exports.getAuthorizationsForPad = async (req, res) => {
     const {id: padId} = req.params;
 
@@ -167,5 +184,49 @@ exports.deleteCategory = async (req, res) => {
     } catch (e) {
         console.error("Erro ao excluir categoria do documento.", e);
         res.status(500).send({message: "Erro ao excluir categoria do documento."});
+    }
+}
+
+exports.changeTypePad = async (req, res) => {
+    const { id: idPad } = req.params;
+    const { type } = req.body;
+
+    try {
+        const pad = await PadService.findById(idPad);
+        res.status(200).send(await PadService.update({...pad, type}, idPad));
+    } catch (e) {
+        console.error("Erro ao alterar o status do documento.", e);
+        res.status(500).send({message: "Erro ao alterar o status do documento."});
+    }
+}
+
+exports.getMembers = async (req, res) => {
+    try {
+        res.json(await PadService.getMembers(req.params.id));
+    } catch (e) {
+        console.error("Erro ao buscar membros do documento.", e);
+        res.status(500).send({message: "Erro ao buscar membros do documento."});
+    }
+}
+
+exports.addMember = async (req, res) => {
+    const { idPad, idUser } = req.params;
+
+    try {
+        res.json(await PadService.addMember(idPad, idUser));
+    } catch (e) {
+        console.error("Erro ao buscar membros do documento.", e);
+        res.status(500).send({message: "Erro ao buscar membros do documento."});
+    }
+}
+
+exports.removeMember = async (req, res) => {
+    const { idPad, idUser } = req.params;
+
+    try {
+        res.json(await PadService.removeMember(idPad, idUser));
+    } catch (e) {
+        console.error("Erro ao buscar membros do documento.", e);
+        res.status(500).send({message: "Erro ao buscar membros do documento."});
     }
 }

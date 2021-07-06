@@ -12,10 +12,11 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             Pad.belongsTo(models.user, { foreignKey: "idUser"});
 
-            // Pad.hasMany(models.PadAuthorization, {foreignKey: "padId"});
+            // PadPage.hasMany(models.PadAuthorization, {foreignKey: "padId"});
             Pad.hasMany(models.like_pad, { foreignKey: "idPad"});
             Pad.hasMany(models.pad_suggestion, { foreignKey: "idPad"});
             Pad.belongsToMany(models.category, { through: models.category_pad, foreignKey: "idPad" });
+            Pad.belongsToMany(models.user, { through: models.member_pad, as: "members", foreignKey: "idPad" });
         }
     };
     Pad.init({

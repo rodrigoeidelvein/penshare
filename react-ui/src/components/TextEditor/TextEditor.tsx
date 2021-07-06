@@ -1,16 +1,19 @@
-import {ChangeEvent, KeyboardEvent, useCallback, useEffect, useState} from "react";
+import {ChangeEvent, KeyboardEvent, useCallback, useContext, useEffect, useState} from "react";
 import {Editor} from "@tinymce/tinymce-react";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import debounce from "lodash.debounce";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
 import {Authorizations, Pad, PadResponse, Category} from "../../interfaces";
 import {Editor as TinyMCEEditor} from "tinymce";
 import './textEditor.css';
-import {Button, Chip, LinearProgress, TextField} from "@material-ui/core";
+import {Button, Grid, LinearProgress, Chip, TextField} from "@material-ui/core";
 import SuggestionCommentDialog from "../SuggestionCommentDialog";
 import {editorConfig} from "../../utils";
 import {Autocomplete} from "@material-ui/lab";
+import SwitchPadStatus from "../SwitchPadStatus";
+import AuthContext from "../../contexts/auth";
+import SharePadDialog from "../SharePadDialog";
 
 interface IParams {
     padId: string
@@ -28,16 +31,20 @@ function TextEditor() {
     const [content, setContent] = useState("");
     const [initialContent, setInitialContent] = useState("");
     const [rawContent, setRawContent] = useState("");
+    const [isPrivate, setIsPrivate] = useState(false);
     const [editModeEnabled, setEditModeEnabled] = useState(false);
     const [isFirstLoad, setIsFirstLoad] = useState(true);
     const [title, setTitle] = useState("");
     const [pad, setPad] = useState({} as Pad);
     const [authorization, setAuthorization] = useState(defaultAuthorization as Authorizations);
-    const [dialogOpen, setDialogOpen] = useState(false);
+    const [dialogOpenSuggestion, setDialogOpenSuggestion] = useState(false);
+    const [dialogOpenShare, setDialogOpenShare] = useState(false);
     const [isOwner, setIsOwner] = useState(true);
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState<String[]>([]);
     const [availableCategories, setAvailableCategories] = useState<Category[]>([]);
+    const {user} = useContext(AuthContext);
+    const history = useHistory();
 
     useEffect(() => {
         async function getPadInfo() {
@@ -47,6 +54,10 @@ function TextEditor() {
                     method: "GET",
                     credentials: "include"
                 });
+
+                if (res.status !== 200) {
+                    history.push("/");
+                }
 
                 const padInfo = await res.json() as PadResponse;
 
@@ -69,6 +80,7 @@ function TextEditor() {
 
                 setPad(pad);
                 setIsOwner(isOwner);
+                setIsPrivate(pad.type === "PRIVATE");
                 setCategories(pad.categories.map((category: Category) => category.name));
             } catch (e) {
                 console.error('Erro ao buscar informações sobre o pad');
@@ -140,17 +152,27 @@ function TextEditor() {
         }
     }
 
-    const handleClose = () => {
-        setDialogOpen(false);
+    const handleCloseSuggestion = () => {
+        setDialogOpenSuggestion(false);
     }
 
-    const handleOpen = (event: any) => {
+    const handleCloseShare = () => {
+        setDialogOpenShare(false);
+    }
+
+    const handleOpenSuggestion = (event: any) => {
         event.preventDefault();
         if (initialContent === content) {
             return;
         }
 
-        setDialogOpen(true);
+        setDialogOpenSuggestion(true);
+    }
+
+    const handleOpenShare = (event: any) => {
+        event.preventDefault();
+
+        setDialogOpenShare(true);
     }
 
     const handleChangeCategories = async (event: any, newValue: any) => {
@@ -167,11 +189,11 @@ function TextEditor() {
     }
 
     return (<div className="w-full p-10">
-        <div>
-            {!isOwner ?
-                <Button onClick={handleOpen} className="float-right" variant="contained" color="primary">Enviar
-                    sugestão</Button> : ""}
-        </div>
+        <Grid container justify="flex-end">
+            {(isOwner && user.premium) && <SwitchPadStatus initial={isPrivate} padId={pad.id} />}
+            {(isOwner && user.premium) && <Button onClick={handleOpenShare} variant="contained" color="primary">Compartilhar</Button>}
+            {!isOwner && <Button onClick={handleOpenSuggestion} variant="contained" color="primary">Enviar sugestão</Button>}
+        </Grid>
         <input
             value={title}
             onChange={onChangeTitle}
@@ -180,7 +202,8 @@ function TextEditor() {
             disabled={!editModeEnabled}
             className="text-lg font-bold p-3 rounded-sm mb-3 mr-5 w-11/12"
         />
-        <SuggestionCommentDialog open={dialogOpen} onClose={handleClose} content={content} rawContent={rawContent}/>
+        <SuggestionCommentDialog open={dialogOpenSuggestion} onClose={handleCloseSuggestion} content={content} rawContent={rawContent}/>
+        {pad.id && <SharePadDialog open={dialogOpenShare} onClose={handleCloseShare} padId={pad.id} />}
         {isOwner && <a role="button" title="Editar" onClick={handleEditClick}><FontAwesomeIcon icon={faPencilAlt}/></a>}
         <div>
             <Autocomplete
@@ -191,6 +214,7 @@ function TextEditor() {
                 id="id-categorias"
                 freeSolo
                 multiple
+                disabled={!isOwner}
                 size="small"
                 value={categories}
                 onChange={handleChangeCategories}
@@ -200,7 +224,6 @@ function TextEditor() {
                         <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />
                     ))
                 }
-
             />
         </div>
         <Editor

@@ -2,6 +2,7 @@ const {nanoid} = require('nanoid');
 const Sequelize = require('sequelize');
 const CategoryService = require("./CategoryService");
 const CategoryPadService = require("./CategoryPadService");
+const UserService = require("./UserService");
 
 const {pad: Pad, like_pad: LikePad, user: User, category: Category} = require('../models');
 
@@ -75,6 +76,30 @@ exports.findMostPopular = async () => {
     })
 }
 
+exports.findSharedWithUser = async (idUser) => {
+    const userInstance = await UserService.findById(idUser)
+
+    const sharedPads = await userInstance.getSharedPads();
+    console.log(sharedPads)
+    const sharedPadsWithDetails = sharedPads.map(async pad => {
+        return await Pad.findByPk(pad.id, {
+            order: [
+                [Sequelize.col("likesCount")]
+            ],
+            attributes: {
+                include: [[Sequelize.fn("COUNT", Sequelize.col("like_pads.id_user")), "likesCount"]]
+            },
+            include: [
+                User,
+                LikePad,
+                {model: Category, through: {attributes: []}}],
+            group: ["pad.id", "user.id", "like_pads.id_user", "categories.id"]
+        })
+    })
+
+    return Promise.all(sharedPadsWithDetails)
+}
+
 exports.removeCategories = async (idPad) => {
     const padInstance = await Pad.findByPk(idPad);
 
@@ -94,9 +119,28 @@ exports.addCategories = async (idPad, categories) => {
         let categoryInstance = await CategoryService.findByName(category);
 
         if (!categoryInstance.length) {
-            categoryInstance = await CategoryService.create({ name: category });
+            categoryInstance = await CategoryService.create({name: category});
         }
 
         await padInstance.addCategory(categoryInstance);
     }
+}
+
+exports.addMember = async (idPad, idUser) => {
+    const padInstance = await Pad.findByPk(idPad);
+    const userInstance = await UserService.findById(idUser);
+
+    return await padInstance.addMember(userInstance);
+}
+
+exports.removeMember = async (idPad, idUser) => {
+    const padInstance = await Pad.findByPk(idPad);
+    const userInstance = await UserService.findById(idUser);
+
+    return await padInstance.removeMember(userInstance);
+}
+
+exports.getMembers = async (idPad) => {
+    const padInstance = await Pad.findByPk(idPad);
+    return await padInstance.getMembers();
 }
