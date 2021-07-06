@@ -8,7 +8,7 @@ module.exports = app => {
     router.get("/user/", googleAuth, padController.getPadsByUserId);
     router.get("/popular/", googleAuth, padController.mostPopularPads);
     router.get("/shared/user", googleAuth, padController.getPadsShareWithUser);
-    router.get("/:id/", googleAuth, padController.getPad);
+    router.get("/:id/", googleAuth, hasAuthorization, padController.getPad);
     router.get("/authorization/:id/", googleAuth, padController.getAuthorizationsForPad);
     router.get("/:id/categories/", padController.getCategories);
 

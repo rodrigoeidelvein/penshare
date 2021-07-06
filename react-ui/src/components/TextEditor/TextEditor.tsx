@@ -1,6 +1,6 @@
 import {ChangeEvent, KeyboardEvent, useCallback, useContext, useEffect, useState} from "react";
 import {Editor} from "@tinymce/tinymce-react";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import debounce from "lodash.debounce";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
@@ -44,6 +44,7 @@ function TextEditor() {
     const [categories, setCategories] = useState<String[]>([]);
     const [availableCategories, setAvailableCategories] = useState<Category[]>([]);
     const {user} = useContext(AuthContext);
+    const history = useHistory();
 
     useEffect(() => {
         async function getPadInfo() {
@@ -53,6 +54,10 @@ function TextEditor() {
                     method: "GET",
                     credentials: "include"
                 });
+
+                if (res.status !== 200) {
+                    history.push("/");
+                }
 
                 const padInfo = await res.json() as PadResponse;
 
