@@ -7,6 +7,10 @@ module.exports = async (req, res, next) => {
     try {
         const padInstance = await PadService.findById(padId);
 
+        if (padInstance.type === "PUBLIC") {
+            return next();
+        }
+
         if (padInstance.idUser === userId) {
             return next();
         }
