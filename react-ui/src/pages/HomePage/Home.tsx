@@ -64,8 +64,7 @@ function Home() {
                         <div className="flex justify-center">
                             <div className="text-center justify-center">
                                 <p className="mx-auto my-0 fontePanshareCentroDaTela">Penshare</p>
-                                <h2 className="text-white-50 mx-auto mt-2 mb-5">Escrever uma frase bacana pode ser de um
-                                    livro, colocar entre aspas"".</h2>
+                                <h2 className="text-white-50 mx-auto mt-2 mb-5">Um jeito fácil de colaborar com assuntos que você ama.</h2>
                                 {/* Botão e-mail */}
                                 <div>
                                     <GoogleLogin
@@ -88,9 +87,9 @@ function Home() {
                     <div className="px-4">
                         <div className="flex wrap justify-center">
                             <div className="flex-initial w-2/3">
-                                <h2 className="text-xl text-white mb-4">Título da introdução da Penshare</h2>
+                                <h2 className="text-xl text-white mb-4">O que é o Penshare?</h2>
                                 <p className="text-lg mb-20 text-white opacity-50">
-                                    Escrever aqui a introdução sobre a plataforma.
+                                    O Penshare é uma aplicação colaborativa para ambientes acadêmicos que visa ajudar no desenvolvimento de trabalhos e artigos acadêmicos de uma forma simples e intuitiva.
                                 </p>
                             </div>
                         </div>
@@ -112,35 +111,11 @@ function Home() {
                             <div>
                                 <div className="text-center text-lg-left">
                                     <h4>Compartilhe documentos</h4>
-                                    <p className="text-black-50 mb-0">Colocar aqui uma ligeira descrição sobre
-                                        compartilhamento
-                                        dos documentos</p>
+                                    <p className="text-black-50 mb-0 w-full">Compartilhe e ajude a comunidade compartilhando seu artigo e sugerindo nos trabalhos abertos do Penshare!</p>
                                 </div>
                             </div>
                         </div>
-                        {/* Sobre - Crie documentos... */}
-                        <div className="flex flex-wrap m-1 mb-4 items-center justify-center">
-                            <div className="w-1/3">
-                                <img
-                                    className="max-w-full h-auto mb-3"
-                                    src={`${process.env.PUBLIC_URL}/homepage/images/demo-image-01.jpg`}
-                                    alt="..."
-                                />
-                            </div>
-                            <div>
-                                <div className="text-center">
-                                    <div className="flex h-full">
-                                        <div className="w-full text-center">
-                                            <h4>Crie documentos de forma colaborativa</h4>
-                                            <p className="mb-0 text-black-50">Colocar aqui uma ligeira descrição sobre
-                                                criar
-                                                documentos de forma colaborativa.</p>
-                                            <hr className="hidden d-lg-block mb-0 ms-0"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                         {/* Sobre - controle de versão */}
                         <div className="flex wrap gx-0 justify-content-center">
                             <div className="col-lg-6">
@@ -154,11 +129,7 @@ function Home() {
                                     <div className="flex h-full">
                                         <div className="sobre-text w-full my-auto text-center text-2xl">
                                             <h4>Controle de versão</h4>
-                                            <p className="text-black-50 mb-0 text-xl"> PRECISA ALTERAR A IMAGEM ----
-                                                Colocar
-                                                aqui
-                                                uma
-                                                ligeira descrição sobre controle de versão da Penshare.</p>
+                                            <p className="text-black-50 mb-0 text-xl">Saiba quando seu documento foi alterado? Volte para qualquer estado dele!</p>
                                             <hr className="hidden mb-0 me-0"/>
                                         </div>
                                     </div>
